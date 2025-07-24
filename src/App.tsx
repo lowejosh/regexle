@@ -1,11 +1,7 @@
-import { GameProofOfConcept } from "./components/pages/GameProofOfConcept";
+import Router from "./router";
 
 function App() {
-  return (
-    <div className="min-h-screen bg-background">
-      <GameProofOfConcept />
-    </div>
-  );
+  return <Router />;
 }
 
 export default App;
