@@ -1,5 +1,5 @@
-import { useGameStore } from "../../store/gameStore";
-import { getTotalPuzzleCount } from "../../data/puzzleLoader";
+import { useGameStore } from "../../../store/gameStore";
+import { getTotalPuzzleCount } from "../../../data/puzzleLoader";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import {
@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 
-export function GameProofOfConcept() {
+export function Game() {
   const {
     currentPuzzle,
     userPattern,
@@ -133,8 +133,8 @@ export function GameProofOfConcept() {
                               isCorrect === true
                                 ? "bg-green-50 border-green-200"
                                 : isCorrect === false
-                                ? "bg-red-50 border-red-200"
-                                : "bg-gray-50 border-gray-200"
+                                  ? "bg-red-50 border-red-200"
+                                  : "bg-gray-50 border-gray-200"
                             }`}
                           >
                             <div className="flex items-center gap-3">
@@ -146,8 +146,8 @@ export function GameProofOfConcept() {
                               {gameResult === null
                                 ? "⏳"
                                 : isCorrect === true
-                                ? "✅"
-                                : "❌"}
+                                  ? "✅"
+                                  : "❌"}
                             </div>
                           </div>
                         );
@@ -182,8 +182,8 @@ export function GameProofOfConcept() {
                               isCorrect === true
                                 ? "bg-green-50 border-green-200"
                                 : isCorrect === false
-                                ? "bg-red-50 border-red-200"
-                                : "bg-gray-50 border-gray-200"
+                                  ? "bg-red-50 border-red-200"
+                                  : "bg-gray-50 border-gray-200"
                             }`}
                           >
                             <div className="flex items-center gap-3">
@@ -195,8 +195,8 @@ export function GameProofOfConcept() {
                               {gameResult === null
                                 ? "⏳"
                                 : isCorrect === true
-                                ? "✅"
-                                : "❌"}
+                                  ? "✅"
+                                  : "❌"}
                             </div>
                           </div>
                         );

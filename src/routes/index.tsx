@@ -1,6 +1,6 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { GameProofOfConcept } from '@/components/pages/GameProofOfConcept'
+import { createFileRoute } from "@tanstack/react-router";
+import { Game } from "@/components/pages/Game";
 
-export const Route = createFileRoute('/')({
-  component: GameProofOfConcept,
-})
+export const Route = createFileRoute("/")({
+  component: Game,
+});

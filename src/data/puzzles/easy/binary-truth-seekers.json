@@ -9,7 +9,9 @@
     { "input": "TRUE", "shouldMatch": true },
     { "input": "FALSE", "shouldMatch": true },
     { "input": "maybe", "shouldMatch": false },
-    { "input": "truee", "shouldMatch": false }
+    { "input": "truee", "shouldMatch": false },
+    { "input": "falsee", "shouldMatch": false },
+    { "input": "yes", "shouldMatch": false }
   ],
   "solution": "^(?i)(true|false)$"
 }
