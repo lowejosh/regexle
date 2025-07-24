@@ -11,6 +11,11 @@ export const WHEEL_OPTIONS: WheelOption[] = [
     color: "#FF6B6B", // Red
   },
   {
+    id: "challenge-title",
+    label: "Title",
+    color: "#9B59B6", // Purple
+  },
+  {
     id: "half-challenge-description",
     label: "Half Description",
     color: "#4ECDC4", // Teal
@@ -29,6 +34,11 @@ export const WHEEL_OPTIONS: WheelOption[] = [
     id: "clippy",
     label: "Clippy",
     color: "#98D8C8", // Mint Green
+  },
+  {
+    id: "rubber-duck",
+    label: "Rubber Duck",
+    color: "#F1C40F", // Yellow
   },
 ];
 
