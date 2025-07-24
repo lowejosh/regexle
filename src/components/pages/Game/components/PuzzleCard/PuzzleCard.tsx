@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/Button";
 import {
   Card,
   CardContent,
@@ -10,6 +9,7 @@ import { Badge } from "@/components/ui/Badge";
 import { RegexInput } from "../RegexInput";
 import { TestCases } from "../TestCases/TestCases";
 import { GameResults } from "../GameResults";
+import { SpinWheelButton } from "../SpinWheelButton";
 import type { Puzzle, GameResult } from "../../../../../types/game";
 
 interface PuzzleCardProps {
@@ -18,10 +18,11 @@ interface PuzzleCardProps {
   gameResult: GameResult | null;
   showDescription: boolean;
   revealedTestCases: number;
+  availableSpins: number;
   onPatternChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onTestPattern: () => void;
-  onToggleDescription: () => void;
   onComplete: () => void;
+  onOpenSpinWheel: () => void;
 }
 
 export function PuzzleCard({
@@ -30,10 +31,11 @@ export function PuzzleCard({
   gameResult,
   showDescription,
   revealedTestCases,
+  availableSpins,
   onPatternChange,
   onTestPattern,
-  onToggleDescription,
   onComplete,
+  onOpenSpinWheel,
 }: PuzzleCardProps) {
   return (
     <Card>
@@ -41,11 +43,15 @@ export function PuzzleCard({
         <div className="flex items-center justify-between">
           <CardTitle>{puzzle.title}</CardTitle>
           <div className="flex items-center gap-2">
-            <Badge variant={puzzle.difficulty}>{puzzle.difficulty}</Badge>
-            <Button variant="outline" size="sm" onClick={onToggleDescription}>
-              {showDescription ? "Hide" : "Show"} Description
-            </Button>
+            <SpinWheelButton
+              availableSpins={availableSpins}
+              gameResult={gameResult}
+              onOpenSpinWheel={onOpenSpinWheel}
+            />
           </div>
+        </div>
+        <div>
+          <Badge variant={puzzle.difficulty}>{puzzle.difficulty}</Badge>
         </div>
         {showDescription && puzzle.description && (
           <CardDescription>{puzzle.description}</CardDescription>

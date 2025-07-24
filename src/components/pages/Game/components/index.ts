@@ -5,3 +5,4 @@ export { PuzzleCard } from "./PuzzleCard";
 export { RegexInput } from "./RegexInput";
 export { TestCases } from "./TestCases";
 export { GameResults } from "./GameResults";
+export { SpinWheelButton } from "./SpinWheelButton";

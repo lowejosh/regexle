@@ -8,6 +8,7 @@ import { useState } from "react";
 export function Game() {
   const [isSpinWheelOpen, setIsSpinWheelOpen] = useState(false);
   const [revealedTestCases, setRevealedTestCases] = useState(1); // Start with 1 test case of each type revealed
+  const [availableSpins, setAvailableSpins] = useState(1); // User starts with 1 spin
 
   const {
     currentPuzzle,
@@ -25,6 +26,7 @@ export function Game() {
   const handleLoadRandomPuzzle = async () => {
     await loadRandomPuzzle();
     setRevealedTestCases(1); // Reset to show only 1 test case of each type for new puzzle
+    setAvailableSpins(1); // Reset to 1 spin for new puzzle
   };
 
   const handlePatternChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,7 +36,7 @@ export function Game() {
   const handleTestPattern = () => {
     testPattern();
 
-    // After testing, if there were incorrect results, reveal one more test case
+    // After testing, if there were incorrect results, reveal one more test case and grant a spin
     setTimeout(() => {
       const result = useGameStore.getState().gameResult;
       if (result && !result.isCorrect && currentPuzzle) {
@@ -43,6 +45,7 @@ export function Game() {
           currentPuzzle.testCases.filter((tc) => !tc.shouldMatch).length
         );
         setRevealedTestCases((prev) => Math.min(prev + 1, maxRevealable));
+        setAvailableSpins((prev) => prev + 1); // Grant another spin for failed attempt
       }
     }, 100); // Small delay to ensure state is updated
   };
@@ -51,11 +54,34 @@ export function Game() {
     completePuzzle();
     await loadRandomPuzzle();
     setRevealedTestCases(1); // Reset for new puzzle
+    setAvailableSpins(1); // Reset spins for new puzzle
   };
 
   const handleSpinWheelResult = (option: WheelOption) => {
     console.log("Spin wheel result:", option);
-    // TODO: Handle different wheel results
+    setAvailableSpins((prev) => Math.max(0, prev - 1)); // Consume a spin
+    setIsSpinWheelOpen(false);
+
+    // Handle different wheel results
+    switch (option.id) {
+      case "challenge-description":
+        if (currentPuzzle?.description && !showDescription) {
+          toggleDescription();
+        }
+        break;
+      case "challenge-title":
+        // Title is always visible, maybe show a hint about the title
+        break;
+      case "half-challenge-description":
+        // Could implement a partial description reveal
+        break;
+      case "try-again":
+        // Just encouragement, no action needed
+        break;
+      // Add more cases as needed
+      default:
+        break;
+    }
   };
 
   return (
@@ -63,7 +89,6 @@ export function Game() {
       <GameHeader
         completedPuzzlesCount={completedPuzzles.size}
         onLoadRandomPuzzle={handleLoadRandomPuzzle}
-        onOpenSpinWheel={() => setIsSpinWheelOpen(true)}
         hasCurrentPuzzle={!!currentPuzzle}
       />
 
@@ -74,10 +99,11 @@ export function Game() {
           gameResult={gameResult}
           showDescription={showDescription}
           revealedTestCases={revealedTestCases}
+          availableSpins={availableSpins}
           onPatternChange={handlePatternChange}
           onTestPattern={handleTestPattern}
-          onToggleDescription={toggleDescription}
           onComplete={handleComplete}
+          onOpenSpinWheel={() => setIsSpinWheelOpen(true)}
         />
       )}
 
