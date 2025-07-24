@@ -2,6 +2,7 @@ import { useGameStore } from "../../../store/gameStore";
 import { GameHeader } from "./components/GameHeader/GameHeader";
 import { PuzzleCard } from "./components/PuzzleCard/PuzzleCard";
 import { SpinWheel } from "./components/SpinWheel/SpinWheel";
+import { EncouragementToast } from "./components/EncouragementToast/EncouragementToast";
 import type {
   WheelOption,
   WheelOptionId,
@@ -12,6 +13,9 @@ export function Game() {
   const [isSpinWheelOpen, setIsSpinWheelOpen] = useState(false);
   const [revealedTestCases, setRevealedTestCases] = useState(1); // Start with 1 test case of each type revealed
   const [availableSpins, setAvailableSpins] = useState(1); // User starts with 1 spin
+  const [showEncouragementRef, setShowEncouragementRef] = useState<
+    (() => void) | null
+  >(null);
 
   const {
     currentPuzzle,
@@ -61,7 +65,6 @@ export function Game() {
   };
 
   const handleSpinWheelResult = (option: WheelOption) => {
-    console.log("Spin wheel result:", option);
     setAvailableSpins((prev) => Math.max(0, prev - 1)); // Consume a spin
 
     // Handle different wheel results
@@ -75,9 +78,13 @@ export function Game() {
       case "half-challenge-description":
         // Could implement a partial description reveal
         break;
-      case "emotional-support":
+      case "emotional-support": {
         // Show encouraging message
+        if (showEncouragementRef) {
+          showEncouragementRef();
+        }
         break;
+      }
       case "free-spin":
         // Grant an extra spin
         setAvailableSpins((prev) => prev + 1);
@@ -119,6 +126,9 @@ export function Game() {
           onOpenSpinWheel={() => setIsSpinWheelOpen(true)}
         />
       )}
+
+      {/* Encouragement Toast */}
+      <EncouragementToast onShowMessage={setShowEncouragementRef} />
 
       {/* Spin Wheel Modal */}
       <SpinWheel

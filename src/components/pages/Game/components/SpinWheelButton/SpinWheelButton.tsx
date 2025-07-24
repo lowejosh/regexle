@@ -17,7 +17,7 @@ export function SpinWheelButton({
   onOpenSpinWheel,
 }: SpinWheelButtonProps) {
   const hasFailedAttempt = gameResult && !gameResult.isCorrect;
-  const shouldHighlight = availableSpins > 0 && hasFailedAttempt;
+  const shouldHighlight = availableSpins > 0;
 
   return (
     <Button
