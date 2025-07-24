@@ -1,6 +1,22 @@
 import { useState, useEffect } from "react";
 import { GlitchText } from "./GlitchText";
 
+// Constants
+const REGEX_PATTERNS = [
+  "/^Regexle$/",
+  "/Reg[ex]+le/i",
+  "/R.*e/g",
+  "/(Regex|le)+/",
+] as const;
+
+const TIMING = {
+  MIN_DELAY: 15000, // 15 seconds
+  MAX_DELAY: 45000, // 45 seconds
+  GLITCH_OUT: 150,
+  SHOW_PATTERN: 1000,
+  GLITCH_BACK: 1150,
+} as const;
+
 interface RegexTitleProps {
   className?: string;
 }
@@ -11,51 +27,58 @@ export function RegexTitle({ className = "" }: RegexTitleProps) {
   const [currentPattern, setCurrentPattern] = useState("");
 
   useEffect(() => {
-    const patterns = [
-      "/^Regexle$/",
-      "/Reg[ex]+le/i",
-      "/R.*e/g",
-      "/(Regex|le)+/",
-    ];
+    const timeoutIds: NodeJS.Timeout[] = [];
 
-    const scheduleNextGlitch = () => {
-      // Random interval between 15-45 seconds
-      const randomDelay = 15000 + Math.random() * 30000;
-
-      setTimeout(() => {
-        const pattern = patterns[Math.floor(Math.random() * patterns.length)];
-        setCurrentPattern(pattern);
-
-        // Phase 1: Glitch transition out
-        setIsGlitching(true);
-
-        setTimeout(() => {
-          // Phase 2: Show actual pattern
-          setIsGlitching(false);
-          setShowPattern(true);
-        }, 150);
-
-        setTimeout(() => {
-          // Phase 3: Glitch transition back
-          setIsGlitching(true);
-          setShowPattern(false);
-        }, 1000);
-
-        setTimeout(() => {
-          // Phase 4: Back to normal
-          setIsGlitching(false);
-          // Schedule the next glitch
-          scheduleNextGlitch();
-        }, 1150);
-      }, randomDelay);
+    const getRandomPattern = () => {
+      return REGEX_PATTERNS[Math.floor(Math.random() * REGEX_PATTERNS.length)];
     };
 
-    // Start the first glitch cycle
+    const getRandomDelay = () => {
+      return (
+        TIMING.MIN_DELAY + Math.random() * (TIMING.MAX_DELAY - TIMING.MIN_DELAY)
+      );
+    };
+
+    const executeGlitchSequence = () => {
+      setCurrentPattern(getRandomPattern());
+      setIsGlitching(true);
+
+      timeoutIds.push(
+        setTimeout(() => {
+          setIsGlitching(false);
+          setShowPattern(true);
+        }, TIMING.GLITCH_OUT)
+      );
+
+      timeoutIds.push(
+        setTimeout(() => {
+          setIsGlitching(true);
+          setShowPattern(false);
+        }, TIMING.SHOW_PATTERN)
+      );
+
+      timeoutIds.push(
+        setTimeout(() => {
+          setIsGlitching(false);
+          scheduleNextGlitch();
+        }, TIMING.GLITCH_BACK)
+      );
+    };
+
+    const scheduleNextGlitch = () => {
+      const delay = getRandomDelay();
+      timeoutIds.push(setTimeout(executeGlitchSequence, delay));
+    };
+
+    // Start the cycle
     scheduleNextGlitch();
 
-    // No cleanup needed since we're using setTimeout chains
-    return () => {};
+    // Cleanup
+    return () => {
+      timeoutIds.forEach(clearTimeout);
+    };
   }, []);
+
   return (
     <div className={`relative ${className}`}>
       <h1 className="text-2xl font-bold font-mono tracking-wide text-primary group-hover:text-primary/80 transition-colors">
@@ -66,9 +89,7 @@ export function RegexTitle({ className = "" }: RegexTitleProps) {
               Regexle
             </GlitchText>
           ) : showPattern ? (
-            <span className="text-orange-400 animate-pulse">
-              {currentPattern}
-            </span>
+            <span className="text-orange-400">{currentPattern}</span>
           ) : (
             <>
               <span className="text-primary">Reg</span>

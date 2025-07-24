@@ -71,8 +71,23 @@
     }
   }
 
+  @keyframes cursor-blink {
+    0%,
+    50% {
+      opacity: 1;
+    }
+    51%,
+    100% {
+      opacity: 0;
+    }
+  }
+
   .wiggle {
     animation: wiggle 0.8s ease-in-out infinite;
     animation-delay: 2s; /* Start wiggling after 2 seconds */
+  }
+
+  .cursor-blink {
+    animation: cursor-blink 1s infinite;
   }
 }
