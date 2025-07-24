@@ -4,7 +4,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/Card";
+} from "@/components/ui";
 import { Badge } from "@/components/ui/Badge";
 import { RegexInput } from "../RegexInput";
 import { TestCases } from "../TestCases/TestCases";
@@ -51,8 +51,10 @@ export function PuzzleCard({
             />
           </div>
         </div>
-        {showDescription && puzzle.description && (
-          <CardDescription>{puzzle.description}</CardDescription>
+        {puzzle.description && (
+          <CardDescription>
+            {showDescription && puzzle.description}
+          </CardDescription>
         )}
       </CardHeader>
 

@@ -11,11 +11,6 @@ export const WHEEL_OPTIONS: WheelOption[] = [
     color: "#FF6B6B", // Red
   },
   {
-    id: "challenge-title",
-    label: "Title",
-    color: "#9B59B6", // Purple
-  },
-  {
     id: "half-challenge-description",
     label: "Half Description",
     color: "#4ECDC4", // Teal
