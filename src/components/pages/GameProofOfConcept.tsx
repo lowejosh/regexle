@@ -1,5 +1,5 @@
-import { useGameStore } from "../../../store/gameStore";
-import { getTotalPuzzleCount } from "../../../data/puzzleLoader";
+import { useGameStore } from "../../store/gameStore";
+import { getTotalPuzzleCount } from "../../data/puzzleLoader";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import {
@@ -10,13 +10,13 @@ import {
   CardTitle,
 } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
-import { SpinWheel } from "./components";
-import type { WheelOption } from "./components";
+import { SpinWheel } from "./Game/components";
+import type { WheelOption } from "./Game/components";
 import { useState } from "react";
 
-export function Game() {
+export function GameProofOfConcept() {
   const [isSpinWheelOpen, setIsSpinWheelOpen] = useState(false);
-
+  
   const {
     currentPuzzle,
     userPattern,
@@ -48,7 +48,7 @@ export function Game() {
   };
 
   const handleSpinWheelResult = (option: WheelOption) => {
-    console.log("Spin wheel result:", option);
+    console.log('Spin wheel result:', option);
     // TODO: Handle different wheel results
   };
 
@@ -63,10 +63,10 @@ export function Game() {
         <Button onClick={handleLoadRandomPuzzle} size="lg">
           {currentPuzzle ? "Load New Puzzle" : "Start Playing"}
         </Button>
-
+        
         {/* Test Spin Wheel Button */}
-        <Button
-          onClick={() => setIsSpinWheelOpen(true)}
+        <Button 
+          onClick={() => setIsSpinWheelOpen(true)} 
           variant="outline"
           size="sm"
         >
@@ -262,7 +262,7 @@ export function Game() {
           </CardContent>
         </Card>
       )}
-
+      
       {/* Spin Wheel Modal */}
       <SpinWheel
         isOpen={isSpinWheelOpen}
