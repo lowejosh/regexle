@@ -2,7 +2,7 @@ import { useState } from "react";
 import { WHEEL_OPTIONS, WHEEL_CONFIG } from "./SpinWheel.consts";
 import type { WheelOption } from "./SpinWheel.consts";
 
-export function useSpinWheel(onResult?: (option: WheelOption) => void) {
+export function useSpinWheel() {
   const [isSpinning, setIsSpinning] = useState(false);
   const [rotation, setRotation] = useState(0);
   const [selectedOption, setSelectedOption] = useState<WheelOption | null>(
@@ -38,7 +38,7 @@ export function useSpinWheel(onResult?: (option: WheelOption) => void) {
 
       setSelectedOption(selected);
       setIsSpinning(false);
-      onResult?.(selected);
+      // Remove the automatic onResult call
     }, WHEEL_CONFIG.SPIN_DURATION);
   };
 

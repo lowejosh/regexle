@@ -15,7 +15,6 @@ export function GameHeader({
   return (
     <div className="text-center space-y-4">
       <p className="text-muted-foreground">
-        Guess the pattern from the test cases. Total puzzles:{" "}
         {getTotalPuzzleCount()} | Completed: {completedPuzzlesCount}
       </p>
 

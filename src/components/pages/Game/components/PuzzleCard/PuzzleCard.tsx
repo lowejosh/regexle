@@ -42,16 +42,14 @@ export function PuzzleCard({
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle>{puzzle.title}</CardTitle>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-4">
+            <Badge variant={puzzle.difficulty}>{puzzle.difficulty}</Badge>
             <SpinWheelButton
               availableSpins={availableSpins}
               gameResult={gameResult}
               onOpenSpinWheel={onOpenSpinWheel}
             />
           </div>
-        </div>
-        <div>
-          <Badge variant={puzzle.difficulty}>{puzzle.difficulty}</Badge>
         </div>
         {showDescription && puzzle.description && (
           <CardDescription>{puzzle.description}</CardDescription>

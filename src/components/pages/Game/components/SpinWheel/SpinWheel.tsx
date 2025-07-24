@@ -12,8 +12,16 @@ interface SpinWheelProps {
 }
 
 export function SpinWheel({ isOpen, onClose, onResult }: SpinWheelProps) {
-  const { isSpinning, rotation, selectedOption, handleSpin } =
-    useSpinWheel(onResult);
+  const { isSpinning, rotation, selectedOption, handleSpin, resetWheel } =
+    useSpinWheel();
+
+  const handleClaimReward = () => {
+    if (selectedOption) {
+      onResult?.(selectedOption);
+      resetWheel(); // Clear the selected option for next time
+      onClose();
+    }
+  };
 
   const createWheelSegments = () => {
     const segments = calculateWheelSegmentData();
@@ -121,24 +129,28 @@ export function SpinWheel({ isOpen, onClose, onResult }: SpinWheelProps) {
               )}
 
               <div className="space-y-2">
-                <Button
-                  onClick={handleSpin}
-                  disabled={isSpinning}
-                  size="lg"
-                  className="w-full"
-                >
-                  {isSpinning ? "Spinning..." : "Spin the Wheel!"}
-                </Button>
-
-                {selectedOption && !isSpinning && (
+                {!selectedOption ? (
                   <Button
-                    onClick={onClose}
-                    variant="outline"
+                    onClick={handleSpin}
+                    disabled={isSpinning}
+                    size="lg"
                     className="w-full"
                   >
-                    Close
+                    {isSpinning ? "Spinning..." : "Spin the Wheel!"}
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={handleClaimReward}
+                    size="lg"
+                    className="w-full"
+                  >
+                    Claim Reward
                   </Button>
                 )}
+
+                <Button onClick={onClose} variant="outline" className="w-full">
+                  Close
+                </Button>
               </div>
             </div>
           </motion.div>

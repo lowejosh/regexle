@@ -60,7 +60,6 @@ export function Game() {
   const handleSpinWheelResult = (option: WheelOption) => {
     console.log("Spin wheel result:", option);
     setAvailableSpins((prev) => Math.max(0, prev - 1)); // Consume a spin
-    setIsSpinWheelOpen(false);
 
     // Handle different wheel results
     switch (option.id) {
