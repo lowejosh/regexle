@@ -1,4 +1,4 @@
-import type { TestCase, GameResult, Puzzle } from "../types/game";
+import type { TestCase, GameResult } from "../types/game";
 
 export class RegexGameEngine {
   /**
@@ -61,15 +61,5 @@ export class RegexGameEngine {
     } catch {
       return false;
     }
-  }
-
-  /**
-   * Gets a hint by revealing additional context or examples
-   */
-  static getHint(puzzle: Puzzle, hintLevel: number): string | null {
-    if (!puzzle.hints || hintLevel >= puzzle.hints.length) {
-      return null;
-    }
-    return puzzle.hints[hintLevel];
   }
 }

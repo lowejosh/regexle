@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { RegexInput } from "../RegexInput";
-import { TestCases } from "../TestCases";
+import { TestCases } from "../TestCases/TestCases";
 import { GameResults } from "../GameResults";
 import type { Puzzle, GameResult } from "../../../../../types/game";
 
@@ -17,6 +17,7 @@ interface PuzzleCardProps {
   userPattern: string;
   gameResult: GameResult | null;
   showDescription: boolean;
+  revealedTestCases: number;
   onPatternChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onTestPattern: () => void;
   onToggleDescription: () => void;
@@ -28,6 +29,7 @@ export function PuzzleCard({
   userPattern,
   gameResult,
   showDescription,
+  revealedTestCases,
   onPatternChange,
   onTestPattern,
   onToggleDescription,
@@ -51,21 +53,19 @@ export function PuzzleCard({
       </CardHeader>
 
       <CardContent className="space-y-6">
-        {/* Regex Input */}
         <RegexInput
           userPattern={userPattern}
           onPatternChange={onPatternChange}
           onTestPattern={onTestPattern}
         />
-
-        {/* Test Cases */}
-        <TestCases testCases={puzzle.testCases} gameResult={gameResult} />
-
-        {/* Results */}
+        <TestCases
+          testCases={puzzle.testCases}
+          gameResult={gameResult}
+          revealedCount={revealedTestCases}
+        />
         {gameResult && (
           <GameResults gameResult={gameResult} onComplete={onComplete} />
         )}
-
         {/* Dev Solution (for testing) */}
         {process.env.NODE_ENV === "development" && puzzle.solution && (
           <div className="p-2 bg-gray-100 rounded text-xs text-gray-600">

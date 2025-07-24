@@ -5,6 +5,7 @@ interface TestCaseItemProps {
   index: number;
   gameResult: GameResult | null;
   keyPrefix: string;
+  isRevealed: boolean;
 }
 
 function TestCaseItem({
@@ -12,6 +13,7 @@ function TestCaseItem({
   index,
   gameResult,
   keyPrefix,
+  isRevealed,
 }: TestCaseItemProps) {
   const isCorrect = gameResult
     ? !gameResult.failedCases.some((failed) => failed.input === testCase.input)
@@ -20,19 +22,20 @@ function TestCaseItem({
   return (
     <div
       key={`${keyPrefix}-${index}`}
-      className={`p-3 rounded border flex items-center justify-between ${
+      className={`p-3 rounded border flex items-center justify-between transition-all duration-300 ${
         isCorrect === true
           ? "bg-green-50 border-green-200"
           : isCorrect === false
             ? "bg-red-50 border-red-200"
             : "bg-gray-50 border-gray-200"
-      }`}
+      } ${!isRevealed ? "blur-sm opacity-60" : ""}`}
     >
       <div className="flex items-center gap-3">
-        <span className="font-mono text-sm">"{testCase.input}"</span>
-      </div>
-      <div className="text-lg">
-        {gameResult === null ? "⏳" : isCorrect === true ? "✅" : "❌"}
+        <span className="font-mono text-sm">
+          {isRevealed
+            ? `"${testCase.input}"`
+            : `"${"•".repeat(Math.max(3, testCase.input.length))}"`}
+        </span>
       </div>
     </div>
   );
@@ -41,24 +44,25 @@ function TestCaseItem({
 interface TestCasesProps {
   testCases: TestCase[];
   gameResult: GameResult | null;
+  revealedCount: number;
 }
 
-export function TestCases({ testCases, gameResult }: TestCasesProps) {
+export function TestCases({
+  testCases,
+  gameResult,
+  revealedCount,
+}: TestCasesProps) {
   const shouldMatchCases = testCases.filter((tc) => tc.shouldMatch);
   const shouldNotMatchCases = testCases.filter((tc) => !tc.shouldMatch);
 
   return (
     <div className="space-y-3">
-      <h3 className="text-sm font-medium">
-        Test Cases ({testCases.length} total):
-      </h3>
+      <h3 className="text-sm font-medium">Test Cases:</h3>
 
       <div className="grid grid-cols-2 gap-4">
         {/* Should Match Column */}
         <div className="space-y-2">
-          <h4 className="text-sm font-medium text-blue-700">
-            📝 Should Match ({shouldMatchCases.length})
-          </h4>
+          <h4 className="text-sm font-medium text-blue-700">Should Match</h4>
           <div className="space-y-2">
             {shouldMatchCases.map((testCase, index) => (
               <TestCaseItem
@@ -67,6 +71,7 @@ export function TestCases({ testCases, gameResult }: TestCasesProps) {
                 index={index}
                 gameResult={gameResult}
                 keyPrefix="match"
+                isRevealed={index < revealedCount}
               />
             ))}
           </div>
@@ -75,7 +80,7 @@ export function TestCases({ testCases, gameResult }: TestCasesProps) {
         {/* Should NOT Match Column */}
         <div className="space-y-2">
           <h4 className="text-sm font-medium text-purple-700">
-            🚫 Should NOT Match ({shouldNotMatchCases.length})
+            Should NOT Match
           </h4>
           <div className="space-y-2">
             {shouldNotMatchCases.map((testCase, index) => (
@@ -85,6 +90,7 @@ export function TestCases({ testCases, gameResult }: TestCasesProps) {
                 index={index}
                 gameResult={gameResult}
                 keyPrefix="no-match"
+                isRevealed={index < revealedCount}
               />
             ))}
           </div>

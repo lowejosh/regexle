@@ -1,10 +1,13 @@
 import { useGameStore } from "../../../store/gameStore";
-import { GameHeader, PuzzleCard, SpinWheel } from "./components";
-import type { WheelOption } from "./components";
+import { GameHeader } from "./components/GameHeader/GameHeader";
+import { PuzzleCard } from "./components/PuzzleCard/PuzzleCard";
+import { SpinWheel } from "./components/SpinWheel/SpinWheel";
+import type { WheelOption } from "./components/SpinWheel/SpinWheel.consts";
 import { useState } from "react";
 
 export function Game() {
   const [isSpinWheelOpen, setIsSpinWheelOpen] = useState(false);
+  const [revealedTestCases, setRevealedTestCases] = useState(1); // Start with 1 test case of each type revealed
 
   const {
     currentPuzzle,
@@ -21,6 +24,7 @@ export function Game() {
 
   const handleLoadRandomPuzzle = async () => {
     await loadRandomPuzzle();
+    setRevealedTestCases(1); // Reset to show only 1 test case of each type for new puzzle
   };
 
   const handlePatternChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,11 +33,24 @@ export function Game() {
 
   const handleTestPattern = () => {
     testPattern();
+
+    // After testing, if there were incorrect results, reveal one more test case
+    setTimeout(() => {
+      const result = useGameStore.getState().gameResult;
+      if (result && !result.isCorrect && currentPuzzle) {
+        const maxRevealable = Math.min(
+          currentPuzzle.testCases.filter((tc) => tc.shouldMatch).length,
+          currentPuzzle.testCases.filter((tc) => !tc.shouldMatch).length
+        );
+        setRevealedTestCases((prev) => Math.min(prev + 1, maxRevealable));
+      }
+    }, 100); // Small delay to ensure state is updated
   };
 
   const handleComplete = async () => {
     completePuzzle();
     await loadRandomPuzzle();
+    setRevealedTestCases(1); // Reset for new puzzle
   };
 
   const handleSpinWheelResult = (option: WheelOption) => {
@@ -56,6 +73,7 @@ export function Game() {
           userPattern={userPattern}
           gameResult={gameResult}
           showDescription={showDescription}
+          revealedTestCases={revealedTestCases}
           onPatternChange={handlePatternChange}
           onTestPattern={handleTestPattern}
           onToggleDescription={toggleDescription}
