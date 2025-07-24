@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useGameStore } from "../store/gameStore";
 import { samplePuzzles, getRandomPuzzle } from "../data/puzzles";
 import { Button } from "@/components/ui/Button";
@@ -18,27 +17,25 @@ export function GameProofOfConcept() {
     userPattern,
     gameResult,
     completedPuzzles,
+    showDescription,
     loadPuzzle,
     updatePattern,
+    testPattern,
     completePuzzle,
+    toggleDescription,
   } = useGameStore();
-
-  const [hintLevel, setHintLevel] = useState(0);
 
   const handleLoadRandomPuzzle = () => {
     const puzzle = getRandomPuzzle();
     loadPuzzle(puzzle);
-    setHintLevel(0);
   };
 
   const handlePatternChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     updatePattern(e.target.value);
   };
 
-  const handleNextHint = () => {
-    if (currentPuzzle?.hints && hintLevel < currentPuzzle.hints.length) {
-      setHintLevel(hintLevel + 1);
-    }
+  const handleTestPattern = () => {
+    testPattern();
   };
 
   const handleComplete = () => {
@@ -49,14 +46,14 @@ export function GameProofOfConcept() {
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-6">
       <div className="text-center space-y-4">
-        <h1 className="text-3xl font-bold">Regexle - Core Game Logic Test</h1>
+        <h1 className="text-3xl font-bold">Regexle</h1>
         <p className="text-muted-foreground">
-          Testing the core game mechanics. Total puzzles: {samplePuzzles.length}{" "}
-          | Completed: {completedPuzzles.size}
+          Guess the pattern from the test cases. Total puzzles:{" "}
+          {samplePuzzles.length} | Completed: {completedPuzzles.size}
         </p>
 
         <Button onClick={handleLoadRandomPuzzle} size="lg">
-          Load Random Puzzle
+          {currentPuzzle ? "Load New Puzzle" : "Start Playing"}
         </Button>
       </div>
 
@@ -65,26 +62,48 @@ export function GameProofOfConcept() {
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle>{currentPuzzle.title}</CardTitle>
-              <Badge variant="secondary">{currentPuzzle.difficulty}</Badge>
+              <div className="flex items-center gap-2">
+                <Badge variant="secondary">{currentPuzzle.difficulty}</Badge>
+                <Button variant="outline" size="sm" onClick={toggleDescription}>
+                  {showDescription ? "Hide" : "Show"} Description
+                </Button>
+              </div>
             </div>
-            <CardDescription>{currentPuzzle.description}</CardDescription>
+            {showDescription && currentPuzzle.description && (
+              <CardDescription>{currentPuzzle.description}</CardDescription>
+            )}
           </CardHeader>
 
           <CardContent className="space-y-6">
             {/* Regex Input */}
             <div className="space-y-2">
               <label className="text-sm font-medium">Your Regex Pattern:</label>
-              <Input
-                placeholder="Enter your regex pattern..."
-                value={userPattern}
-                onChange={handlePatternChange}
-                className="font-mono"
-              />
+              <div className="flex gap-2">
+                <Input
+                  placeholder="Enter your regex pattern..."
+                  value={userPattern}
+                  onChange={handlePatternChange}
+                  className="font-mono"
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      handleTestPattern();
+                    }
+                  }}
+                />
+                <Button
+                  onClick={handleTestPattern}
+                  disabled={!userPattern.trim()}
+                >
+                  Test Pattern
+                </Button>
+              </div>
             </div>
 
             {/* Test Cases */}
             <div className="space-y-3">
-              <h3 className="text-sm font-medium">Test Cases:</h3>
+              <h3 className="text-sm font-medium">
+                Test Cases ({currentPuzzle.testCases.length} total):
+              </h3>
               <div className="grid gap-2">
                 {currentPuzzle.testCases.map((testCase, index) => {
                   const isCorrect = gameResult
@@ -113,11 +132,11 @@ export function GameProofOfConcept() {
                         </span>
                       </div>
                       <div className="text-lg">
-                        {isCorrect === true
+                        {gameResult === null
+                          ? "⏳"
+                          : isCorrect === true
                           ? "✅"
-                          : isCorrect === false
-                          ? "❌"
-                          : "⏳"}
+                          : "❌"}
                       </div>
                     </div>
                   );
@@ -133,9 +152,14 @@ export function GameProofOfConcept() {
                     Score: {gameResult.passedTests}/{gameResult.totalTests}
                   </span>
                   {gameResult.isCorrect ? (
-                    <Badge variant="correct">🎉 Correct!</Badge>
+                    <Badge variant="correct">
+                      🎉 Perfect! All tests passed!
+                    </Badge>
                   ) : (
-                    <Badge variant="incorrect">Try Again</Badge>
+                    <Badge variant="incorrect">
+                      {gameResult.failedCases.length} test
+                      {gameResult.failedCases.length !== 1 ? "s" : ""} failed
+                    </Badge>
                   )}
                 </div>
 
@@ -143,38 +167,6 @@ export function GameProofOfConcept() {
                   <Button onClick={handleComplete} className="w-full">
                     Complete & Next Puzzle
                   </Button>
-                )}
-              </div>
-            )}
-
-            {/* Hints */}
-            {currentPuzzle.hints && (
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium">Hints:</span>
-                  <Button
-                    variant="hint"
-                    size="sm"
-                    onClick={handleNextHint}
-                    disabled={hintLevel >= currentPuzzle.hints.length}
-                  >
-                    Get Hint ({hintLevel}/{currentPuzzle.hints.length})
-                  </Button>
-                </div>
-
-                {hintLevel > 0 && (
-                  <div className="space-y-2">
-                    {currentPuzzle.hints
-                      .slice(0, hintLevel)
-                      .map((hint, index) => (
-                        <div
-                          key={index}
-                          className="p-2 bg-yellow-50 border border-yellow-200 rounded text-sm"
-                        >
-                          💡 {hint}
-                        </div>
-                      ))}
-                  </div>
                 )}
               </div>
             )}

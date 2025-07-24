@@ -7,11 +7,10 @@ export interface TestCase {
 export interface Puzzle {
   id: string;
   title: string;
-  description: string;
+  description?: string; // Hidden until appropriate
   difficulty: "easy" | "medium" | "hard" | "expert";
   testCases: TestCase[];
-  hints?: string[];
-  solution?: string; // For development/testing
+  solution?: string; // For development/testing only
 }
 
 export interface GameResult {
@@ -27,4 +26,5 @@ export interface GameState {
   gameResult: GameResult | null;
   completedPuzzles: Set<string>;
   currentDifficulty: Puzzle["difficulty"];
+  showDescription: boolean;
 }

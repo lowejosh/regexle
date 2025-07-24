@@ -10,6 +10,7 @@ interface GameStore extends GameState {
   completePuzzle: () => void;
   resetGame: () => void;
   setDifficulty: (difficulty: Puzzle["difficulty"]) => void;
+  toggleDescription: () => void;
 }
 
 export const useGameStore = create<GameStore>((set, get) => ({
@@ -19,6 +20,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   gameResult: null,
   completedPuzzles: new Set(),
   currentDifficulty: "easy",
+  showDescription: false,
 
   // Actions
   loadPuzzle: (puzzle: Puzzle) => {
@@ -26,26 +28,18 @@ export const useGameStore = create<GameStore>((set, get) => ({
       currentPuzzle: puzzle,
       userPattern: "",
       gameResult: null,
+      showDescription: false, // Hide description for new puzzle
     });
   },
 
   updatePattern: (pattern: string) => {
     set({ userPattern: pattern });
-
-    // Auto-test the pattern when it changes
-    const state = get();
-    if (state.currentPuzzle) {
-      const result = RegexGameEngine.testPattern(
-        pattern,
-        state.currentPuzzle.testCases
-      );
-      set({ gameResult: result });
-    }
+    // Remove auto-testing - only test on button press
   },
 
   testPattern: () => {
     const state = get();
-    if (!state.currentPuzzle) return;
+    if (!state.currentPuzzle || !state.userPattern.trim()) return;
 
     const result = RegexGameEngine.testPattern(
       state.userPattern,
@@ -69,10 +63,16 @@ export const useGameStore = create<GameStore>((set, get) => ({
       currentPuzzle: null,
       userPattern: "",
       gameResult: null,
+      showDescription: false,
     });
   },
 
   setDifficulty: (difficulty: Puzzle["difficulty"]) => {
     set({ currentDifficulty: difficulty });
+  },
+
+  toggleDescription: () => {
+    const state = get();
+    set({ showDescription: !state.showDescription });
   },
 }));
