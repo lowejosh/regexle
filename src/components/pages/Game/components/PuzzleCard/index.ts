@@ -1,0 +1,1 @@
+export { PuzzleCard } from "./PuzzleCard";
