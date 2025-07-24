@@ -1,5 +1,5 @@
-import { useGameStore } from "../store/gameStore";
-import { getTotalPuzzleCount } from "../data/puzzleLoader";
+import { useGameStore } from "../../store/gameStore";
+import { getTotalPuzzleCount } from "../../data/puzzleLoader";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import {
@@ -62,7 +62,9 @@ export function GameProofOfConcept() {
             <div className="flex items-center justify-between">
               <CardTitle>{currentPuzzle.title}</CardTitle>
               <div className="flex items-center gap-2">
-                <Badge variant="secondary">{currentPuzzle.difficulty}</Badge>
+                <Badge variant={currentPuzzle.difficulty}>
+                  {currentPuzzle.difficulty}
+                </Badge>
                 <Button variant="outline" size="sm" onClick={toggleDescription}>
                   {showDescription ? "Hide" : "Show"} Description
                 </Button>
@@ -103,43 +105,105 @@ export function GameProofOfConcept() {
               <h3 className="text-sm font-medium">
                 Test Cases ({currentPuzzle.testCases.length} total):
               </h3>
-              <div className="grid gap-2">
-                {currentPuzzle.testCases.map((testCase, index) => {
-                  const isCorrect = gameResult
-                    ? !gameResult.failedCases.some(
-                        (failed) => failed.input === testCase.input
-                      )
-                    : null;
 
-                  return (
-                    <div
-                      key={index}
-                      className={`p-3 rounded border flex items-center justify-between ${
-                        isCorrect === true
-                          ? "bg-green-50 border-green-200"
-                          : isCorrect === false
-                          ? "bg-red-50 border-red-200"
-                          : "bg-gray-50 border-gray-200"
-                      }`}
-                    >
-                      <div className="flex items-center gap-3">
-                        <span className="font-mono text-sm">
-                          "{testCase.input}"
-                        </span>
-                        <span className="text-xs text-muted-foreground">
-                          should {testCase.shouldMatch ? "match" : "not match"}
-                        </span>
-                      </div>
-                      <div className="text-lg">
-                        {gameResult === null
-                          ? "⏳"
-                          : isCorrect === true
-                          ? "✅"
-                          : "❌"}
-                      </div>
-                    </div>
-                  );
-                })}
+              <div className="grid grid-cols-2 gap-4">
+                {/* Should Match Column */}
+                <div className="space-y-2">
+                  <h4 className="text-sm font-medium text-blue-700">
+                    📝 Should Match (
+                    {
+                      currentPuzzle.testCases.filter((tc) => tc.shouldMatch)
+                        .length
+                    }
+                    )
+                  </h4>
+                  <div className="space-y-2">
+                    {currentPuzzle.testCases
+                      .filter((testCase) => testCase.shouldMatch)
+                      .map((testCase, index) => {
+                        const isCorrect = gameResult
+                          ? !gameResult.failedCases.some(
+                              (failed) => failed.input === testCase.input
+                            )
+                          : null;
+
+                        return (
+                          <div
+                            key={`match-${index}`}
+                            className={`p-3 rounded border flex items-center justify-between ${
+                              isCorrect === true
+                                ? "bg-green-50 border-green-200"
+                                : isCorrect === false
+                                ? "bg-red-50 border-red-200"
+                                : "bg-gray-50 border-gray-200"
+                            }`}
+                          >
+                            <div className="flex items-center gap-3">
+                              <span className="font-mono text-sm">
+                                "{testCase.input}"
+                              </span>
+                            </div>
+                            <div className="text-lg">
+                              {gameResult === null
+                                ? "⏳"
+                                : isCorrect === true
+                                ? "✅"
+                                : "❌"}
+                            </div>
+                          </div>
+                        );
+                      })}
+                  </div>
+                </div>
+
+                {/* Should NOT Match Column */}
+                <div className="space-y-2">
+                  <h4 className="text-sm font-medium text-purple-700">
+                    🚫 Should NOT Match (
+                    {
+                      currentPuzzle.testCases.filter((tc) => !tc.shouldMatch)
+                        .length
+                    }
+                    )
+                  </h4>
+                  <div className="space-y-2">
+                    {currentPuzzle.testCases
+                      .filter((testCase) => !testCase.shouldMatch)
+                      .map((testCase, index) => {
+                        const isCorrect = gameResult
+                          ? !gameResult.failedCases.some(
+                              (failed) => failed.input === testCase.input
+                            )
+                          : null;
+
+                        return (
+                          <div
+                            key={`no-match-${index}`}
+                            className={`p-3 rounded border flex items-center justify-between ${
+                              isCorrect === true
+                                ? "bg-green-50 border-green-200"
+                                : isCorrect === false
+                                ? "bg-red-50 border-red-200"
+                                : "bg-gray-50 border-gray-200"
+                            }`}
+                          >
+                            <div className="flex items-center gap-3">
+                              <span className="font-mono text-sm">
+                                "{testCase.input}"
+                              </span>
+                            </div>
+                            <div className="text-lg">
+                              {gameResult === null
+                                ? "⏳"
+                                : isCorrect === true
+                                ? "✅"
+                                : "❌"}
+                            </div>
+                          </div>
+                        );
+                      })}
+                  </div>
+                </div>
               </div>
             </div>
 

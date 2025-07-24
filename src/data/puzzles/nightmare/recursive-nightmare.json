@@ -11,7 +11,11 @@
     { "input": "racecar", "shouldMatch": true },
     { "input": "madam", "shouldMatch": true },
     { "input": "ab", "shouldMatch": false },
-    { "input": "abc", "shouldMatch": false }
+    { "input": "abc", "shouldMatch": false },
+    { "input": "hello", "shouldMatch": false },
+    { "input": "world", "shouldMatch": false },
+    { "input": "abcd", "shouldMatch": false },
+    { "input": "palindrom", "shouldMatch": false }
   ],
   "solution": "^(.)(?:(.)(?:(.)(?:(.)(?:(.)(?:(.)(?:(.)(?:(.)(?:(.)(?:(.)(.)\\10)?\\9)?\\8)?\\7)?\\6)?\\5)?\\4)?\\3)?\\2)?\\1)?$"
 }

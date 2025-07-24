@@ -1,0 +1,1 @@
+export { GameProofOfConcept } from "./GameProofOfConcept";

@@ -1,4 +1,4 @@
-import { GameProofOfConcept } from "./components/GameProofOfConcept";
+import { GameProofOfConcept } from "./components/pages/GameProofOfConcept";
 
 function App() {
   return (
