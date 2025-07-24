@@ -2,7 +2,10 @@ import { useGameStore } from "../../../store/gameStore";
 import { GameHeader } from "./components/GameHeader/GameHeader";
 import { PuzzleCard } from "./components/PuzzleCard/PuzzleCard";
 import { SpinWheel } from "./components/SpinWheel/SpinWheel";
-import type { WheelOption } from "./components/SpinWheel/SpinWheel.consts";
+import type {
+  WheelOption,
+  WheelOptionId,
+} from "./components/SpinWheel/SpinWheel.consts";
 import { useState } from "react";
 
 export function Game() {
@@ -62,24 +65,35 @@ export function Game() {
     setAvailableSpins((prev) => Math.max(0, prev - 1)); // Consume a spin
 
     // Handle different wheel results
-    switch (option.id) {
+    const optionId: WheelOptionId = option.id;
+    switch (optionId) {
       case "challenge-description":
         if (currentPuzzle?.description && !showDescription) {
           toggleDescription();
         }
         break;
-      case "challenge-title":
-        // Title is always visible, maybe show a hint about the title
-        break;
       case "half-challenge-description":
         // Could implement a partial description reveal
         break;
-      case "try-again":
-        // Just encouragement, no action needed
+      case "emotional-support":
+        // Show encouraging message
         break;
-      // Add more cases as needed
-      default:
+      case "free-spin":
+        // Grant an extra spin
+        setAvailableSpins((prev) => prev + 1);
         break;
+      case "clippy":
+        // Show Clippy-style hint
+        break;
+      case "rubber-duck":
+        // Show rubber duck debugging hint
+        break;
+      default: {
+        // TypeScript will enforce exhaustive checking
+        const _exhaustive: never = optionId;
+        void _exhaustive;
+        break;
+      }
     }
   };
 

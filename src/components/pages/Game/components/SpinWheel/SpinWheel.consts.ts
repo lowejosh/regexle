@@ -1,5 +1,14 @@
+// Define the wheel option IDs as a union type for type safety
+export type WheelOptionId =
+  | "challenge-description"
+  | "half-challenge-description"
+  | "emotional-support"
+  | "free-spin"
+  | "clippy"
+  | "rubber-duck";
+
 export interface WheelOption {
-  id: string;
+  id: WheelOptionId;
   label: string;
   color: string;
 }
@@ -21,8 +30,8 @@ export const WHEEL_OPTIONS: WheelOption[] = [
     color: "#45B7D1", // Blue
   },
   {
-    id: "try-again",
-    label: "Try Again",
+    id: "free-spin",
+    label: "Free Spin",
     color: "#FFA07A", // Light Orange
   },
   {
