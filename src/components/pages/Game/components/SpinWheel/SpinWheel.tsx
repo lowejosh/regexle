@@ -51,12 +51,6 @@ export function SpinWheel({ isOpen, onClose, onResult }: SpinWheelProps) {
       );
       const selected = WHEEL_OPTIONS[selectedIndex];
 
-      console.log("Final rotation:", finalRotation);
-      console.log("Normalized rotation:", normalizedRotation);
-      console.log("Landing Angle (at pointer):", landingAngle);
-      console.log("Selected index:", selectedIndex);
-      console.log("Selected option:", selected.label);
-
       setSelectedOption(selected);
       setIsSpinning(false);
       onResult?.(selected);
@@ -191,8 +185,8 @@ export function SpinWheel({ isOpen, onClose, onResult }: SpinWheelProps) {
                 </motion.div>
 
                 {/* Pointer */}
-                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1">
-                  <div className="w-0 h-0 border-l-[15px] border-r-[15px] border-b-[25px] border-l-transparent border-r-transparent border-b-red-500 drop-shadow-md" />
+                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-2">
+                  <div className="w-0 h-0 border-l-[8px] border-r-[8px] border-t-[20px] border-l-transparent border-r-transparent border-t-red-500 drop-shadow-md" />
                 </div>
               </div>
 
