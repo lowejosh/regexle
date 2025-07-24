@@ -1,0 +1,19 @@
+{
+  "id": "nightmare-002",
+  "title": "Whitespace Phantom",
+  "description": "Match strings with exactly 3 different types of whitespace",
+  "difficulty": "nightmare",
+  "testCases": [
+    { "input": "a b\tc\nd", "shouldMatch": true },
+    { "input": "hello\t world\ntest", "shouldMatch": true },
+    { "input": "x \ty\nz", "shouldMatch": true },
+    { "input": "test\n \tmore", "shouldMatch": true },
+    { "input": "a\tb\nc\rd", "shouldMatch": true },
+    { "input": "a b c", "shouldMatch": false },
+    { "input": "a\tb\tc", "shouldMatch": false },
+    { "input": "a\nb\nc", "shouldMatch": false },
+    { "input": "a\tb", "shouldMatch": false },
+    { "input": "abc", "shouldMatch": false }
+  ],
+  "solution": "^(?=.*[ ])(?=.*[\t])(?=.*[\n\r])[\\w\\s]+$"
+}

@@ -1,10 +1,12 @@
 import { create } from "zustand";
 import type { GameState, Puzzle } from "../types/game";
 import { RegexGameEngine } from "../engine/gameEngine";
+import { puzzleLoader } from "../data/puzzleLoader";
 
 interface GameStore extends GameState {
   // Actions
   loadPuzzle: (puzzle: Puzzle) => void;
+  loadRandomPuzzle: (difficulty?: Puzzle["difficulty"]) => Promise<void>;
   updatePattern: (pattern: string) => void;
   testPattern: () => void;
   completePuzzle: () => void;
@@ -30,6 +32,22 @@ export const useGameStore = create<GameStore>((set, get) => ({
       gameResult: null,
       showDescription: false, // Hide description for new puzzle
     });
+  },
+
+  loadRandomPuzzle: async (difficulty?: Puzzle["difficulty"]) => {
+    try {
+      const puzzle = await puzzleLoader.getRandomPuzzle(difficulty);
+      if (puzzle) {
+        set({
+          currentPuzzle: puzzle,
+          userPattern: "",
+          gameResult: null,
+          showDescription: false,
+        });
+      }
+    } catch (error) {
+      console.error("Failed to load random puzzle:", error);
+    }
   },
 
   updatePattern: (pattern: string) => {

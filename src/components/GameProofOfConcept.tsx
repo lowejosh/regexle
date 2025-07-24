@@ -1,5 +1,5 @@
 import { useGameStore } from "../store/gameStore";
-import { samplePuzzles, getRandomPuzzle } from "../data/puzzles";
+import { getTotalPuzzleCount } from "../data/puzzleLoader";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import {
@@ -18,16 +18,15 @@ export function GameProofOfConcept() {
     gameResult,
     completedPuzzles,
     showDescription,
-    loadPuzzle,
+    loadRandomPuzzle,
     updatePattern,
     testPattern,
     completePuzzle,
     toggleDescription,
   } = useGameStore();
 
-  const handleLoadRandomPuzzle = () => {
-    const puzzle = getRandomPuzzle();
-    loadPuzzle(puzzle);
+  const handleLoadRandomPuzzle = async () => {
+    await loadRandomPuzzle();
   };
 
   const handlePatternChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,9 +37,9 @@ export function GameProofOfConcept() {
     testPattern();
   };
 
-  const handleComplete = () => {
+  const handleComplete = async () => {
     completePuzzle();
-    handleLoadRandomPuzzle();
+    await loadRandomPuzzle();
   };
 
   return (
@@ -49,7 +48,7 @@ export function GameProofOfConcept() {
         <h1 className="text-3xl font-bold">Regexle</h1>
         <p className="text-muted-foreground">
           Guess the pattern from the test cases. Total puzzles:{" "}
-          {samplePuzzles.length} | Completed: {completedPuzzles.size}
+          {getTotalPuzzleCount()} | Completed: {completedPuzzles.size}
         </p>
 
         <Button onClick={handleLoadRandomPuzzle} size="lg">

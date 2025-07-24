@@ -1,0 +1,276 @@
+{
+  "puzzles": [
+    {
+      "id": "easy-001",
+      "title": "The @ Mystery",
+      "difficulty": "easy",
+      "category": "communication",
+      "tags": ["validation", "contact"],
+      "testCaseCount": 8,
+      "file": "easy/digital-correspondence.json"
+    },
+    {
+      "id": "easy-002",
+      "title": "Parenthetical Whispers",
+      "difficulty": "easy",
+      "category": "communication",
+      "tags": ["format", "numbers"],
+      "testCaseCount": 8,
+      "file": "easy/voice-connection-format.json"
+    },
+    {
+      "id": "easy-003",
+      "title": "Dotted Decimal Dance",
+      "difficulty": "easy",
+      "category": "numbers",
+      "tags": ["format", "decimal"],
+      "testCaseCount": 8,
+      "file": "easy/dotted-decimal-dance.json"
+    },
+    {
+      "id": "easy-004",
+      "title": "Binary Truth Seekers",
+      "difficulty": "easy",
+      "category": "logic",
+      "tags": ["boolean", "simple"],
+      "testCaseCount": 6,
+      "file": "easy/binary-truth-seekers.json"
+    },
+    {
+      "id": "medium-001",
+      "title": "Angle Bracket Prophecy",
+      "difficulty": "medium",
+      "category": "structure",
+      "tags": ["syntax", "web"],
+      "testCaseCount": 10,
+      "file": "medium/markup-containers.json"
+    },
+    {
+      "id": "medium-002",
+      "title": "Hexadecimal Rainbow Ritual",
+      "difficulty": "medium",
+      "category": "display",
+      "tags": ["format", "visual"],
+      "testCaseCount": 10,
+      "file": "medium/visual-spectrum-codes.json"
+    },
+    {
+      "id": "medium-003",
+      "title": "Temporal Sequence Cipher",
+      "difficulty": "medium",
+      "category": "time",
+      "tags": ["date", "format"],
+      "testCaseCount": 10,
+      "file": "medium/temporal-sequence-cipher.json"
+    },
+    {
+      "id": "medium-004",
+      "title": "Slashed Path Wanderer",
+      "difficulty": "medium",
+      "category": "navigation",
+      "tags": ["path", "system"],
+      "testCaseCount": 8,
+      "file": "medium/slashed-path-wanderer.json"
+    },
+    {
+      "id": "medium-005",
+      "title": "Underscored Identity Crisis",
+      "difficulty": "medium",
+      "category": "identity",
+      "tags": ["naming", "convention"],
+      "testCaseCount": 8,
+      "file": "medium/underscored-identity-crisis.json"
+    },
+    {
+      "id": "hard-001",
+      "title": "The Fortress Gate Keeper",
+      "difficulty": "hard",
+      "category": "security",
+      "tags": ["validation", "complexity"],
+      "testCaseCount": 10,
+      "file": "hard/access-key-strength.json"
+    },
+    {
+      "id": "hard-002",
+      "title": "Octet Oracle's Vision",
+      "difficulty": "hard",
+      "category": "networking",
+      "tags": ["format", "protocol"],
+      "testCaseCount": 10,
+      "file": "hard/network-node-addresses.json"
+    },
+    {
+      "id": "hard-003",
+      "title": "Credit Card Whisperer",
+      "difficulty": "hard",
+      "category": "finance",
+      "tags": ["payment", "validation"],
+      "testCaseCount": 12,
+      "file": "hard/credit-card-whisperer.json"
+    },
+    {
+      "id": "hard-004",
+      "title": "Alphabetic Soup Sorter",
+      "difficulty": "hard",
+      "category": "text",
+      "tags": ["sorting", "alpha"],
+      "testCaseCount": 10,
+      "file": "hard/alphabetic-soup-sorter.json"
+    },
+    {
+      "id": "hard-005",
+      "title": "Version Number Archaeologist",
+      "difficulty": "hard",
+      "category": "versioning",
+      "tags": ["semantic", "software"],
+      "testCaseCount": 12,
+      "file": "hard/version-number-archaeologist.json"
+    },
+    {
+      "id": "expert-001",
+      "title": "Quoted String Philosopher",
+      "difficulty": "expert",
+      "category": "data",
+      "tags": ["format", "structure"],
+      "testCaseCount": 10,
+      "file": "expert/serialized-text-format.json"
+    },
+    {
+      "id": "expert-002",
+      "title": "Nested Parentheses Zen Master",
+      "difficulty": "expert",
+      "category": "structure",
+      "tags": ["recursive", "balance"],
+      "testCaseCount": 12,
+      "file": "expert/nested-parentheses-zen-master.json"
+    },
+    {
+      "id": "expert-003",
+      "title": "Email Header Archaeologist",
+      "difficulty": "expert",
+      "category": "protocols",
+      "tags": ["rfc", "complex"],
+      "testCaseCount": 15,
+      "file": "expert/email-header-archaeologist.json"
+    },
+    {
+      "id": "expert-004",
+      "title": "Mathematical Expression Oracle",
+      "difficulty": "expert",
+      "category": "mathematics",
+      "tags": ["algebra", "parsing"],
+      "testCaseCount": 14,
+      "file": "expert/mathematical-expression-oracle.json"
+    },
+    {
+      "id": "nightmare-001",
+      "title": "The Recursive Nightmare",
+      "difficulty": "nightmare",
+      "category": "meta",
+      "tags": ["recursive", "impossible"],
+      "testCaseCount": 8,
+      "file": "nightmare/recursive-nightmare.json"
+    },
+    {
+      "id": "nightmare-002",
+      "title": "Whitespace Phantom",
+      "difficulty": "nightmare",
+      "category": "invisible",
+      "tags": ["whitespace", "hidden"],
+      "testCaseCount": 10,
+      "file": "nightmare/whitespace-phantom.json"
+    }
+  ],
+  "categories": [
+    {
+      "id": "communication",
+      "name": "Communication",
+      "description": "Patterns for human interaction formats"
+    },
+    {
+      "id": "structure",
+      "name": "Structure",
+      "description": "Patterns for organized content"
+    },
+    {
+      "id": "display",
+      "name": "Display",
+      "description": "Patterns for visual representation"
+    },
+    {
+      "id": "security",
+      "name": "Security",
+      "description": "Patterns for access control"
+    },
+    {
+      "id": "networking",
+      "name": "Networking",
+      "description": "Patterns for network protocols"
+    },
+    {
+      "id": "data",
+      "name": "Data",
+      "description": "Patterns for data serialization"
+    },
+    {
+      "id": "numbers",
+      "name": "Numbers",
+      "description": "Patterns for numeric formats"
+    },
+    {
+      "id": "logic",
+      "name": "Logic",
+      "description": "Patterns for boolean operations"
+    },
+    {
+      "id": "time",
+      "name": "Time",
+      "description": "Patterns for temporal data"
+    },
+    {
+      "id": "navigation",
+      "name": "Navigation",
+      "description": "Patterns for path structures"
+    },
+    {
+      "id": "identity",
+      "name": "Identity",
+      "description": "Patterns for naming conventions"
+    },
+    {
+      "id": "finance",
+      "name": "Finance",
+      "description": "Patterns for financial data"
+    },
+    {
+      "id": "text",
+      "name": "Text",
+      "description": "Patterns for text processing"
+    },
+    {
+      "id": "versioning",
+      "name": "Versioning",
+      "description": "Patterns for version control"
+    },
+    {
+      "id": "protocols",
+      "name": "Protocols",
+      "description": "Patterns for communication protocols"
+    },
+    {
+      "id": "mathematics",
+      "name": "Mathematics",
+      "description": "Patterns for mathematical expressions"
+    },
+    {
+      "id": "meta",
+      "name": "Meta",
+      "description": "Patterns that challenge the concept of patterns"
+    },
+    {
+      "id": "invisible",
+      "name": "Invisible",
+      "description": "Patterns for the unseen"
+    }
+  ]
+}

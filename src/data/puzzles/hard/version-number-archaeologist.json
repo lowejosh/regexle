@@ -1,0 +1,21 @@
+{
+  "id": "hard-005",
+  "title": "Version Number Archaeologist",
+  "description": "Match semantic version numbers",
+  "difficulty": "hard",
+  "testCases": [
+    { "input": "1.0.0", "shouldMatch": true },
+    { "input": "12.34.56", "shouldMatch": true },
+    { "input": "0.1.0", "shouldMatch": true },
+    { "input": "1.0.0-alpha", "shouldMatch": true },
+    { "input": "2.1.0-beta.1", "shouldMatch": true },
+    { "input": "1.0.0+build.123", "shouldMatch": true },
+    { "input": "1.0.0-alpha+build", "shouldMatch": true },
+    { "input": "v1.0.0", "shouldMatch": false },
+    { "input": "1.0", "shouldMatch": false },
+    { "input": "1.0.0.0", "shouldMatch": false },
+    { "input": "1.0.a", "shouldMatch": false },
+    { "input": "01.0.0", "shouldMatch": false }
+  ],
+  "solution": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"
+}

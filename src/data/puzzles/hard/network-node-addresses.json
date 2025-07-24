@@ -1,0 +1,19 @@
+{
+  "id": "hard-002",
+  "title": "Network Node Addresses",
+  "description": "Match IPv4 addresses",
+  "difficulty": "hard",
+  "testCases": [
+    { "input": "192.168.1.1", "shouldMatch": true },
+    { "input": "10.0.0.1", "shouldMatch": true },
+    { "input": "255.255.255.255", "shouldMatch": true },
+    { "input": "127.0.0.1", "shouldMatch": true },
+    { "input": "0.0.0.0", "shouldMatch": true },
+    { "input": "256.1.1.1", "shouldMatch": false },
+    { "input": "192.168.1", "shouldMatch": false },
+    { "input": "192.168.1.1.1", "shouldMatch": false },
+    { "input": "abc.def.ghi.jkl", "shouldMatch": false },
+    { "input": "192.168.-1.1", "shouldMatch": false }
+  ],
+  "solution": "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
+}

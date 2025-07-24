@@ -1,0 +1,15 @@
+{
+  "id": "easy-004",
+  "title": "Binary Truth Seekers",
+  "description": "Match boolean values in various formats",
+  "difficulty": "easy",
+  "testCases": [
+    { "input": "true", "shouldMatch": true },
+    { "input": "false", "shouldMatch": true },
+    { "input": "TRUE", "shouldMatch": true },
+    { "input": "FALSE", "shouldMatch": true },
+    { "input": "maybe", "shouldMatch": false },
+    { "input": "truee", "shouldMatch": false }
+  ],
+  "solution": "^(?i)(true|false)$"
+}

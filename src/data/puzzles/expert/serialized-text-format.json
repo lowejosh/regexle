@@ -1,0 +1,19 @@
+{
+  "id": "expert-001",
+  "title": "Serialized Text Format",
+  "description": "Match valid JSON strings",
+  "difficulty": "expert",
+  "testCases": [
+    { "input": "\"hello\"", "shouldMatch": true },
+    { "input": "\"hello world\"", "shouldMatch": true },
+    { "input": "\"test\\nstring\"", "shouldMatch": true },
+    { "input": "\"with \\\"quotes\\\"\"", "shouldMatch": true },
+    { "input": "\"\"", "shouldMatch": true },
+    { "input": "hello", "shouldMatch": false },
+    { "input": "\"unterminated", "shouldMatch": false },
+    { "input": "unterminated\"", "shouldMatch": false },
+    { "input": "\"bad\\escape\"", "shouldMatch": false },
+    { "input": "\"multi\nline\"", "shouldMatch": false }
+  ],
+  "solution": "^\"(?:[^\"\\\\]|\\\\.)*\"$"
+}

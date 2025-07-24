@@ -1,0 +1,17 @@
+{
+  "id": "easy-001",
+  "title": "Digital Correspondence",
+  "description": "Match valid email addresses",
+  "difficulty": "easy",
+  "testCases": [
+    { "input": "user@example.com", "shouldMatch": true },
+    { "input": "test@domain.org", "shouldMatch": true },
+    { "input": "name@site.net", "shouldMatch": true },
+    { "input": "admin@company.edu", "shouldMatch": true },
+    { "input": "invalid-email", "shouldMatch": false },
+    { "input": "@domain.com", "shouldMatch": false },
+    { "input": "user@", "shouldMatch": false },
+    { "input": "user.domain.com", "shouldMatch": false }
+  ],
+  "solution": "^[a-zA-Z0-9]+@[a-zA-Z0-9]+\\.[a-zA-Z]+$"
+}

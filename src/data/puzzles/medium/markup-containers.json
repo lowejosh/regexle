@@ -1,0 +1,19 @@
+{
+  "id": "medium-001",
+  "title": "Markup Containers",
+  "description": "Match opening HTML tags",
+  "difficulty": "medium",
+  "testCases": [
+    { "input": "<div>", "shouldMatch": true },
+    { "input": "<span>", "shouldMatch": true },
+    { "input": "<p>", "shouldMatch": true },
+    { "input": "<header>", "shouldMatch": true },
+    { "input": "<article>", "shouldMatch": true },
+    { "input": "</div>", "shouldMatch": false },
+    { "input": "<div class=\"test\">", "shouldMatch": false },
+    { "input": "div>", "shouldMatch": false },
+    { "input": "<123>", "shouldMatch": false },
+    { "input": "<>", "shouldMatch": false }
+  ],
+  "solution": "^<[a-zA-Z]+>$"
+}

@@ -1,0 +1,17 @@
+{
+  "id": "medium-004",
+  "title": "Slashed Path Wanderer",
+  "description": "Match Unix-style file paths",
+  "difficulty": "medium",
+  "testCases": [
+    { "input": "/home/user", "shouldMatch": true },
+    { "input": "/usr/bin/ls", "shouldMatch": true },
+    { "input": "/", "shouldMatch": true },
+    { "input": "/var/log/system.log", "shouldMatch": true },
+    { "input": "home/user", "shouldMatch": false },
+    { "input": "/home//user", "shouldMatch": false },
+    { "input": "/home/user/", "shouldMatch": false },
+    { "input": "\\home\\user", "shouldMatch": false }
+  ],
+  "solution": "^/([a-zA-Z0-9_-]+(/[a-zA-Z0-9_.-]+)*)?$"
+}

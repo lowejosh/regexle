@@ -1,0 +1,19 @@
+{
+  "id": "medium-002",
+  "title": "Visual Spectrum Codes",
+  "description": "Match hexadecimal color codes",
+  "difficulty": "medium",
+  "testCases": [
+    { "input": "#FF0000", "shouldMatch": true },
+    { "input": "#00FF00", "shouldMatch": true },
+    { "input": "#0000FF", "shouldMatch": true },
+    { "input": "#ABC123", "shouldMatch": true },
+    { "input": "#FfFfFf", "shouldMatch": true },
+    { "input": "FF0000", "shouldMatch": false },
+    { "input": "#GG0000", "shouldMatch": false },
+    { "input": "#FF00", "shouldMatch": false },
+    { "input": "#FF00000", "shouldMatch": false },
+    { "input": "#", "shouldMatch": false }
+  ],
+  "solution": "^#[0-9A-Fa-f]{6}$"
+}

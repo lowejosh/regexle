@@ -1,0 +1,21 @@
+{
+  "id": "expert-002",
+  "title": "Nested Parentheses Zen Master",
+  "description": "Match properly balanced parentheses",
+  "difficulty": "expert",
+  "testCases": [
+    { "input": "()", "shouldMatch": true },
+    { "input": "(())", "shouldMatch": true },
+    { "input": "((()))", "shouldMatch": true },
+    { "input": "()()", "shouldMatch": true },
+    { "input": "(()())", "shouldMatch": true },
+    { "input": "(()(()))", "shouldMatch": true },
+    { "input": "(", "shouldMatch": false },
+    { "input": ")", "shouldMatch": false },
+    { "input": "(()", "shouldMatch": false },
+    { "input": "())", "shouldMatch": false },
+    { "input": ")((", "shouldMatch": false },
+    { "input": "((())()))", "shouldMatch": false }
+  ],
+  "solution": "^(\\((?:[^()]|(?1))*\\))$"
+}

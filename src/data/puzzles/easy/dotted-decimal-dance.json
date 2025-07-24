@@ -1,0 +1,17 @@
+{
+  "id": "easy-003",
+  "title": "Dotted Decimal Dance",
+  "description": "Match decimal numbers with exactly 2 decimal places",
+  "difficulty": "easy",
+  "testCases": [
+    { "input": "12.34", "shouldMatch": true },
+    { "input": "0.99", "shouldMatch": true },
+    { "input": "123.45", "shouldMatch": true },
+    { "input": "9.00", "shouldMatch": true },
+    { "input": "12.3", "shouldMatch": false },
+    { "input": "12", "shouldMatch": false },
+    { "input": "12.345", "shouldMatch": false },
+    { "input": ".99", "shouldMatch": false }
+  ],
+  "solution": "^\\d+\\.\\d{2}$"
+}

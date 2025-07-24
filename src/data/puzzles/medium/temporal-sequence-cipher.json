@@ -1,0 +1,19 @@
+{
+  "id": "medium-003",
+  "title": "Temporal Sequence Cipher",
+  "description": "Match dates in MM/DD/YYYY format",
+  "difficulty": "medium",
+  "testCases": [
+    { "input": "12/25/2023", "shouldMatch": true },
+    { "input": "01/01/2000", "shouldMatch": true },
+    { "input": "06/15/1995", "shouldMatch": true },
+    { "input": "12/31/2024", "shouldMatch": true },
+    { "input": "13/01/2023", "shouldMatch": false },
+    { "input": "12/32/2023", "shouldMatch": false },
+    { "input": "1/1/2023", "shouldMatch": false },
+    { "input": "12/25/23", "shouldMatch": false },
+    { "input": "2023/12/25", "shouldMatch": false },
+    { "input": "25/12/2023", "shouldMatch": false }
+  ],
+  "solution": "^(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])/\\d{4}$"
+}

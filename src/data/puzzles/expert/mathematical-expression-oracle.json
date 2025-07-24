@@ -1,0 +1,23 @@
+{
+  "id": "expert-004",
+  "title": "Mathematical Expression Oracle",
+  "description": "Match basic mathematical expressions",
+  "difficulty": "expert",
+  "testCases": [
+    { "input": "2+3", "shouldMatch": true },
+    { "input": "10-5", "shouldMatch": true },
+    { "input": "4*7", "shouldMatch": true },
+    { "input": "15/3", "shouldMatch": true },
+    { "input": "(2+3)*4", "shouldMatch": true },
+    { "input": "2+(3*4)", "shouldMatch": true },
+    { "input": "((2+3)*4)/5", "shouldMatch": true },
+    { "input": "12.5+3.7", "shouldMatch": true },
+    { "input": "-5+3", "shouldMatch": true },
+    { "input": "2++3", "shouldMatch": false },
+    { "input": "2+", "shouldMatch": false },
+    { "input": "+3", "shouldMatch": false },
+    { "input": "2+(3*)", "shouldMatch": false },
+    { "input": "((2+3)", "shouldMatch": false }
+  ],
+  "solution": "^-?\\d+(?:\\.\\d+)?(?:[+\\-*/]\\(?-?\\d+(?:\\.\\d+)?\\)?)*$"
+}

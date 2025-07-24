@@ -1,0 +1,19 @@
+{
+  "id": "hard-001",
+  "title": "Access Key Strength",
+  "description": "Match strong passwords",
+  "difficulty": "hard",
+  "testCases": [
+    { "input": "Password123", "shouldMatch": true },
+    { "input": "MySecret1", "shouldMatch": true },
+    { "input": "Complex9Pass", "shouldMatch": true },
+    { "input": "StrongKey7", "shouldMatch": true },
+    { "input": "SecureCode5", "shouldMatch": true },
+    { "input": "password123", "shouldMatch": false },
+    { "input": "PASSWORD123", "shouldMatch": false },
+    { "input": "Password", "shouldMatch": false },
+    { "input": "Pass1", "shouldMatch": false },
+    { "input": "12345678", "shouldMatch": false }
+  ],
+  "solution": "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "hard-004",
+  "title": "Alphabetic Soup Sorter",
+  "description": "Match strings that are in alphabetical order",
+  "difficulty": "hard",
+  "testCases": [
+    { "input": "abc", "shouldMatch": true },
+    { "input": "aabbcc", "shouldMatch": true },
+    { "input": "abcd", "shouldMatch": true },
+    { "input": "aaa", "shouldMatch": true },
+    { "input": "abcdefg", "shouldMatch": true },
+    { "input": "bac", "shouldMatch": false },
+    { "input": "dcba", "shouldMatch": false },
+    { "input": "abdc", "shouldMatch": false },
+    { "input": "zzaa", "shouldMatch": false },
+    { "input": "abcba", "shouldMatch": false }
+  ],
+  "solution": "^a*b*c*d*e*f*g*h*i*j*k*l*m*n*o*p*q*r*s*t*u*v*w*x*y*z*$"
+}

@@ -1,0 +1,17 @@
+{
+  "id": "easy-002",
+  "title": "Voice Connection Format",
+  "description": "Match US phone numbers in format (123) 456-7890",
+  "difficulty": "easy",
+  "testCases": [
+    { "input": "(123) 456-7890", "shouldMatch": true },
+    { "input": "(555) 123-4567", "shouldMatch": true },
+    { "input": "(999) 888-7777", "shouldMatch": true },
+    { "input": "(000) 000-0000", "shouldMatch": true },
+    { "input": "123-456-7890", "shouldMatch": false },
+    { "input": "(12) 456-7890", "shouldMatch": false },
+    { "input": "(123) 45-7890", "shouldMatch": false },
+    { "input": "(123)456-7890", "shouldMatch": false }
+  ],
+  "solution": "^\\([0-9]{3}\\) [0-9]{3}-[0-9]{4}$"
+}

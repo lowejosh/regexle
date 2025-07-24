@@ -1,0 +1,17 @@
+{
+  "id": "nightmare-001",
+  "title": "The Recursive Nightmare",
+  "description": "Match palindromes of any length",
+  "difficulty": "nightmare",
+  "testCases": [
+    { "input": "a", "shouldMatch": true },
+    { "input": "aa", "shouldMatch": true },
+    { "input": "aba", "shouldMatch": true },
+    { "input": "abba", "shouldMatch": true },
+    { "input": "racecar", "shouldMatch": true },
+    { "input": "madam", "shouldMatch": true },
+    { "input": "ab", "shouldMatch": false },
+    { "input": "abc", "shouldMatch": false }
+  ],
+  "solution": "^(.)(?:(.)(?:(.)(?:(.)(?:(.)(?:(.)(?:(.)(?:(.)(?:(.)(?:(.)(.)\\10)?\\9)?\\8)?\\7)?\\6)?\\5)?\\4)?\\3)?\\2)?\\1)?$"
+}
