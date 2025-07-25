@@ -10,6 +10,7 @@ import { RegexInput } from "../RegexInput";
 import { TestCases } from "../TestCases/TestCases";
 import { GameResults } from "../GameResults";
 import { SpinWheelButton } from "../SpinWheelButton";
+import { useSpinWheelStore } from "../../../../../store/spinWheelStore";
 import type { Puzzle, GameResult } from "../../../../../types/game";
 
 interface PuzzleCardProps {
@@ -17,13 +18,9 @@ interface PuzzleCardProps {
   userPattern: string;
   gameResult: GameResult | null;
   showDescription: boolean;
-  partialDescription: string | null;
-  revealedTestCases: number;
-  availableSpins: number;
   onPatternChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onTestPattern: () => void;
   onComplete: () => void;
-  onOpenSpinWheel: () => void;
 }
 
 export function PuzzleCard({
@@ -31,14 +28,16 @@ export function PuzzleCard({
   userPattern,
   gameResult,
   showDescription,
-  partialDescription,
-  revealedTestCases,
-  availableSpins,
   onPatternChange,
   onTestPattern,
   onComplete,
-  onOpenSpinWheel,
 }: PuzzleCardProps) {
+  const {
+    partialDescription,
+    revealedTestCases,
+    availableSpins,
+    openSpinWheel,
+  } = useSpinWheelStore();
   return (
     <Card>
       <CardHeader>
@@ -49,7 +48,7 @@ export function PuzzleCard({
             <SpinWheelButton
               availableSpins={availableSpins}
               gameResult={gameResult}
-              onOpenSpinWheel={onOpenSpinWheel}
+              onOpenSpinWheel={openSpinWheel}
             />
           </div>
         </div>
