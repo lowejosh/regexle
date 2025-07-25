@@ -3,10 +3,7 @@ import { GameHeader } from "./components/GameHeader/GameHeader";
 import { PuzzleCard } from "./components/PuzzleCard/PuzzleCard";
 import { SpinWheel } from "./components/SpinWheel/SpinWheel";
 import { EncouragementToast } from "./components/EncouragementToast/EncouragementToast";
-import type {
-  WheelOption,
-  WheelOptionId,
-} from "./components/SpinWheel/SpinWheel.consts";
+import { useSpinResults } from "./hooks/useSpinResults";
 import { useState, useRef } from "react";
 
 export function Game() {
@@ -18,32 +15,11 @@ export function Game() {
     null
   );
 
-  // Function to garble exactly half of the characters randomly
-  const garbleText = (text: string): string => {
-    const chars = text.split("");
-    const garbleChars = ["█", "▓", "▒", "░", "?", "*", "#", "@", "&", "%"];
-
-    // Calculate how many characters to garble (half)
-    const numToGarble = Math.floor(chars.length / 2);
-
-    // Get random indexes to garble
-    const indexesToGarble = new Set<number>();
-    while (indexesToGarble.size < numToGarble) {
-      const randomIndex = Math.floor(Math.random() * chars.length);
-      // Don't garble spaces to maintain readability
-      if (chars[randomIndex] !== " ") {
-        indexesToGarble.add(randomIndex);
-      }
-    }
-
-    // Replace characters at selected indexes
-    indexesToGarble.forEach((index) => {
-      chars[index] =
-        garbleChars[Math.floor(Math.random() * garbleChars.length)];
-    });
-
-    return chars.join("");
-  };
+  const { handleSpinWheelResult } = useSpinResults({
+    setPartialDescription,
+    setAvailableSpins,
+    showEncouragementRef,
+  });
 
   const {
     currentPuzzle,
@@ -55,7 +31,6 @@ export function Game() {
     updatePattern,
     testPattern,
     completePuzzle,
-    toggleDescription,
   } = useGameStore();
 
   const handleLoadRandomPuzzle = async () => {
@@ -92,52 +67,6 @@ export function Game() {
     setRevealedTestCases(1); // Reset for new puzzle
     setAvailableSpins(1); // Reset spins for new puzzle
     setPartialDescription(null); // Clear any partial description
-  };
-
-  const handleSpinWheelResult = (option: WheelOption) => {
-    setAvailableSpins((prev) => Math.max(0, prev - 1)); // Consume a spin
-
-    // Handle different wheel results
-    const optionId: WheelOptionId = option.id;
-    switch (optionId) {
-      case "challenge-description":
-        if (currentPuzzle?.description && !showDescription) {
-          toggleDescription();
-        }
-        break;
-      case "half-challenge-description":
-        // Show partial description with random garbled parts
-        if (currentPuzzle?.description) {
-          const garbledDesc = garbleText(currentPuzzle.description);
-          setPartialDescription(garbledDesc);
-          // Clear partial description after 10 seconds
-          setTimeout(() => setPartialDescription(null), 10000);
-        }
-        break;
-      case "emotional-support": {
-        // Show encouraging message
-        if (showEncouragementRef.current) {
-          showEncouragementRef.current();
-        }
-        break;
-      }
-      case "free-spin":
-        // Grant an extra spin
-        setAvailableSpins((prev) => prev + 1);
-        break;
-      case "clippy":
-        // Show Clippy-style hint
-        break;
-      case "rubber-duck":
-        // Show rubber duck debugging hint
-        break;
-      default: {
-        // TypeScript will enforce exhaustive checking
-        const _exhaustive: never = optionId;
-        void _exhaustive;
-        break;
-      }
-    }
   };
 
   return (
