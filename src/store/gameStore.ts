@@ -3,11 +3,11 @@ import type { GameState, Puzzle } from "../types/game";
 import { RegexGameEngine } from "../engine/gameEngine";
 import { puzzleLoader } from "../data/puzzleLoader";
 
-// Callback for handling test failures (set from spin wheel store)
-let handleTestFailureCallback: (() => void) | null = null;
+// Callback for granting spins on test failure (set from spin wheel store)
+let grantSpinCallback: (() => void) | null = null;
 
-export const setTestFailureHandler = (callback: (() => void) | null) => {
-  handleTestFailureCallback = callback;
+export const setGrantSpinHandler = (callback: (() => void) | null) => {
+  grantSpinCallback = callback;
 };
 
 interface GameStore extends GameState {
@@ -21,6 +21,10 @@ interface GameStore extends GameState {
   resetGame: () => void;
   setDifficulty: (difficulty: Puzzle["difficulty"]) => void;
   toggleDescription: () => void;
+  // Test case revelation
+  setRevealedTestCases: (cases: number | ((prev: number) => number)) => void;
+  revealMoreTestCases: () => void;
+  handleTestFailure: () => void;
 }
 
 export const useGameStore = create<GameStore>((set, get) => ({
@@ -31,6 +35,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   completedPuzzles: new Set(),
   currentDifficulty: "easy",
   showDescription: false,
+  revealedTestCases: 1,
 
   // Actions
   loadPuzzle: (puzzle: Puzzle) => {
@@ -39,6 +44,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       userPattern: "",
       gameResult: null,
       showDescription: false, // Hide description for new puzzle
+      revealedTestCases: 1, // Reset to 1 for new puzzle
     });
   },
 
@@ -51,6 +57,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
           userPattern: "",
           gameResult: null,
           showDescription: false,
+          revealedTestCases: 1, // Reset to 1 for new puzzle
         });
       }
     } catch (error) {
@@ -89,10 +96,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
     // Then handle side effects asynchronously
     setTimeout(() => {
       if (result && !result.isCorrect && state.currentPuzzle) {
-        // Call the test failure handler if available
-        if (handleTestFailureCallback) {
-          handleTestFailureCallback();
-        }
+        // Handle test failure directly
+        state.handleTestFailure();
       }
     }, 100);
   },
@@ -113,6 +118,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       userPattern: "",
       gameResult: null,
       showDescription: false,
+      revealedTestCases: 1,
     });
   },
 
@@ -123,5 +129,34 @@ export const useGameStore = create<GameStore>((set, get) => ({
   toggleDescription: () => {
     const state = get();
     set({ showDescription: !state.showDescription });
+  },
+
+  // Test case revelation actions
+  setRevealedTestCases: (cases) =>
+    set({
+      revealedTestCases:
+        typeof cases === "function" ? cases(get().revealedTestCases) : cases,
+    }),
+
+  revealMoreTestCases: () => {
+    const state = get();
+    if (state.currentPuzzle) {
+      const maxRevealable = Math.min(
+        state.currentPuzzle.testCases.filter((tc) => tc.shouldMatch).length,
+        state.currentPuzzle.testCases.filter((tc) => !tc.shouldMatch).length
+      );
+      set((state) => ({
+        revealedTestCases: Math.min(state.revealedTestCases + 1, maxRevealable),
+      }));
+    }
+  },
+
+  handleTestFailure: () => {
+    const state = get();
+    state.revealMoreTestCases();
+    // Notify spin wheel store to grant a spin
+    if (grantSpinCallback) {
+      grantSpinCallback();
+    }
   },
 }));

@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { useGameStore, setTestFailureHandler } from "./gameStore";
+import { useGameStore, setGrantSpinHandler } from "./gameStore";
 import {
   SpinResultProcessor,
   type WheelOption,
@@ -10,9 +10,6 @@ interface SpinWheelState {
   // Spin wheel modal state
   isSpinWheelOpen: boolean;
   availableSpins: number;
-
-  // Test case revelation
-  revealedTestCases: number;
 
   // Partial description state
   partialDescription: string | null;
@@ -34,10 +31,6 @@ interface SpinWheelActions {
   consumeSpin: () => void;
   grantSpin: () => void;
 
-  // Test case revelation
-  setRevealedTestCases: (cases: number | ((prev: number) => number)) => void;
-  revealMoreTestCases: () => void;
-
   // Partial description
   setPartialDescription: (description: string | null) => void;
   clearPartialDescription: () => void;
@@ -53,9 +46,6 @@ interface SpinWheelActions {
   // Spin result processing
   handleSpinResult: (option: WheelOption) => void;
 
-  // Test failure handling
-  handleTestFailure: () => void;
-
   // Reset methods
   resetForNewPuzzle: () => void;
   resetAll: () => void;
@@ -67,7 +57,6 @@ export const useSpinWheelStore = create<SpinWheelStore>((set, get) => ({
   // Initial state
   isSpinWheelOpen: false,
   availableSpins: 1,
-  revealedTestCases: 1,
   partialDescription: null,
   showEncouragementCallback: null,
   isRubberDuckActive: false,
@@ -90,25 +79,6 @@ export const useSpinWheelStore = create<SpinWheelStore>((set, get) => ({
     set((state) => ({
       availableSpins: state.availableSpins + 1,
     })),
-
-  // Test case revelation
-  setRevealedTestCases: (cases) =>
-    set({
-      revealedTestCases:
-        typeof cases === "function" ? cases(get().revealedTestCases) : cases,
-    }),
-  revealMoreTestCases: () => {
-    const { currentPuzzle } = useGameStore.getState();
-    if (currentPuzzle) {
-      const maxRevealable = Math.min(
-        currentPuzzle.testCases.filter((tc) => tc.shouldMatch).length,
-        currentPuzzle.testCases.filter((tc) => !tc.shouldMatch).length
-      );
-      set((state) => ({
-        revealedTestCases: Math.min(state.revealedTestCases + 1, maxRevealable),
-      }));
-    }
-  },
 
   // Partial description
   setPartialDescription: (description) =>
@@ -156,18 +126,9 @@ export const useSpinWheelStore = create<SpinWheelStore>((set, get) => ({
     SpinResultProcessor.process(optionId, context);
   },
 
-  // Test failure handling
-  handleTestFailure: () => {
-    const state = get();
-    // Reveal more test cases and grant a spin for failed attempts
-    state.revealMoreTestCases();
-    state.grantSpin();
-  },
-
   // Reset methods
   resetForNewPuzzle: () =>
     set({
-      revealedTestCases: 1,
       availableSpins: 1,
       partialDescription: null,
       isRubberDuckActive: false,
@@ -177,15 +138,14 @@ export const useSpinWheelStore = create<SpinWheelStore>((set, get) => ({
     set({
       isSpinWheelOpen: false,
       availableSpins: 1,
-      revealedTestCases: 1,
       partialDescription: null,
       showEncouragementCallback: null,
       isRubberDuckActive: false,
     }),
 }));
 
-// Set up the test failure handler callback
-setTestFailureHandler(() => {
+// Set up the grant spin handler callback
+setGrantSpinHandler(() => {
   const store = useSpinWheelStore.getState();
-  store.handleTestFailure();
+  store.grantSpin();
 });

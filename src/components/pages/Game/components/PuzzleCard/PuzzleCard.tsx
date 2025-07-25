@@ -25,6 +25,7 @@ export function PuzzleCard({ puzzle: propPuzzle }: PuzzleCardProps) {
     userPattern,
     gameResult,
     showDescription,
+    revealedTestCases,
     updatePattern,
     testPatternWithEffects,
     completePuzzle,
@@ -34,7 +35,6 @@ export function PuzzleCard({ puzzle: propPuzzle }: PuzzleCardProps) {
   // Consume spin state directly
   const {
     partialDescription,
-    revealedTestCases,
     availableSpins,
     openSpinWheel,
     resetForNewPuzzle,

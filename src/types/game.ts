@@ -48,4 +48,5 @@ export interface GameState {
   completedPuzzles: Set<string>;
   currentDifficulty: Puzzle["difficulty"];
   showDescription: boolean;
+  revealedTestCases: number;
 }

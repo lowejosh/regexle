@@ -6,7 +6,14 @@ export type WheelOptionId =
   | "free-spin"
   | "clippy"
   | "rubber-duck"
-  | "comic-sans-mode";
+  | "comic-sans-mode"
+  | "rainbow-mode"
+  | "dad-jokes"
+  | "existential-crisis"
+  | "cat-facts"
+  | "backwards-day"
+  | "viking-mode"
+  | "disco-fever";
 
 export interface WheelOption {
   id: WheelOptionId;
@@ -15,31 +22,31 @@ export interface WheelOption {
 }
 
 export const WHEEL_OPTIONS: WheelOption[] = [
-  // {
-  //   id: "challenge-description",
-  //   label: "Description",
-  //   color: "#FF6B6B", // Red
-  // },
-  // {
-  //   id: "half-challenge-description",
-  //   label: "Half Description",
-  //   color: "#4ECDC4", // Teal
-  // },
-  // {
-  //   id: "emotional-support",
-  //   label: "Emotional Support",
-  //   color: "#45B7D1", // Blue
-  // },
-  // {
-  //   id: "free-spin",
-  //   label: "Free Spin",
-  //   color: "#FFA07A", // Light Orange
-  // },
-  // {
-  //   id: "clippy",
-  //   label: "Clippy",
-  //   color: "#98D8C8", // Mint Green
-  // },
+  {
+    id: "challenge-description",
+    label: "Description",
+    color: "#FF6B6B", // Red
+  },
+  {
+    id: "half-challenge-description",
+    label: "Half Description",
+    color: "#4ECDC4", // Teal
+  },
+  {
+    id: "emotional-support",
+    label: "Emotional Support",
+    color: "#45B7D1", // Blue
+  },
+  {
+    id: "free-spin",
+    label: "Free Spin",
+    color: "#FFA07A", // Light Orange
+  },
+  {
+    id: "clippy",
+    label: "Clippy",
+    color: "#98D8C8", // Mint Green
+  },
   {
     id: "rubber-duck",
     label: "Rubber Duck",
@@ -49,6 +56,41 @@ export const WHEEL_OPTIONS: WheelOption[] = [
     id: "comic-sans-mode",
     label: "Comic Sans Mode",
     color: "#E74C3C", // Bright Red
+  },
+  {
+    id: "rainbow-mode",
+    label: "Rainbow Mode",
+    color: "#9B59B6", // Purple
+  },
+  {
+    id: "dad-jokes",
+    label: "Dad Jokes",
+    color: "#E67E22", // Orange
+  },
+  {
+    id: "existential-crisis",
+    label: "Existential Crisis",
+    color: "#34495E", // Dark Gray
+  },
+  {
+    id: "cat-facts",
+    label: "Cat Facts",
+    color: "#F39C12", // Gold
+  },
+  {
+    id: "backwards-day",
+    label: "Backwards Day",
+    color: "#2ECC71", // Green
+  },
+  {
+    id: "viking-mode",
+    label: "Viking Mode",
+    color: "#8E44AD", // Dark Purple
+  },
+  {
+    id: "disco-fever",
+    label: "Disco Fever",
+    color: "#E91E63", // Pink
   },
 ];
 

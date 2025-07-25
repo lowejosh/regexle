@@ -3,8 +3,23 @@ import { useState, useEffect, useCallback } from "react";
 import { useSpinWheelStore } from "../../../../../store/spinWheelStore";
 
 const ENCOURAGEMENT_MESSAGES = [
+  "Failure is just a learning opportunity in disguise!",
+  "Success is just failure that hasn't happened yet!",
+  "Remember: We're all about that growth mindset!",
+  "Embrace the journey of continuous improvement!",
   "Believe in yourself and anything is possible!",
+  "Let's touch base and align on best practices!",
+  "Synergize your potential for maximum impact!",
+  "Let's circle back and ideate some solutions!",
+  "Innovation happens when we push boundaries!",
   "Winners never quit and quitters never win.",
+  "Your potential is limitless! Actualize it!",
+  "Think outside the box to move the needle!",
+  "Time to pivot and disrupt the status quo!",
+  "Every challenge is a chance to level up!",
+  "You're crushing it! Keep being awesome!",
+  "Let's take this offline and deep dive!",
+  "Let's leverage our core competencies!",
   "Failure is just success in progress.",
   "Remember: There's no 'I' in team!",
   "Every expert was once a beginner.",
