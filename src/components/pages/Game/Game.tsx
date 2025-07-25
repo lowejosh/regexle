@@ -7,15 +7,43 @@ import type {
   WheelOption,
   WheelOptionId,
 } from "./components/SpinWheel/SpinWheel.consts";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 export function Game() {
   const [isSpinWheelOpen, setIsSpinWheelOpen] = useState(false);
   const [revealedTestCases, setRevealedTestCases] = useState(1); // Start with 1 test case of each type revealed
   const [availableSpins, setAvailableSpins] = useState(1); // User starts with 1 spin
-  const [showEncouragementRef, setShowEncouragementRef] = useState<
-    (() => void) | null
-  >(null);
+  const showEncouragementRef = useRef<(() => void) | null>(null);
+  const [partialDescription, setPartialDescription] = useState<string | null>(
+    null
+  );
+
+  // Function to garble exactly half of the characters randomly
+  const garbleText = (text: string): string => {
+    const chars = text.split("");
+    const garbleChars = ["█", "▓", "▒", "░", "?", "*", "#", "@", "&", "%"];
+
+    // Calculate how many characters to garble (half)
+    const numToGarble = Math.floor(chars.length / 2);
+
+    // Get random indexes to garble
+    const indexesToGarble = new Set<number>();
+    while (indexesToGarble.size < numToGarble) {
+      const randomIndex = Math.floor(Math.random() * chars.length);
+      // Don't garble spaces to maintain readability
+      if (chars[randomIndex] !== " ") {
+        indexesToGarble.add(randomIndex);
+      }
+    }
+
+    // Replace characters at selected indexes
+    indexesToGarble.forEach((index) => {
+      chars[index] =
+        garbleChars[Math.floor(Math.random() * garbleChars.length)];
+    });
+
+    return chars.join("");
+  };
 
   const {
     currentPuzzle,
@@ -34,6 +62,7 @@ export function Game() {
     await loadRandomPuzzle();
     setRevealedTestCases(1); // Reset to show only 1 test case of each type for new puzzle
     setAvailableSpins(1); // Reset to 1 spin for new puzzle
+    setPartialDescription(null); // Clear any partial description
   };
 
   const handlePatternChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,6 +91,7 @@ export function Game() {
     await loadRandomPuzzle();
     setRevealedTestCases(1); // Reset for new puzzle
     setAvailableSpins(1); // Reset spins for new puzzle
+    setPartialDescription(null); // Clear any partial description
   };
 
   const handleSpinWheelResult = (option: WheelOption) => {
@@ -76,12 +106,18 @@ export function Game() {
         }
         break;
       case "half-challenge-description":
-        // Could implement a partial description reveal
+        // Show partial description with random garbled parts
+        if (currentPuzzle?.description) {
+          const garbledDesc = garbleText(currentPuzzle.description);
+          setPartialDescription(garbledDesc);
+          // Clear partial description after 10 seconds
+          setTimeout(() => setPartialDescription(null), 10000);
+        }
         break;
       case "emotional-support": {
         // Show encouraging message
-        if (showEncouragementRef) {
-          showEncouragementRef();
+        if (showEncouragementRef.current) {
+          showEncouragementRef.current();
         }
         break;
       }
@@ -118,6 +154,7 @@ export function Game() {
           userPattern={userPattern}
           gameResult={gameResult}
           showDescription={showDescription}
+          partialDescription={partialDescription}
           revealedTestCases={revealedTestCases}
           availableSpins={availableSpins}
           onPatternChange={handlePatternChange}
@@ -128,7 +165,11 @@ export function Game() {
       )}
 
       {/* Encouragement Toast */}
-      <EncouragementToast onShowMessage={setShowEncouragementRef} />
+      <EncouragementToast
+        onShowMessage={(callback) => {
+          showEncouragementRef.current = callback;
+        }}
+      />
 
       {/* Spin Wheel Modal */}
       <SpinWheel

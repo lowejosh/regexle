@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 interface EncouragementToastProps {
   onShowMessage: (callback: () => void) => void;
@@ -16,24 +16,26 @@ const ENCOURAGEMENT_MESSAGES = [
   "Keep pushing forward!",
 ];
 
+const TIMER = 4000; // 4 seconds
+
 export function EncouragementToast({ onShowMessage }: EncouragementToastProps) {
   const [encouragementMessage, setEncouragementMessage] = useState<
     string | null
   >(null);
 
-  const showEncouragement = () => {
+  const showEncouragement = useCallback(() => {
     const randomMessage =
       ENCOURAGEMENT_MESSAGES[
         Math.floor(Math.random() * ENCOURAGEMENT_MESSAGES.length)
       ];
     setEncouragementMessage(randomMessage);
     // Clear message after 5 seconds
-    setTimeout(() => setEncouragementMessage(null), 5000);
-  };
+    setTimeout(() => setEncouragementMessage(null), TIMER);
+  }, []);
 
   useEffect(() => {
     onShowMessage(showEncouragement);
-  }, [onShowMessage]);
+  }, [onShowMessage, showEncouragement]);
 
   if (!encouragementMessage) {
     return null;

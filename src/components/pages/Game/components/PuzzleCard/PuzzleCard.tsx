@@ -17,6 +17,7 @@ interface PuzzleCardProps {
   userPattern: string;
   gameResult: GameResult | null;
   showDescription: boolean;
+  partialDescription: string | null;
   revealedTestCases: number;
   availableSpins: number;
   onPatternChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -30,6 +31,7 @@ export function PuzzleCard({
   userPattern,
   gameResult,
   showDescription,
+  partialDescription,
   revealedTestCases,
   availableSpins,
   onPatternChange,
@@ -54,6 +56,7 @@ export function PuzzleCard({
         {puzzle.description && (
           <CardDescription>
             {showDescription && puzzle.description}
+            {!showDescription && partialDescription}
           </CardDescription>
         )}
       </CardHeader>
