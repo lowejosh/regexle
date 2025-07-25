@@ -1,5 +1,6 @@
-const VIKING_TIMER = 15000; // 15 seconds
-const COMIC_SANS_TIMER = 15000; // 15 seconds
+const VIKING_TIMER = 10000; // 10 seconds
+const COMIC_SANS_TIMER = 10000; // 10 seconds
+const UPSIDE_DOWN_TIMER = 10000; // 10 seconds
 
 /**
  * Visual Effects Service
@@ -9,6 +10,7 @@ export class VisualEffectsService {
   private static originalFontFamily: string | null = null;
   private static comicSansTimer: NodeJS.Timeout | null = null;
   private static vikingModeTimer: NodeJS.Timeout | null = null;
+  private static upsideDownTimer: NodeJS.Timeout | null = null;
   private static originalTextContent: Map<Text, string> = new Map();
 
   /**
@@ -265,11 +267,55 @@ export class VisualEffectsService {
   }
 
   /**
+   * Activates Upside Down mode - flips the entire page 180 degrees
+   */
+  static activateUpsideDownMode(): void {
+    // Clear any existing timer
+    if (this.upsideDownTimer) {
+      clearTimeout(this.upsideDownTimer);
+    }
+
+    // Apply the upside down transform
+    document.body.style.transform = "rotate(180deg)";
+    document.body.style.transformOrigin = "center center";
+    document.body.style.transition = "transform 1s ease-in-out";
+
+    // Add some styling to make it more obvious
+    document.documentElement.style.setProperty("--upside-down-bg", "#1a1a2e");
+    document.body.style.backgroundColor = "var(--upside-down-bg)";
+
+    // Reset after 25 seconds
+    this.upsideDownTimer = setTimeout(() => {
+      this.deactivateUpsideDownMode();
+    }, UPSIDE_DOWN_TIMER);
+  }
+
+  /**
+   * Deactivates Upside Down mode and restores normal orientation
+   */
+  static deactivateUpsideDownMode(): void {
+    // Restore normal orientation
+    document.body.style.transform = "";
+    document.body.style.transformOrigin = "";
+    document.body.style.transition = "";
+    document.body.style.backgroundColor = "";
+
+    // Remove styling
+    document.documentElement.style.removeProperty("--upside-down-bg");
+
+    if (this.upsideDownTimer) {
+      clearTimeout(this.upsideDownTimer);
+      this.upsideDownTimer = null;
+    }
+  }
+
+  /**
    * Cleanup method to stop all active effects
    */
   static cleanup(): void {
     this.deactivateComicSansMode();
     this.deactivateVikingMode();
+    this.deactivateUpsideDownMode();
   }
 }
 

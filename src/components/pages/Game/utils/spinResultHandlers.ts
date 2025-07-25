@@ -74,6 +74,12 @@ export class VikingModeHandler implements SpinResultHandler {
   }
 }
 
+export class UpsideDownModeHandler implements SpinResultHandler {
+  handle(): void {
+    VisualEffectsService.activateUpsideDownMode();
+  }
+}
+
 // Handler registry
 const SPIN_HANDLERS: Record<WheelOptionId, SpinResultHandler> = {
   "challenge-description": new ChallengeDescriptionHandler(),
@@ -84,6 +90,7 @@ const SPIN_HANDLERS: Record<WheelOptionId, SpinResultHandler> = {
   "rubber-duck": new RubberDuckHandler(),
   "comic-sans-mode": new ComicSansModeHandler(),
   "viking-mode": new VikingModeHandler(),
+  "upside-down-mode": new UpsideDownModeHandler(),
 };
 
 export class SpinResultProcessor {
