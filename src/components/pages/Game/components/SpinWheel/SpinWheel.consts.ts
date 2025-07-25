@@ -5,7 +5,9 @@ export type WheelOptionId =
   | "emotional-support"
   | "free-spin"
   | "clippy"
-  | "rubber-duck";
+  | "rubber-duck"
+  | "comic-sans-mode"
+  | "disco-mode";
 
 export interface WheelOption {
   id: WheelOptionId;
@@ -14,35 +16,45 @@ export interface WheelOption {
 }
 
 export const WHEEL_OPTIONS: WheelOption[] = [
+  // {
+  //   id: "challenge-description",
+  //   label: "Description",
+  //   color: "#FF6B6B", // Red
+  // },
+  // {
+  //   id: "half-challenge-description",
+  //   label: "Half Description",
+  //   color: "#4ECDC4", // Teal
+  // },
+  // {
+  //   id: "emotional-support",
+  //   label: "Emotional Support",
+  //   color: "#45B7D1", // Blue
+  // },
+  // {
+  //   id: "free-spin",
+  //   label: "Free Spin",
+  //   color: "#FFA07A", // Light Orange
+  // },
+  // {
+  //   id: "clippy",
+  //   label: "Clippy",
+  //   color: "#98D8C8", // Mint Green
+  // },
+  // {
+  //   id: "rubber-duck",
+  //   label: "Rubber Duck",
+  //   color: "#F1C40F", // Yellow
+  // },
   {
-    id: "challenge-description",
-    label: "Description",
-    color: "#FF6B6B", // Red
+    id: "comic-sans-mode",
+    label: "Comic Sans Mode",
+    color: "#E74C3C", // Bright Red
   },
   {
-    id: "half-challenge-description",
-    label: "Half Description",
-    color: "#4ECDC4", // Teal
-  },
-  {
-    id: "emotional-support",
-    label: "Emotional Support",
-    color: "#45B7D1", // Blue
-  },
-  {
-    id: "free-spin",
-    label: "Free Spin",
-    color: "#FFA07A", // Light Orange
-  },
-  {
-    id: "clippy",
-    label: "Clippy",
-    color: "#98D8C8", // Mint Green
-  },
-  {
-    id: "rubber-duck",
-    label: "Rubber Duck",
-    color: "#F1C40F", // Yellow
+    id: "disco-mode",
+    label: "Disco Mode",
+    color: "#9B59B6", // Purple
   },
 ];
 

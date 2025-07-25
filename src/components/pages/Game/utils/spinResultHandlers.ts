@@ -1,6 +1,7 @@
 import type { WheelOptionId } from "../components/SpinWheel/SpinWheel.consts";
 import type { Puzzle, GameResult } from "../../../../types/game";
 import { garbleText } from "./textGarbler";
+import { VisualEffectsService } from "./visualEffects";
 
 export interface SpinResultContext {
   currentPuzzle: Puzzle | null;
@@ -30,8 +31,6 @@ export class HalfChallengeDescriptionHandler implements SpinResultHandler {
     if (context.currentPuzzle?.description) {
       const garbledDesc = garbleText(context.currentPuzzle.description);
       context.setPartialDescription(garbledDesc);
-      // Clear partial description after 10 seconds
-      setTimeout(() => context.setPartialDescription(null), 10000);
     }
   }
 }
@@ -62,6 +61,18 @@ export class RubberDuckHandler implements SpinResultHandler {
   }
 }
 
+export class ComicSansModeHandler implements SpinResultHandler {
+  handle(): void {
+    VisualEffectsService.activateComicSansMode();
+  }
+}
+
+export class DiscoModeHandler implements SpinResultHandler {
+  handle(): void {
+    VisualEffectsService.activateDiscoMode();
+  }
+}
+
 // Handler registry
 const SPIN_HANDLERS: Record<WheelOptionId, SpinResultHandler> = {
   "challenge-description": new ChallengeDescriptionHandler(),
@@ -70,6 +81,8 @@ const SPIN_HANDLERS: Record<WheelOptionId, SpinResultHandler> = {
   "free-spin": new FreeSpinHandler(),
   clippy: new ClippyHandler(),
   "rubber-duck": new RubberDuckHandler(),
+  "comic-sans-mode": new ComicSansModeHandler(),
+  "disco-mode": new DiscoModeHandler(),
 };
 
 export class SpinResultProcessor {
