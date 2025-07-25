@@ -1,6 +1,7 @@
 import { EncouragementToast } from "./components/EncouragementToast/EncouragementToast";
 import { GameHeader } from "./components/GameHeader/GameHeader";
 import { PuzzleCard } from "./components/PuzzleCard/PuzzleCard";
+import { RubberDuck } from "./components/RubberDuck/RubberDuck";
 import { SpinWheel } from "./components/SpinWheel/SpinWheel";
 
 export function Game() {
@@ -10,6 +11,7 @@ export function Game() {
       <PuzzleCard />
       <EncouragementToast />
       <SpinWheel />
+      <RubberDuck />
     </div>
   );
 }

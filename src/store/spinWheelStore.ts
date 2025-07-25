@@ -19,6 +19,9 @@ interface SpinWheelState {
 
   // Encouragement
   showEncouragementCallback: (() => void) | null;
+
+  // Rubber duck state
+  isRubberDuckActive: boolean;
 }
 
 interface SpinWheelActions {
@@ -43,6 +46,10 @@ interface SpinWheelActions {
   setShowEncouragementCallback: (callback: (() => void) | null) => void;
   showEncouragement: () => void;
 
+  // Rubber duck actions
+  activateRubberDuck: () => void;
+  deactivateRubberDuck: () => void;
+
   // Spin result processing
   handleSpinResult: (option: WheelOption) => void;
 
@@ -63,6 +70,7 @@ export const useSpinWheelStore = create<SpinWheelStore>((set, get) => ({
   revealedTestCases: 1,
   partialDescription: null,
   showEncouragementCallback: null,
+  isRubberDuckActive: false,
 
   // Modal actions
   openSpinWheel: () => set({ isSpinWheelOpen: true }),
@@ -117,6 +125,13 @@ export const useSpinWheelStore = create<SpinWheelStore>((set, get) => ({
     }
   },
 
+  // Rubber duck actions
+  activateRubberDuck: () => {
+    set({ isRubberDuckActive: true });
+    console.log("🦆 Rubber duck debugging activated!");
+  },
+  deactivateRubberDuck: () => set({ isRubberDuckActive: false }),
+
   // Spin result processing
   handleSpinResult: (option: WheelOption) => {
     const state = get();
@@ -155,6 +170,7 @@ export const useSpinWheelStore = create<SpinWheelStore>((set, get) => ({
       revealedTestCases: 1,
       availableSpins: 1,
       partialDescription: null,
+      isRubberDuckActive: false,
     }),
 
   resetAll: () =>
@@ -164,6 +180,7 @@ export const useSpinWheelStore = create<SpinWheelStore>((set, get) => ({
       revealedTestCases: 1,
       partialDescription: null,
       showEncouragementCallback: null,
+      isRubberDuckActive: false,
     }),
 }));
 

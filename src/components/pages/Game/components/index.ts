@@ -7,6 +7,7 @@ export { TestCases } from "./TestCases";
 export { GameResults } from "./GameResults";
 export { SpinWheelButton } from "./SpinWheelButton";
 export { EncouragementToast } from "./EncouragementToast";
+export { RubberDuck } from "./RubberDuck";
 
 // Re-export services for convenience
 export * from "../utils";

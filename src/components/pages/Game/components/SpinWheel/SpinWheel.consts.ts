@@ -15,31 +15,31 @@ export interface WheelOption {
 }
 
 export const WHEEL_OPTIONS: WheelOption[] = [
-  {
-    id: "challenge-description",
-    label: "Description",
-    color: "#FF6B6B", // Red
-  },
-  {
-    id: "half-challenge-description",
-    label: "Half Description",
-    color: "#4ECDC4", // Teal
-  },
-  {
-    id: "emotional-support",
-    label: "Emotional Support",
-    color: "#45B7D1", // Blue
-  },
-  {
-    id: "free-spin",
-    label: "Free Spin",
-    color: "#FFA07A", // Light Orange
-  },
-  {
-    id: "clippy",
-    label: "Clippy",
-    color: "#98D8C8", // Mint Green
-  },
+  // {
+  //   id: "challenge-description",
+  //   label: "Description",
+  //   color: "#FF6B6B", // Red
+  // },
+  // {
+  //   id: "half-challenge-description",
+  //   label: "Half Description",
+  //   color: "#4ECDC4", // Teal
+  // },
+  // {
+  //   id: "emotional-support",
+  //   label: "Emotional Support",
+  //   color: "#45B7D1", // Blue
+  // },
+  // {
+  //   id: "free-spin",
+  //   label: "Free Spin",
+  //   color: "#FFA07A", // Light Orange
+  // },
+  // {
+  //   id: "clippy",
+  //   label: "Clippy",
+  //   color: "#98D8C8", // Mint Green
+  // },
   {
     id: "rubber-duck",
     label: "Rubber Duck",

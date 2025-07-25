@@ -63,3 +63,10 @@ if (typeof window !== "undefined") {
     VisualEffectsService.cleanup();
   });
 }
+
+// Cleanup on page unload
+if (typeof window !== "undefined") {
+  window.addEventListener("beforeunload", () => {
+    VisualEffectsService.cleanup();
+  });
+}

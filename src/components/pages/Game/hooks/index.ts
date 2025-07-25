@@ -1,0 +1,1 @@
+export { useRubberDuck } from "./useRubberDuck";

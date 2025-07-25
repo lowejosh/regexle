@@ -2,6 +2,7 @@ import type { WheelOptionId } from "../components/SpinWheel/SpinWheel.consts";
 import type { Puzzle, GameResult } from "../../../../types/game";
 import { garbleText } from "./textGarbler";
 import { VisualEffectsService } from "./visualEffects";
+import { useSpinWheelStore } from "../../../../store/spinWheelStore";
 
 export interface SpinResultContext {
   currentPuzzle: Puzzle | null;
@@ -56,8 +57,8 @@ export class ClippyHandler implements SpinResultHandler {
 
 export class RubberDuckHandler implements SpinResultHandler {
   handle(): void {
-    // TODO: Show rubber duck debugging hint
-    console.log("Rubber duck debugging time!");
+    // Activate rubber duck through the store
+    useSpinWheelStore.getState().activateRubberDuck();
   }
 }
 

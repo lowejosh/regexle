@@ -1,0 +1,1 @@
+export { RubberDuck } from "./RubberDuck";
