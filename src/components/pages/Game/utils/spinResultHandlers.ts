@@ -3,6 +3,7 @@ import type { Puzzle, GameResult } from "../../../../types/game";
 import { garbleText } from "./textGarbler";
 import { VisualEffectsService } from "./visualEffects";
 import { useSpinWheelStore } from "../../../../store/spinWheelStore";
+import { useGameStore } from "../../../../store/gameStore";
 
 export interface SpinResultContext {
   currentPuzzle: Puzzle | null;
@@ -80,7 +81,34 @@ export class UpsideDownModeHandler implements SpinResultHandler {
   }
 }
 
-// Handler registry
+export class FreeTestCaseHandler implements SpinResultHandler {
+  handle(): void {
+    // Use the game store to reveal more test cases
+    const gameState = useGameStore.getState();
+
+    if (gameState.revealMoreTestCases) {
+      gameState.revealMoreTestCases();
+    }
+  }
+}
+
+export class RevealAllTestCasesHandler implements SpinResultHandler {
+  handle(): void {
+    // Use the game store to reveal ALL remaining test cases
+    const gameState = useGameStore.getState();
+
+    if (gameState.currentPuzzle && gameState.setRevealedTestCases) {
+      // Calculate the maximum number of test cases we can reveal
+      const maxRevealable = Math.min(
+        gameState.currentPuzzle.testCases.filter((tc) => tc.shouldMatch).length,
+        gameState.currentPuzzle.testCases.filter((tc) => !tc.shouldMatch).length
+      );
+
+      // Reveal all test cases
+      gameState.setRevealedTestCases(maxRevealable);
+    }
+  }
+} // Handler registry
 const SPIN_HANDLERS: Record<WheelOptionId, SpinResultHandler> = {
   "challenge-description": new ChallengeDescriptionHandler(),
   "half-challenge-description": new HalfChallengeDescriptionHandler(),
@@ -91,6 +119,8 @@ const SPIN_HANDLERS: Record<WheelOptionId, SpinResultHandler> = {
   "comic-sans-mode": new ComicSansModeHandler(),
   "viking-mode": new VikingModeHandler(),
   "upside-down-mode": new UpsideDownModeHandler(),
+  "free-test-case": new FreeTestCaseHandler(),
+  "reveal-all-test-cases": new RevealAllTestCasesHandler(),
 };
 
 export class SpinResultProcessor {

@@ -8,7 +8,9 @@ export type WheelOptionId =
   | "rubber-duck"
   | "comic-sans-mode"
   | "viking-mode"
-  | "upside-down-mode";
+  | "upside-down-mode"
+  | "free-test-case"
+  | "reveal-all-test-cases";
 
 export interface WheelOption {
   id: WheelOptionId;
@@ -37,11 +39,12 @@ export const WHEEL_OPTIONS: WheelOption[] = [
     label: "Free Spin",
     color: "#FFA07A", // Light Orange
   },
-  {
-    id: "clippy",
-    label: "Clippy",
-    color: "#98D8C8", // Mint Green
-  },
+  // TODO: CLIPPY :)
+  // {
+  //   id: "clippy",
+  //   label: "Clippy",
+  //   color: "#98D8C8", // Mint Green
+  // },
   {
     id: "rubber-duck",
     label: "Rubber Duck",
@@ -61,6 +64,16 @@ export const WHEEL_OPTIONS: WheelOption[] = [
     id: "upside-down-mode",
     label: "Upside Down Mode",
     color: "#16A085", // Teal Green
+  },
+  {
+    id: "free-test-case",
+    label: "Test Case",
+    color: "#27AE60", // Green
+  },
+  {
+    id: "reveal-all-test-cases",
+    label: "All Test Cases",
+    color: "#E67E22", // Orange
   },
 ];
 
