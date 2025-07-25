@@ -68,6 +68,12 @@ export class ComicSansModeHandler implements SpinResultHandler {
   }
 }
 
+export class VikingModeHandler implements SpinResultHandler {
+  handle(): void {
+    VisualEffectsService.activateVikingMode();
+  }
+}
+
 // Handler registry
 const SPIN_HANDLERS: Record<WheelOptionId, SpinResultHandler> = {
   "challenge-description": new ChallengeDescriptionHandler(),
@@ -77,6 +83,7 @@ const SPIN_HANDLERS: Record<WheelOptionId, SpinResultHandler> = {
   clippy: new ClippyHandler(),
   "rubber-duck": new RubberDuckHandler(),
   "comic-sans-mode": new ComicSansModeHandler(),
+  "viking-mode": new VikingModeHandler(),
 };
 
 export class SpinResultProcessor {
