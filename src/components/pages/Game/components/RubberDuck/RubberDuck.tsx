@@ -162,15 +162,25 @@ export function RubberDuck() {
             }}
           />
           <div className="absolute inset-0">
-            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-16 h-12 bg-yellow-400 rounded-full border-2 border-yellow-600">
+            {/* Duck body - simple oval */}
+            <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-14 h-12 bg-yellow-400 rounded-full border-2 border-yellow-500">
+              {/* Body shine */}
               <div className="absolute top-1 left-2 w-3 h-3 bg-yellow-200 rounded-full opacity-80" />
               <div className="absolute top-0.5 left-1.5 w-1.5 h-1.5 bg-white rounded-full opacity-60" />
             </div>
-            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-12 h-10 bg-yellow-400 rounded-full border-2 border-yellow-600">
-              <div className="absolute top-1 left-1.5 w-2 h-2 bg-yellow-200 rounded-full opacity-80" />
-              <div className="absolute top-2 left-2 w-1.5 h-1.5 bg-black rounded-full" />
-              <div className="absolute top-2 right-2 w-1.5 h-1.5 bg-black rounded-full" />
-              <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-2 border-r-2 border-b-3 border-transparent border-b-orange-500" />
+
+            {/* Duck head - simple circle */}
+            <div className="absolute top-1 left-6 w-11 h-11 bg-yellow-400 rounded-full border-2 border-yellow-500">
+              {/* Head shine */}
+              <div className="absolute top-1 left-1.5 w-2.5 h-2.5 bg-yellow-200 rounded-full opacity-80" />
+
+              {/* Eye - simple black dot */}
+              <div className="absolute top-3 left-2.5 w-1.5 h-1.5 bg-black rounded-full">
+                <div className="absolute top-0 left-0.5 w-0.5 h-0.5 bg-white rounded-full" />
+              </div>
+
+              {/* Beak - simple triangle */}
+              <div className="absolute top-4 -left-1 w-0 h-0 border-t-2 border-b-2 border-r-4 border-transparent border-r-orange-500"></div>
             </div>
           </div>
         </div>
