@@ -2,6 +2,7 @@ import { create } from "zustand";
 import type { GameState, Puzzle } from "../types/game";
 import { RegexGameEngine } from "../engine/gameEngine";
 import { puzzleLoader } from "../data/puzzleLoader";
+import { puzzleService, type GameMode } from "../services/puzzleService";
 
 // Callback for granting spins on test failure (set from spin wheel store)
 let grantSpinCallback: (() => void) | null = null;
@@ -14,6 +15,11 @@ interface GameStore extends GameState {
   // Actions
   loadPuzzle: (puzzle: Puzzle) => void;
   loadRandomPuzzle: (difficulty?: Puzzle["difficulty"]) => Promise<void>;
+  loadDailyPuzzle: () => Promise<void>;
+  loadPuzzleByMode: (
+    mode: GameMode,
+    difficulty?: Puzzle["difficulty"]
+  ) => Promise<void>;
   updatePattern: (pattern: string) => void;
   testPattern: () => void;
   testPatternWithEffects: () => void;
@@ -36,6 +42,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   currentDifficulty: "easy",
   showDescription: false,
   revealedTestCases: 1,
+  attempts: 0,
 
   // Actions
   loadPuzzle: (puzzle: Puzzle) => {
@@ -45,6 +52,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       gameResult: null,
       showDescription: false, // Hide description for new puzzle
       revealedTestCases: 1, // Reset to 1 for new puzzle
+      attempts: 0, // Reset attempts for new puzzle
     });
   },
 
@@ -58,10 +66,50 @@ export const useGameStore = create<GameStore>((set, get) => ({
           gameResult: null,
           showDescription: false,
           revealedTestCases: 1, // Reset to 1 for new puzzle
+          attempts: 0, // Reset attempts for new puzzle
         });
       }
     } catch (error) {
       console.error("Failed to load random puzzle:", error);
+    }
+  },
+
+  loadDailyPuzzle: async () => {
+    try {
+      const puzzle = await puzzleLoader.getDailyPuzzle();
+      if (puzzle) {
+        set({
+          currentPuzzle: puzzle,
+          userPattern: "",
+          gameResult: null,
+          showDescription: false,
+          revealedTestCases: 1, // Reset to 1 for new puzzle
+          attempts: 0, // Reset attempts for new puzzle
+        });
+      }
+    } catch (error) {
+      console.error("Failed to load daily puzzle:", error);
+    }
+  },
+
+  loadPuzzleByMode: async (
+    mode: GameMode,
+    difficulty?: Puzzle["difficulty"]
+  ) => {
+    try {
+      const puzzle = await puzzleService.loadPuzzle(mode, difficulty);
+      if (puzzle) {
+        set({
+          currentPuzzle: puzzle,
+          userPattern: "",
+          gameResult: null,
+          showDescription: false,
+          revealedTestCases: 1, // Reset to 1 for new puzzle
+          attempts: 0, // Reset attempts for new puzzle
+        });
+      }
+    } catch (error) {
+      console.error(`Failed to load ${mode} puzzle:`, error);
     }
   },
 
@@ -78,7 +126,10 @@ export const useGameStore = create<GameStore>((set, get) => ({
       state.userPattern,
       state.currentPuzzle.testCases
     );
-    set({ gameResult: result });
+    set({
+      gameResult: result,
+      attempts: state.attempts + 1, // Increment attempt counter
+    });
   },
 
   // Test pattern and handle post-test logic (side effects)
@@ -91,7 +142,10 @@ export const useGameStore = create<GameStore>((set, get) => ({
       state.userPattern,
       state.currentPuzzle.testCases
     );
-    set({ gameResult: result });
+    set({
+      gameResult: result,
+      attempts: state.attempts + 1, // Increment attempt counter
+    });
 
     // Then handle side effects asynchronously
     setTimeout(() => {

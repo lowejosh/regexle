@@ -49,4 +49,5 @@ export interface GameState {
   currentDifficulty: Puzzle["difficulty"];
   showDescription: boolean;
   revealedTestCases: number;
+  attempts: number;
 }

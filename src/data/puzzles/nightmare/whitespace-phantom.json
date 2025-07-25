@@ -1,19 +1,17 @@
 {
   "id": "nightmare-002",
   "title": "Whitespace Phantom",
-  "description": "Match strings with exactly 3 different types of whitespace",
   "difficulty": "nightmare",
+  "description": "Match strings that contain exactly 3 whitespace characters",
   "testCases": [
-    { "input": "a b\tc\nd", "shouldMatch": true },
-    { "input": "hello\t world\ntest", "shouldMatch": true },
-    { "input": "x \ty\nz", "shouldMatch": true },
-    { "input": "test\n \tmore", "shouldMatch": true },
-    { "input": "a\tb\nc\rd", "shouldMatch": true },
-    { "input": "a b c", "shouldMatch": false },
-    { "input": "a\tb\tc", "shouldMatch": false },
-    { "input": "a\nb\nc", "shouldMatch": false },
-    { "input": "a\tb", "shouldMatch": false },
-    { "input": "abc", "shouldMatch": false }
+    { "input": "a b c d", "shouldMatch": true },
+    { "input": "hello world test case", "shouldMatch": true },
+    { "input": "x  y z", "shouldMatch": true },
+    { "input": "one two three four", "shouldMatch": true },
+    { "input": "a b", "shouldMatch": false },
+    { "input": "abc", "shouldMatch": false },
+    { "input": "a b c d e", "shouldMatch": false },
+    { "input": "hello world", "shouldMatch": false }
   ],
-  "solution": "^(?=.*[ ])(?=.*[\t])(?=.*[\n\r])[\\w\\s]+$"
+  "solution": "^[^\\s]*\\s[^\\s]*\\s[^\\s]*\\s[^\\s]*$"
 }

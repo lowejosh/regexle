@@ -26,19 +26,14 @@ export function PuzzleCard({ puzzle: propPuzzle }: PuzzleCardProps) {
     gameResult,
     showDescription,
     revealedTestCases,
+    attempts,
     updatePattern,
     testPatternWithEffects,
-    completePuzzle,
-    loadRandomPuzzle,
   } = useGameStore();
 
   // Consume spin state directly
-  const {
-    partialDescription,
-    availableSpins,
-    openSpinWheel,
-    resetForNewPuzzle,
-  } = useSpinWheelStore();
+  const { partialDescription, availableSpins, openSpinWheel } =
+    useSpinWheelStore();
 
   // Use prop puzzle or current puzzle from store
   const puzzle = propPuzzle || currentPuzzle;
@@ -54,11 +49,6 @@ export function PuzzleCard({ puzzle: propPuzzle }: PuzzleCardProps) {
     testPatternWithEffects();
   };
 
-  const handleComplete = async () => {
-    completePuzzle();
-    await loadRandomPuzzle();
-    resetForNewPuzzle();
-  };
   return (
     <Card>
       <CardHeader>
@@ -93,7 +83,7 @@ export function PuzzleCard({ puzzle: propPuzzle }: PuzzleCardProps) {
           revealedCount={revealedTestCases}
         />
         {gameResult && (
-          <GameResults gameResult={gameResult} onComplete={handleComplete} />
+          <GameResults gameResult={gameResult} attempts={attempts} />
         )}
         {/* Dev Solution (for testing) */}
         {process.env.NODE_ENV === "development" && puzzle.solution && (

@@ -28,7 +28,20 @@ function RootComponent() {
                     : "hover:bg-accent hover:text-accent-foreground"
                 }
               >
-                Game
+                Daily Puzzle
+              </Button>
+            </Link>
+            <Link to="/random">
+              <Button
+                variant="ghost"
+                size="sm"
+                className={
+                  location.pathname === "/random"
+                    ? "text-primary"
+                    : "hover:bg-accent hover:text-accent-foreground"
+                }
+              >
+                Random Puzzle
               </Button>
             </Link>
             <Link to="/cheatsheet">
