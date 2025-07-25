@@ -3,12 +3,20 @@ import type { GameState, Puzzle } from "../types/game";
 import { RegexGameEngine } from "../engine/gameEngine";
 import { puzzleLoader } from "../data/puzzleLoader";
 
+// Callback for handling test failures (set from spin wheel store)
+let handleTestFailureCallback: (() => void) | null = null;
+
+export const setTestFailureHandler = (callback: (() => void) | null) => {
+  handleTestFailureCallback = callback;
+};
+
 interface GameStore extends GameState {
   // Actions
   loadPuzzle: (puzzle: Puzzle) => void;
   loadRandomPuzzle: (difficulty?: Puzzle["difficulty"]) => Promise<void>;
   updatePattern: (pattern: string) => void;
   testPattern: () => void;
+  testPatternWithEffects: () => void;
   completePuzzle: () => void;
   resetGame: () => void;
   setDifficulty: (difficulty: Puzzle["difficulty"]) => void;
@@ -64,6 +72,29 @@ export const useGameStore = create<GameStore>((set, get) => ({
       state.currentPuzzle.testCases
     );
     set({ gameResult: result });
+  },
+
+  // Test pattern and handle post-test logic (side effects)
+  testPatternWithEffects: () => {
+    const state = get();
+    if (!state.currentPuzzle || !state.userPattern.trim()) return;
+
+    // First, run the test
+    const result = RegexGameEngine.testPattern(
+      state.userPattern,
+      state.currentPuzzle.testCases
+    );
+    set({ gameResult: result });
+
+    // Then handle side effects asynchronously
+    setTimeout(() => {
+      if (result && !result.isCorrect && state.currentPuzzle) {
+        // Call the test failure handler if available
+        if (handleTestFailureCallback) {
+          handleTestFailureCallback();
+        }
+      }
+    }, 100);
   },
 
   completePuzzle: () => {

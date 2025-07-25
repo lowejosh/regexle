@@ -1,25 +1,22 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
-import { Button } from "@/components/ui/Button";
-import { WHEEL_CONFIG } from "./SpinWheel.consts";
+
 import { useSpinWheel, calculateWheelSegmentData } from "./SpinWheel.hooks";
-import type { WheelOption } from "./SpinWheel.consts";
+import { useSpinWheelStore } from "../../../../../store/spinWheelStore";
+import { WHEEL_CONFIG } from "./SpinWheel.consts";
+import { Button } from "@/components/ui/Button";
 
-interface SpinWheelProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onResult?: (option: WheelOption) => void;
-}
-
-export function SpinWheel({ isOpen, onClose, onResult }: SpinWheelProps) {
+export function SpinWheel() {
+  const { isSpinWheelOpen, closeSpinWheel, handleSpinResult } =
+    useSpinWheelStore();
   const { isSpinning, rotation, selectedOption, handleSpin, resetWheel } =
     useSpinWheel();
 
   const handleClaimReward = () => {
     if (selectedOption) {
-      onResult?.(selectedOption);
+      handleSpinResult(selectedOption);
       resetWheel(); // Clear the selected option for next time
-      onClose();
+      closeSpinWheel();
     }
   };
 
@@ -54,13 +51,13 @@ export function SpinWheel({ isOpen, onClose, onResult }: SpinWheelProps) {
 
   return (
     <AnimatePresence>
-      {isOpen && (
+      {isSpinWheelOpen && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 !m-0"
-          onClick={onClose}
+          onClick={closeSpinWheel}
         >
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
@@ -73,7 +70,7 @@ export function SpinWheel({ isOpen, onClose, onResult }: SpinWheelProps) {
               variant="ghost"
               size="sm"
               className="absolute top-2 right-2"
-              onClick={onClose}
+              onClick={closeSpinWheel}
             >
               <X className="h-4 w-4" />
             </Button>
@@ -148,7 +145,11 @@ export function SpinWheel({ isOpen, onClose, onResult }: SpinWheelProps) {
                   </Button>
                 )}
 
-                <Button onClick={onClose} variant="outline" className="w-full">
+                <Button
+                  onClick={closeSpinWheel}
+                  variant="outline"
+                  className="w-full"
+                >
                   Close
                 </Button>
               </div>

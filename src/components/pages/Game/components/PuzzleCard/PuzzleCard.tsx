@@ -11,33 +11,54 @@ import { TestCases } from "../TestCases/TestCases";
 import { GameResults } from "../GameResults";
 import { SpinWheelButton } from "../SpinWheelButton";
 import { useSpinWheelStore } from "../../../../../store/spinWheelStore";
-import type { Puzzle, GameResult } from "../../../../../types/game";
+import { useGameStore } from "../../../../../store/gameStore";
+import type { Puzzle } from "../../../../../types/game";
 
 interface PuzzleCardProps {
-  puzzle: Puzzle;
-  userPattern: string;
-  gameResult: GameResult | null;
-  showDescription: boolean;
-  onPatternChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onTestPattern: () => void;
-  onComplete: () => void;
+  puzzle?: Puzzle;
 }
 
-export function PuzzleCard({
-  puzzle,
-  userPattern,
-  gameResult,
-  showDescription,
-  onPatternChange,
-  onTestPattern,
-  onComplete,
-}: PuzzleCardProps) {
+export function PuzzleCard({ puzzle: propPuzzle }: PuzzleCardProps) {
+  // Consume game state directly
+  const {
+    currentPuzzle,
+    userPattern,
+    gameResult,
+    showDescription,
+    updatePattern,
+    testPatternWithEffects,
+    completePuzzle,
+    loadRandomPuzzle,
+  } = useGameStore();
+
+  // Consume spin state directly
   const {
     partialDescription,
     revealedTestCases,
     availableSpins,
     openSpinWheel,
+    resetForNewPuzzle,
   } = useSpinWheelStore();
+
+  // Use prop puzzle or current puzzle from store
+  const puzzle = propPuzzle || currentPuzzle;
+
+  // Don't render if no puzzle
+  if (!puzzle) return null;
+
+  const handlePatternChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    updatePattern(e.target.value);
+  };
+
+  const handleTestPattern = () => {
+    testPatternWithEffects();
+  };
+
+  const handleComplete = async () => {
+    completePuzzle();
+    await loadRandomPuzzle();
+    resetForNewPuzzle();
+  };
   return (
     <Card>
       <CardHeader>
@@ -63,8 +84,8 @@ export function PuzzleCard({
       <CardContent className="space-y-6">
         <RegexInput
           userPattern={userPattern}
-          onPatternChange={onPatternChange}
-          onTestPattern={onTestPattern}
+          onPatternChange={handlePatternChange}
+          onTestPattern={handleTestPattern}
         />
         <TestCases
           testCases={puzzle.testCases}
@@ -72,7 +93,7 @@ export function PuzzleCard({
           revealedCount={revealedTestCases}
         />
         {gameResult && (
-          <GameResults gameResult={gameResult} onComplete={onComplete} />
+          <GameResults gameResult={gameResult} onComplete={handleComplete} />
         )}
         {/* Dev Solution (for testing) */}
         {process.env.NODE_ENV === "development" && puzzle.solution && (

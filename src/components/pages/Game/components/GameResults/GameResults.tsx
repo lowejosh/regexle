@@ -1,6 +1,6 @@
+import type { GameResult } from "../../../../../types/game";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
-import type { GameResult } from "../../../../../types/game";
 
 interface GameResultsProps {
   gameResult: GameResult;

@@ -1,25 +1,25 @@
-import { Button } from "@/components/ui/Button";
+import { useSpinWheelStore } from "../../../../../store/spinWheelStore";
 import { getTotalPuzzleCount } from "../../../../../data/puzzleLoader";
+import { useGameStore } from "../../../../../store/gameStore";
+import { Button } from "@/components/ui/Button";
 
-interface GameHeaderProps {
-  completedPuzzlesCount: number;
-  onLoadRandomPuzzle: () => void;
-  hasCurrentPuzzle: boolean;
-}
+export function GameHeader() {
+  const { completedPuzzles, currentPuzzle, loadRandomPuzzle } = useGameStore();
+  const { resetForNewPuzzle } = useSpinWheelStore();
 
-export function GameHeader({
-  completedPuzzlesCount,
-  onLoadRandomPuzzle,
-  hasCurrentPuzzle,
-}: GameHeaderProps) {
+  const handleLoadRandomPuzzle = async () => {
+    await loadRandomPuzzle();
+    resetForNewPuzzle();
+  };
+
   return (
     <div className="text-center space-y-4">
       <p className="text-muted-foreground">
-        {getTotalPuzzleCount()} | Completed: {completedPuzzlesCount}
+        {getTotalPuzzleCount()} | Completed: {completedPuzzles.size}
       </p>
 
-      <Button onClick={onLoadRandomPuzzle} size="lg">
-        {hasCurrentPuzzle ? "Load New Puzzle" : "Start Playing"}
+      <Button onClick={handleLoadRandomPuzzle} size="lg">
+        {currentPuzzle ? "Load New Puzzle" : "Start Playing"}
       </Button>
     </div>
   );

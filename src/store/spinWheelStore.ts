@@ -1,9 +1,9 @@
 import { create } from "zustand";
-import { SpinResultProcessor } from "../components/pages/Game/services";
-import { useGameStore } from "./gameStore";
-import type {
-  WheelOption,
-  WheelOptionId,
+import { useGameStore, setTestFailureHandler } from "./gameStore";
+import {
+  SpinResultProcessor,
+  type WheelOption,
+  type WheelOptionId,
 } from "../components/pages/Game/components";
 
 interface SpinWheelState {
@@ -45,6 +45,9 @@ interface SpinWheelActions {
 
   // Spin result processing
   handleSpinResult: (option: WheelOption) => void;
+
+  // Test failure handling
+  handleTestFailure: () => void;
 
   // Reset methods
   resetForNewPuzzle: () => void;
@@ -117,12 +120,12 @@ export const useSpinWheelStore = create<SpinWheelStore>((set, get) => ({
   // Spin result processing
   handleSpinResult: (option: WheelOption) => {
     const state = get();
-    const gameState = useGameStore.getState();
 
     // Consume a spin first
     state.consumeSpin();
 
-    // Create context for handlers
+    // Create context for handlers by combining both stores
+    const gameState = useGameStore.getState();
     const context = {
       currentPuzzle: gameState.currentPuzzle,
       showDescription: gameState.showDescription,
@@ -136,6 +139,14 @@ export const useSpinWheelStore = create<SpinWheelStore>((set, get) => ({
     // Process the result using the appropriate handler
     const optionId: WheelOptionId = option.id;
     SpinResultProcessor.process(optionId, context);
+  },
+
+  // Test failure handling
+  handleTestFailure: () => {
+    const state = get();
+    // Reveal more test cases and grant a spin for failed attempts
+    state.revealMoreTestCases();
+    state.grantSpin();
   },
 
   // Reset methods
@@ -155,3 +166,9 @@ export const useSpinWheelStore = create<SpinWheelStore>((set, get) => ({
       showEncouragementCallback: null,
     }),
 }));
+
+// Set up the test failure handler callback
+setTestFailureHandler(() => {
+  const store = useSpinWheelStore.getState();
+  store.handleTestFailure();
+});

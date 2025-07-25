@@ -1,24 +1,23 @@
 import { useState, useEffect, useCallback } from "react";
 
-interface EncouragementToastProps {
-  onShowMessage: (callback: () => void) => void;
-}
+import { useSpinWheelStore } from "../../../../../store/spinWheelStore";
 
 const ENCOURAGEMENT_MESSAGES = [
-  "Remember: There's no 'I' in team!",
+  "Believe in yourself and anything is possible!",
+  "Winners never quit and quitters never win.",
   "Failure is just success in progress.",
-  "Think outside the box!",
+  "Remember: There's no 'I' in team!",
   "Every expert was once a beginner.",
   "Teamwork makes the dream work!",
-  "Winners never quit and quitters never win.",
-  "Believe in yourself and anything is possible!",
-  "You can do it!",
+  "Think outside the box!",
   "Keep pushing forward!",
+  "You can do it!",
 ];
 
 const TIMER = 4000; // 4 seconds
 
-export function EncouragementToast({ onShowMessage }: EncouragementToastProps) {
+export function EncouragementToast() {
+  const { setShowEncouragementCallback } = useSpinWheelStore();
   const [encouragementMessage, setEncouragementMessage] = useState<
     string | null
   >(null);
@@ -34,8 +33,8 @@ export function EncouragementToast({ onShowMessage }: EncouragementToastProps) {
   }, []);
 
   useEffect(() => {
-    onShowMessage(showEncouragement);
-  }, [onShowMessage, showEncouragement]);
+    setShowEncouragementCallback(showEncouragement);
+  }, [setShowEncouragementCallback, showEncouragement]);
 
   if (!encouragementMessage) {
     return null;
