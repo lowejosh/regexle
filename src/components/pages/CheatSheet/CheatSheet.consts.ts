@@ -230,32 +230,4 @@ export const CHEAT_SHEET_DATA: CheatSheetSection[] = [
   },
 ];
 
-export const COMMON_PATTERNS = [
-  {
-    pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
-    description: "Email validation",
-  },
-  {
-    pattern: "^\\+?[1-9]\\d{1,14}$",
-    description: "Phone number (international)",
-  },
-  {
-    pattern:
-      "^(https?:\\/\\/)([\\da-z\\.-]+)\\.([a-z\\.]{2,6})([\\/\\w \\.-]*)*\\/?$",
-    description: "URL validation",
-  },
-  {
-    pattern: "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d@$!%*?&]{8,}$",
-    description: "Strong password (8+ chars, upper, lower, number)",
-  },
-  {
-    pattern: "^\\d{4}-\\d{2}-\\d{2}$",
-    description: "Date (YYYY-MM-DD)",
-  },
-  {
-    pattern: "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$",
-    description: "Hex color code",
-  },
-];
-
 export type { CheatSheetSection, CheatSheetItem };

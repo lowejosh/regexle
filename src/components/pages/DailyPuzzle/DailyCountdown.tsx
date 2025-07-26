@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 
 export function DailyCountdown() {
   const [timeLeft, setTimeLeft] = useState<{
@@ -41,28 +42,32 @@ export function DailyCountdown() {
   const formatTime = (value: number) => value.toString().padStart(2, "0");
 
   return (
-    <div className="bg-accent/20 border border-border rounded-lg p-4 text-center">
-      <h3 className="text-sm font-medium text-muted-foreground mb-2">
-        Next puzzle in:
-      </h3>
-      <div className="flex justify-center items-center space-x-2 text-2xl font-mono font-bold text-primary">
-        <div className="bg-background rounded px-2 py-1 shadow-sm min-w-[3rem] border border-border">
-          {formatTime(timeLeft.hours)}
+    <Card>
+      <CardHeader className="text-center pb-3">
+        <CardTitle className="text-sm font-medium text-muted-foreground">
+          Next puzzle in:
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="pt-0">
+        <div className="flex justify-center items-center space-x-2 text-2xl font-mono font-bold text-primary">
+          <div className="bg-background rounded px-2 py-1 shadow-sm min-w-[3rem] border border-border">
+            {formatTime(timeLeft.hours)}
+          </div>
+          <span className="text-primary/60">:</span>
+          <div className="bg-background rounded px-2 py-1 shadow-sm min-w-[3rem] border border-border">
+            {formatTime(timeLeft.minutes)}
+          </div>
+          <span className="text-primary/60">:</span>
+          <div className="bg-background rounded px-2 py-1 shadow-sm min-w-[3rem] border border-border">
+            {formatTime(timeLeft.seconds)}
+          </div>
         </div>
-        <span className="text-primary/60">:</span>
-        <div className="bg-background rounded px-2 py-1 shadow-sm min-w-[3rem] border border-border">
-          {formatTime(timeLeft.minutes)}
+        <div className="flex justify-center space-x-4 text-xs text-muted-foreground mt-2">
+          <span>hours</span>
+          <span>minutes</span>
+          <span>seconds</span>
         </div>
-        <span className="text-primary/60">:</span>
-        <div className="bg-background rounded px-2 py-1 shadow-sm min-w-[3rem] border border-border">
-          {formatTime(timeLeft.seconds)}
-        </div>
-      </div>
-      <div className="flex justify-center space-x-4 text-xs text-muted-foreground mt-2">
-        <span>hours</span>
-        <span>minutes</span>
-        <span>seconds</span>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }

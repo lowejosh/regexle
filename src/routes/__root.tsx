@@ -12,7 +12,6 @@ function RootComponent() {
 
   return (
     <div className="min-h-screen w-full bg-[#fff8f0] relative">
-      {/* Soft Warm Pastel Texture */}
       <div
         className="absolute inset-0 z-0"
         style={{
@@ -23,7 +22,6 @@ function RootComponent() {
         }}
       />
 
-      {/* Navigation - positioned above the background */}
       <nav className="relative z-10 border-b border-border bg-card/80 backdrop-blur-sm px-6 py-4">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <Link to="/" className="group">
@@ -73,7 +71,6 @@ function RootComponent() {
         </div>
       </nav>
 
-      {/* Main content - positioned above the background */}
       <main className="relative z-10">
         <Outlet />
       </main>

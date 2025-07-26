@@ -1,26 +1,25 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui";
-import { Badge } from "@/components/ui/Badge";
-import { toTitleCase } from "@/lib/utils";
-import { RegexInput } from "../RegexInput";
-import { TestCases } from "../TestCases/TestCases";
-import { GameResults } from "../GameResults";
-import { SpinWheelButton } from "../SpinWheelButton";
 import { useSpinWheelStore } from "../../../../../store/spinWheelStore";
 import { useGameStore } from "../../../../../store/gameStore";
 import type { Puzzle } from "../../../../../types/game";
+import { SpinWheelButton } from "../SpinWheelButton";
+import { TestCases } from "../TestCases/TestCases";
+import { Badge } from "@/components/ui/Badge";
+import { GameResults } from "../GameResults";
+import { RegexInput } from "../RegexInput";
+import { toTitleCase } from "@/lib/utils";
+import {
+  CardDescription,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  Card,
+} from "@/components/ui";
 
 interface PuzzleCardProps {
   puzzle?: Puzzle;
 }
 
 export function PuzzleCard({ puzzle: propPuzzle }: PuzzleCardProps) {
-  // Consume game state directly
   const {
     currentPuzzle,
     userPattern,
@@ -32,14 +31,13 @@ export function PuzzleCard({ puzzle: propPuzzle }: PuzzleCardProps) {
     testPatternWithEffects,
   } = useGameStore();
 
-  // Consume spin state directly
-  const { partialDescription, availableSpins, openSpinWheel } =
+  const { partialDescription, getAvailableSpins, openSpinWheel } =
     useSpinWheelStore();
 
-  // Use prop puzzle or current puzzle from store
+  const availableSpins = getAvailableSpins();
+
   const puzzle = propPuzzle || currentPuzzle;
 
-  // Don't render if no puzzle
   if (!puzzle) return null;
 
   const handlePatternChange = (e: React.ChangeEvent<HTMLInputElement>) => {

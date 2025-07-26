@@ -6,7 +6,7 @@ import {
   CardTitle,
 } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
-import { CHEAT_SHEET_DATA, COMMON_PATTERNS } from "./CheatSheet.consts";
+import { CHEAT_SHEET_DATA } from "./CheatSheet.consts";
 
 export function CheatSheet() {
   return (
@@ -47,29 +47,6 @@ export function CheatSheet() {
           </Card>
         ))}
       </div>
-
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-xl">Common Patterns</CardTitle>
-          <CardDescription>
-            Frequently used regex patterns for common tasks
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid gap-4 md:grid-cols-2">
-            {COMMON_PATTERNS.map((pattern, index) => (
-              <div key={index} className="space-y-2">
-                <Badge variant="outline" className="font-mono text-sm">
-                  {pattern.pattern}
-                </Badge>
-                <p className="text-sm text-muted-foreground">
-                  {pattern.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
     </div>
   );
 }

@@ -8,7 +8,9 @@ import { processSpinResult } from "../components/pages/Game/utils/spinResultHand
 
 interface SpinWheelState {
   isSpinWheelOpen: boolean;
-  availableSpins: number;
+  dailySpins: number;
+  randomSpins: number;
+  currentMode: "daily" | "random";
   partialDescription: string | null;
   showEncouragementCallback: (() => void) | null;
   isRubberDuckActive: boolean;
@@ -19,7 +21,11 @@ interface SpinWheelActions {
   openSpinWheel: () => void;
   closeSpinWheel: () => void;
 
+  // Mode management
+  setCurrentMode: (mode: "daily" | "random") => void;
+
   // Spin management
+  getAvailableSpins: () => number;
   setAvailableSpins: (spins: number | ((prev: number) => number)) => void;
   consumeSpin: () => void;
   grantSpin: () => void;
@@ -49,7 +55,9 @@ type SpinWheelStore = SpinWheelState & SpinWheelActions;
 export const useSpinWheelStore = create<SpinWheelStore>((set, get) => ({
   // Initial state
   isSpinWheelOpen: false,
-  availableSpins: 1,
+  dailySpins: 1,
+  randomSpins: 1,
+  currentMode: "daily",
   partialDescription: null,
   showEncouragementCallback: null,
   isRubberDuckActive: false,
@@ -58,20 +66,42 @@ export const useSpinWheelStore = create<SpinWheelStore>((set, get) => ({
   openSpinWheel: () => set({ isSpinWheelOpen: true }),
   closeSpinWheel: () => set({ isSpinWheelOpen: false }),
 
+  // Mode management
+  setCurrentMode: (mode) => set({ currentMode: mode }),
+
   // Spin management
-  setAvailableSpins: (spins) =>
-    set({
-      availableSpins:
-        typeof spins === "function" ? spins(get().availableSpins) : spins,
-    }),
-  consumeSpin: () =>
-    set((state) => ({
-      availableSpins: Math.max(0, state.availableSpins - 1),
-    })),
-  grantSpin: () =>
-    set((state) => ({
-      availableSpins: state.availableSpins + 1,
-    })),
+  getAvailableSpins: () => {
+    const state = get();
+    return state.currentMode === "daily" ? state.dailySpins : state.randomSpins;
+  },
+  setAvailableSpins: (spins) => {
+    const state = get();
+    const currentSpins =
+      state.currentMode === "daily" ? state.dailySpins : state.randomSpins;
+    const newSpins = typeof spins === "function" ? spins(currentSpins) : spins;
+
+    if (state.currentMode === "daily") {
+      set({ dailySpins: newSpins });
+    } else {
+      set({ randomSpins: newSpins });
+    }
+  },
+  consumeSpin: () => {
+    const state = get();
+    if (state.currentMode === "daily") {
+      set({ dailySpins: Math.max(0, state.dailySpins - 1) });
+    } else {
+      set({ randomSpins: Math.max(0, state.randomSpins - 1) });
+    }
+  },
+  grantSpin: () => {
+    const state = get();
+    if (state.currentMode === "daily") {
+      set({ dailySpins: state.dailySpins + 1 });
+    } else {
+      set({ randomSpins: state.randomSpins + 1 });
+    }
+  },
 
   // Partial description
   setPartialDescription: (description) =>
@@ -131,17 +161,29 @@ export const useSpinWheelStore = create<SpinWheelStore>((set, get) => ({
   },
 
   // Reset methods
-  resetForNewPuzzle: () =>
-    set({
-      availableSpins: 1,
-      partialDescription: null,
-      isRubberDuckActive: false,
-    }),
+  resetForNewPuzzle: () => {
+    const state = get();
+    if (state.currentMode === "daily") {
+      set({
+        dailySpins: 1,
+        partialDescription: null,
+        isRubberDuckActive: false,
+      });
+    } else {
+      set({
+        randomSpins: 1,
+        partialDescription: null,
+        isRubberDuckActive: false,
+      });
+    }
+  },
 
   resetAll: () =>
     set({
       isSpinWheelOpen: false,
-      availableSpins: 1,
+      dailySpins: 1,
+      randomSpins: 1,
+      currentMode: "daily",
       partialDescription: null,
       showEncouragementCallback: null,
       isRubberDuckActive: false,
