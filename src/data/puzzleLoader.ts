@@ -7,57 +7,12 @@ import type {
 // Import the manifest
 import manifestData from "./puzzles/manifest.json";
 
-// Dynamic puzzle imports - needed for Vite
-const puzzleImports: Record<string, () => Promise<{ default: unknown }>> = {
-  // Easy puzzles
-  "easy/digital-correspondence.json": () =>
-    import("./puzzles/easy/digital-correspondence.json"),
-  "easy/voice-connection-format.json": () =>
-    import("./puzzles/easy/voice-connection-format.json"),
-  "easy/dotted-decimal-dance.json": () =>
-    import("./puzzles/easy/dotted-decimal-dance.json"),
-  "easy/binary-truth-seekers.json": () =>
-    import("./puzzles/easy/binary-truth-seekers.json"),
-
-  // Medium puzzles
-  "medium/markup-containers.json": () =>
-    import("./puzzles/medium/markup-containers.json"),
-  "medium/slashed-path-wanderer.json": () =>
-    import("./puzzles/medium/slashed-path-wanderer.json"),
-  "medium/temporal-sequence-cipher.json": () =>
-    import("./puzzles/medium/temporal-sequence-cipher.json"),
-  "medium/underscored-identity-crisis.json": () =>
-    import("./puzzles/medium/underscored-identity-crisis.json"),
-  "medium/visual-spectrum-codes.json": () =>
-    import("./puzzles/medium/visual-spectrum-codes.json"),
-
-  // Hard puzzles
-  "hard/access-key-strength.json": () =>
-    import("./puzzles/hard/access-key-strength.json"),
-  "hard/alphabetic-soup-sorter.json": () =>
-    import("./puzzles/hard/alphabetic-soup-sorter.json"),
-  "hard/credit-card-whisperer.json": () =>
-    import("./puzzles/hard/credit-card-whisperer.json"),
-  "hard/network-node-addresses.json": () =>
-    import("./puzzles/hard/network-node-addresses.json"),
-  "hard/version-number-archaeologist.json": () =>
-    import("./puzzles/hard/version-number-archaeologist.json"),
-
-  // Expert puzzles
-  "expert/email-header-archaeologist.json": () =>
-    import("./puzzles/expert/email-header-archaeologist.json"),
-  "expert/mathematical-expression-oracle.json": () =>
-    import("./puzzles/expert/mathematical-expression-oracle.json"),
-  "expert/nested-parentheses-zen-master.json": () =>
-    import("./puzzles/expert/nested-parentheses-zen-master.json"),
-  "expert/serialized-text-format.json": () =>
-    import("./puzzles/expert/serialized-text-format.json"),
-
-  // Nightmare puzzles
-  "nightmare/recursive-nightmare.json": () =>
-    import("./puzzles/nightmare/recursive-nightmare.json"),
-  "nightmare/whitespace-phantom.json": () =>
-    import("./puzzles/nightmare/whitespace-phantom.json"),
+/**
+ * Dynamically imports a puzzle file based on the file path
+ * @vite-ignore since we know the file paths are valid from the manifest
+ */
+const importPuzzleFile = (filePath: string) => {
+  return import(/* @vite-ignore */ `./puzzles/${filePath}`);
 };
 
 class PuzzleLoader {
@@ -78,16 +33,8 @@ class PuzzleLoader {
     }
 
     try {
-      // Use the puzzle imports mapping
-      const puzzleImporter = puzzleImports[manifestEntry.file];
-      if (!puzzleImporter) {
-        console.error(
-          `No importer found for puzzle file: ${manifestEntry.file}`
-        );
-        return null;
-      }
-
-      const puzzleModule = await puzzleImporter();
+      // Use dynamic import based on the file path from manifest
+      const puzzleModule = await importPuzzleFile(manifestEntry.file);
       const puzzle: Puzzle = puzzleModule.default as Puzzle;
 
       // Cache the loaded puzzle
