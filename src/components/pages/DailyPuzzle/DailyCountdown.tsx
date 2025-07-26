@@ -1,7 +1,11 @@
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 
-export function DailyCountdown() {
+interface DailyCountdownProps {
+  onNewDay?: () => void;
+}
+
+export function DailyCountdown({ onNewDay }: DailyCountdownProps) {
   const [timeLeft, setTimeLeft] = useState<{
     hours: number;
     minutes: number;
@@ -26,7 +30,11 @@ export function DailyCountdown() {
 
         setTimeLeft({ hours, minutes, seconds });
       } else {
+        // Countdown reached zero - trigger new day callback
         setTimeLeft({ hours: 0, minutes: 0, seconds: 0 });
+        if (onNewDay) {
+          onNewDay();
+        }
       }
     };
 
@@ -37,7 +45,7 @@ export function DailyCountdown() {
     const timer = setInterval(calculateTimeLeft, 1000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [onNewDay]);
 
   const formatTime = (value: number) => value.toString().padStart(2, "0");
 

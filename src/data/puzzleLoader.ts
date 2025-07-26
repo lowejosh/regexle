@@ -122,8 +122,12 @@ class PuzzleLoader {
   async getDailyPuzzle(date?: Date): Promise<Puzzle | null> {
     const targetDate = date || new Date();
 
-    // Create a seed based on the date (YYYY-MM-DD format)
-    const dateString = targetDate.toISOString().split("T")[0];
+    // Create a seed based on the LOCAL date (YYYY-MM-DD format in local timezone)
+    const year = targetDate.getFullYear();
+    const month = (targetDate.getMonth() + 1).toString().padStart(2, "0");
+    const day = targetDate.getDate().toString().padStart(2, "0");
+    const dateString = `${year}-${month}-${day}`;
+
     const seed = dateString
       .split("-")
       .reduce((acc, part) => acc + parseInt(part), 0);
@@ -131,10 +135,24 @@ class PuzzleLoader {
     // Shuffle puzzles deterministically based on the seed
     const shuffledPuzzles = this.shuffleArray(this.manifest.puzzles, seed);
 
-    // Calculate days since epoch to determine which puzzle to show
+    // Calculate days since epoch using LOCAL time to determine which puzzle to show
     const epochDate = new Date("2025-01-01"); // Starting date for the puzzle cycle
+
+    // Set both dates to midnight in local time for accurate day calculation
+    const localTargetDate = new Date(
+      targetDate.getFullYear(),
+      targetDate.getMonth(),
+      targetDate.getDate()
+    );
+    const localEpochDate = new Date(
+      epochDate.getFullYear(),
+      epochDate.getMonth(),
+      epochDate.getDate()
+    );
+
     const daysSinceEpoch = Math.floor(
-      (targetDate.getTime() - epochDate.getTime()) / (1000 * 60 * 60 * 24)
+      (localTargetDate.getTime() - localEpochDate.getTime()) /
+        (1000 * 60 * 60 * 24)
     );
 
     // Use modulo to cycle through puzzles if we run out
