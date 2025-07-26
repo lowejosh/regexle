@@ -34,6 +34,7 @@ Regexle is a React/TypeScript regex puzzle game built with Vite, TanStack Router
   - **Pages**: Top-level route components in `src/components/pages/`
   - **Feature components**: Page-specific components nested under parent page folders
   - **UI primitives**: Reusable components in `src/components/ui/`
+- **Creating sub-components**: Use `src/components/ui/` for reusable UI elements, ensuring they are generic and not tied to specific game logic. If they're tied to a specific game feature, place them in the parent component's folder, inside a `components/` subfolder.
 
 ### Routing with TanStack Router
 

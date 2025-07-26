@@ -23,7 +23,7 @@ export function Game({ mode, difficulty, autoLoad = true }: GameProps) {
   }, [mode, difficulty, loadPuzzleByMode, autoLoad]);
 
   return (
-    <div className="max-w-4xl mx-auto p-6 space-y-6">
+    <div className="space-y-6">
       <PuzzleCard />
       <EncouragementToast />
       <SpinWheel />
