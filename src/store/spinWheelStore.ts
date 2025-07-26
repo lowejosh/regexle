@@ -1,5 +1,9 @@
 import { create } from "zustand";
-import { useGameStore, setGrantSpinHandler } from "./gameStore";
+import {
+  useGameStore,
+  setGrantSpinHandler,
+  setResetSpinWheelHandler,
+} from "./gameStore";
 import {
   type WheelOption,
   type WheelOptionId,
@@ -195,4 +199,10 @@ export const useSpinWheelStore = create<SpinWheelStore>((set, get) => ({
 setGrantSpinHandler(() => {
   const store = useSpinWheelStore.getState();
   store.grantSpin();
+});
+
+// Set up the reset spin wheel handler callback
+setResetSpinWheelHandler(() => {
+  const store = useSpinWheelStore.getState();
+  store.resetForNewPuzzle();
 });

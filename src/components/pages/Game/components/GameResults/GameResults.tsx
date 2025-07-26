@@ -4,9 +4,14 @@ import { Badge } from "@/components/ui/Badge";
 interface GameResultsProps {
   gameResult: GameResult;
   attempts: number;
+  solutionRevealed: boolean;
 }
 
-export function GameResults({ gameResult, attempts }: GameResultsProps) {
+export function GameResults({
+  gameResult,
+  attempts,
+  solutionRevealed,
+}: GameResultsProps) {
   return (
     <div className="p-4 rounded border">
       <div className="flex items-center justify-between mb-2">
@@ -14,7 +19,7 @@ export function GameResults({ gameResult, attempts }: GameResultsProps) {
           Score: {gameResult.passedTests}/{gameResult.totalTests}
         </span>
         {gameResult.isCorrect ? (
-          <Badge variant="correct">Perfect! All tests passed!</Badge>
+          <Badge variant="correct">All tests passed</Badge>
         ) : (
           <Badge variant="incorrect">
             {gameResult.failedCases.length} test
@@ -25,7 +30,13 @@ export function GameResults({ gameResult, attempts }: GameResultsProps) {
 
       {gameResult.isCorrect && (
         <div className="text-center text-muted-foreground">
-          Solved in {attempts} attempt{attempts !== 1 ? "s" : ""}!
+          {solutionRevealed ? (
+            <span className="text-orange-600 font-medium">Coward.</span>
+          ) : (
+            <>
+              Solved in {attempts} attempt{attempts !== 1 ? "s" : ""}!
+            </>
+          )}
         </div>
       )}
     </div>

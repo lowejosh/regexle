@@ -10,8 +10,8 @@ const REGEX_PATTERNS = [
 ] as const;
 
 const TIMING = {
-  MIN_DELAY: 15000, // 15 seconds
-  MAX_DELAY: 45000, // 45 seconds
+  MIN_DELAY: 4000, // 4 seconds
+  MAX_DELAY: 12000, // 12 seconds
   GLITCH_OUT: 150,
   SHOW_PATTERN: 1000,
   GLITCH_BACK: 1150,

@@ -30,8 +30,10 @@ export function PuzzleCard({ puzzle: propPuzzle }: PuzzleCardProps) {
     showDescription,
     revealedTestCases,
     attempts,
+    solutionRevealed,
     updatePattern,
     testPatternWithEffects,
+    setSolutionRevealed,
   } = useGameStore();
 
   const { partialDescription, getAvailableSpins, openSpinWheel } =
@@ -61,6 +63,7 @@ export function PuzzleCard({ puzzle: propPuzzle }: PuzzleCardProps) {
 
   const handleGiveUp = () => {
     setShowSolution(true);
+    setSolutionRevealed(true);
   };
 
   return (
@@ -99,7 +102,11 @@ export function PuzzleCard({ puzzle: propPuzzle }: PuzzleCardProps) {
           revealedCount={revealedTestCases}
         />
         {gameResult && (
-          <GameResults gameResult={gameResult} attempts={attempts} />
+          <GameResults
+            gameResult={gameResult}
+            attempts={attempts}
+            solutionRevealed={solutionRevealed}
+          />
         )}
 
         {allTestCasesRevealed && !isPuzzleSolved && !showSolution && (

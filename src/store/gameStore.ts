@@ -6,9 +6,31 @@ import { puzzleService, type GameMode } from "../services/puzzleService";
 
 // Callback for granting spins on test failure (set from spin wheel store)
 let grantSpinCallback: (() => void) | null = null;
+// Callback for resetting spin wheel state on new puzzle (set from spin wheel store)
+let resetSpinWheelCallback: (() => void) | null = null;
 
 export const setGrantSpinHandler = (callback: (() => void) | null) => {
   grantSpinCallback = callback;
+};
+
+export const setResetSpinWheelHandler = (callback: (() => void) | null) => {
+  resetSpinWheelCallback = callback;
+};
+
+// Helper function to reset state for new puzzle
+const resetPuzzleState = () => {
+  // Reset spin wheel state
+  if (resetSpinWheelCallback) {
+    resetSpinWheelCallback();
+  }
+  return {
+    userPattern: "",
+    gameResult: null,
+    showDescription: false,
+    revealedTestCases: 1,
+    attempts: 0,
+    solutionRevealed: false,
+  };
 };
 
 interface GameStore extends GameState {
@@ -27,6 +49,7 @@ interface GameStore extends GameState {
   resetGame: () => void;
   setDifficulty: (difficulty: Puzzle["difficulty"]) => void;
   toggleDescription: () => void;
+  setSolutionRevealed: (revealed: boolean) => void;
   // Test case revelation
   setRevealedTestCases: (cases: number | ((prev: number) => number)) => void;
   revealMoreTestCases: () => void;
@@ -43,16 +66,13 @@ export const useGameStore = create<GameStore>((set, get) => ({
   showDescription: false,
   revealedTestCases: 1,
   attempts: 0,
+  solutionRevealed: false,
 
   // Actions
   loadPuzzle: (puzzle: Puzzle) => {
     set({
       currentPuzzle: puzzle,
-      userPattern: "",
-      gameResult: null,
-      showDescription: false, // Hide description for new puzzle
-      revealedTestCases: 1, // Reset to 1 for new puzzle
-      attempts: 0, // Reset attempts for new puzzle
+      ...resetPuzzleState(),
     });
   },
 
@@ -62,11 +82,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       if (puzzle) {
         set({
           currentPuzzle: puzzle,
-          userPattern: "",
-          gameResult: null,
-          showDescription: false,
-          revealedTestCases: 1, // Reset to 1 for new puzzle
-          attempts: 0, // Reset attempts for new puzzle
+          ...resetPuzzleState(),
         });
       }
     } catch (error) {
@@ -80,11 +96,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       if (puzzle) {
         set({
           currentPuzzle: puzzle,
-          userPattern: "",
-          gameResult: null,
-          showDescription: false,
-          revealedTestCases: 1, // Reset to 1 for new puzzle
-          attempts: 0, // Reset attempts for new puzzle
+          ...resetPuzzleState(),
         });
       }
     } catch (error) {
@@ -101,11 +113,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       if (puzzle) {
         set({
           currentPuzzle: puzzle,
-          userPattern: "",
-          gameResult: null,
-          showDescription: false,
-          revealedTestCases: 1, // Reset to 1 for new puzzle
-          attempts: 0, // Reset attempts for new puzzle
+          ...resetPuzzleState(),
         });
       }
     } catch (error) {
@@ -173,6 +181,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       gameResult: null,
       showDescription: false,
       revealedTestCases: 1,
+      solutionRevealed: false,
     });
   },
 
@@ -183,6 +192,10 @@ export const useGameStore = create<GameStore>((set, get) => ({
   toggleDescription: () => {
     const state = get();
     set({ showDescription: !state.showDescription });
+  },
+
+  setSolutionRevealed: (revealed: boolean) => {
+    set({ solutionRevealed: revealed });
   },
 
   // Test case revelation actions

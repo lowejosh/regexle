@@ -51,4 +51,5 @@ export interface GameState {
   showDescription: boolean;
   revealedTestCases: number;
   attempts: number;
+  solutionRevealed: boolean;
 }
