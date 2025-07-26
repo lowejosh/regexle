@@ -1,0 +1,22 @@
+{
+  "id": "nightmare-003",
+  "title": "Prime Number Sieve",
+  "description": "Match unary strings (sequences of 'x') whose length is a prime number.",
+  "difficulty": "nightmare",
+  "testCases": [
+    { "input": "xx", "shouldMatch": true },
+    { "input": "xxx", "shouldMatch": true },
+    { "input": "xxxxx", "shouldMatch": true },
+    { "input": "xxxxxxx", "shouldMatch": true },
+    { "input": "xxxxxxxxxxx", "shouldMatch": true },
+    { "input": "xxxxxxxxxxxxx", "shouldMatch": true },
+    { "input": "x", "shouldMatch": false },
+    { "input": "xxxx", "shouldMatch": false },
+    { "input": "xxxxxx", "shouldMatch": false },
+    { "input": "xxxxxxxx", "shouldMatch": false },
+    { "input": "xxxxxxxxx", "shouldMatch": false },
+    { "input": "xxxxxxxxxx", "shouldMatch": false }
+  ],
+  "solution": "^(?!(xx+?)\\1+$)xx+$",
+  "solutionSummary": "This regex uses a negative lookahead to determine if a number (represented in unary) is prime. It asserts that the string of 'x's cannot be composed of a smaller, repeating substring of 'x's (of length 2 or more). If such a repeating pattern exists, the number is composite. If no such pattern can be found, the number is prime. The pattern only checks strings of length 2 or more."
+}

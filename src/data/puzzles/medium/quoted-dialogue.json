@@ -1,0 +1,18 @@
+{
+  "id": "medium-008",
+  "title": "Quoted Dialogue",
+  "description": "Extract text that is enclosed in double quotes. The text inside can be anything, but it must start and end with a double quote.",
+  "difficulty": "medium",
+  "testCases": [
+    { "input": "\"Hello, world!\"", "shouldMatch": true },
+    { "input": "\"This is a quote.\"", "shouldMatch": true },
+    { "input": "\"123!@#\"", "shouldMatch": true },
+    { "input": "\"\"", "shouldMatch": true },
+    { "input": "quote: \"Hello\"", "shouldMatch": false },
+    { "input": "\"unclosed", "shouldMatch": false },
+    { "input": "not a quote", "shouldMatch": false },
+    { "input": "'single quotes'", "shouldMatch": false }
+  ],
+  "solution": "^\".*\"$",
+  "solutionSummary": "This puzzle matches strings enclosed in double quotes. The `^` and `$` anchors ensure the quotes are at the very beginning and end of the string. The `.*` is a greedy quantifier that matches any character (except newline) zero or more times."
+}

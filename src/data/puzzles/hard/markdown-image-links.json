@@ -1,0 +1,18 @@
+{
+  "id": "hard-007",
+  "title": "Markdown Image Links",
+  "description": "Identify valid Markdown image syntax, which consists of an alt text in brackets followed by an image path in parentheses.",
+  "difficulty": "hard",
+  "testCases": [
+    { "input": "![alt text](image.jpg)", "shouldMatch": true },
+    { "input": "![Another one](path/to/image.png)", "shouldMatch": true },
+    { "input": "![](empty.gif)", "shouldMatch": true },
+    { "input": "![icon](/icon.svg)", "shouldMatch": true },
+    { "input": "[not an image](link.html)", "shouldMatch": false },
+    { "input": "![missing path]()", "shouldMatch": false },
+    { "input": "!(no brackets)", "shouldMatch": false },
+    { "input": "![bad format](image.jpg", "shouldMatch": false }
+  ],
+  "solution": "^!\\[([^\\]]*)\\]\\(([^\\)]+)\\)$",
+  "solutionSummary": "This pattern validates Markdown image links. `!\\[([^\\]]*)\\]` matches the alt text: an exclamation mark, followed by brackets containing any characters except a closing bracket. `\\(([^\\)]*)\\)` matches the path: parentheses containing any characters except a closing parenthesis. The characters `[` `]` `(` `)` are escaped."
+}

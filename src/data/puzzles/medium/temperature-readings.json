@@ -1,0 +1,18 @@
+{
+  "id": "medium-009",
+  "title": "Temperature Readings",
+  "description": "Find valid temperature readings that are positive or negative integers, followed by a degree symbol.",
+  "difficulty": "medium",
+  "testCases": [
+    { "input": "25°", "shouldMatch": true },
+    { "input": "-10°", "shouldMatch": true },
+    { "input": "0°", "shouldMatch": true },
+    { "input": "+99°", "shouldMatch": true },
+    { "input": "100", "shouldMatch": false },
+    { "input": "25.5°", "shouldMatch": false },
+    { "input": "-5", "shouldMatch": false },
+    { "input": "ten degrees", "shouldMatch": false }
+  ],
+  "solution": "^[+-]?\\d+°$",
+  "solutionSummary": "This puzzle combines several concepts. `[+-]?` matches an optional plus or minus sign. `\\d+` matches one or more digits. The degree symbol `°` is matched literally. This pattern is useful for validating simple numeric formats with optional signs."
+}

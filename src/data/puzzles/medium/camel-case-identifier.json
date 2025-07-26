@@ -1,0 +1,18 @@
+{
+  "id": "medium-010",
+  "title": "Camel Case to Snake Case",
+  "description": "This is not a real puzzle, you've been tasked with creating a regex that can identify words in a camel-cased string.",
+  "difficulty": "medium",
+  "testCases": [
+    { "input": "myVariableName", "shouldMatch": true },
+    { "input": "anotherExample", "shouldMatch": true },
+    { "input": "aShortOne", "shouldMatch": true },
+    { "input": "single", "shouldMatch": true },
+    { "input": "MyClass", "shouldMatch": false },
+    { "input": "variable_name", "shouldMatch": false },
+    { "input": "variable-name", "shouldMatch": false },
+    { "input": "AVariable", "shouldMatch": false }
+  ],
+  "solution": "^[a-z]+([A-Z][a-z]*)*$",
+  "solutionSummary": "This pattern validates camelCase strings that start with a lowercase letter. `^[a-z]+` ensures it begins with one or more lowercase letters. The group `([A-Z][a-z]*)*` then matches zero or more subsequent 'words,' each starting with a capital letter followed by zero or more lowercase letters."
+}

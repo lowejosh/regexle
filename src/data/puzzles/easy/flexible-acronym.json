@@ -1,0 +1,18 @@
+{
+  "id": "easy-007",
+  "title": "Flexible Acronym",
+  "description": "Match the acronym 'API' whether it's written in uppercase, lowercase, or a mix of both.",
+  "difficulty": "easy",
+  "testCases": [
+    { "input": "API", "shouldMatch": true },
+    { "input": "api", "shouldMatch": true },
+    { "input": "Api", "shouldMatch": true },
+    { "input": "aPi", "shouldMatch": true },
+    { "input": "application programming interface", "shouldMatch": false },
+    { "input": "sapient", "shouldMatch": false },
+    { "input": "tapioca", "shouldMatch": false },
+    { "input": "APIs", "shouldMatch": false }
+  ],
+  "solution": "^[aA][pP][iI]$",
+  "solutionSummary": "This puzzle demonstrates case-insensitivity by using character sets. By specifying `[aA]`, you match either 'a' or 'A'. This is a fundamental way to handle variations in capitalization without using special flags."
+}

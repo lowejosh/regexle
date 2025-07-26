@@ -1,0 +1,18 @@
+{
+  "id": "easy-008",
+  "title": "Optional Plurals",
+  "description": "You need to find references to 'file' and 'files' in a system log. Match both the singular and plural forms of the word.",
+  "difficulty": "easy",
+  "testCases": [
+    { "input": "file", "shouldMatch": true },
+    { "input": "files", "shouldMatch": true },
+    { "input": "one file", "shouldMatch": true },
+    { "input": "multiple files", "shouldMatch": true },
+    { "input": "profile", "shouldMatch": false },
+    { "input": "filed", "shouldMatch": false },
+    { "input": "filet", "shouldMatch": false },
+    { "input": "filess", "shouldMatch": false }
+  ],
+  "solution": "\\bfiles?\\b",
+  "solutionSummary": "This puzzle introduces the concept of optional characters. The question mark `?` makes the preceding character ('s' in this case) optional, meaning it will match zero or one time. This is perfect for handling simple singular and plural forms."
+}

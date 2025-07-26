@@ -49,12 +49,13 @@ Regexle is a React/TypeScript regex puzzle game built with Vite, TanStack Router
 - **Puzzle theme**: Choose a fun and engaging theme that fits the difficulty level. It can be based on real-world applications, common regex patterns, or creative challenges.
 - **Duplicate avoidance**: Ensure the new puzzle does not duplicate existing ones. Check the `manifest.json` for existing puzzle summaries, categories, and tags to identify similar themes or patterns.
 - **Creative twist**: Feel free (not always) to add a unique element to the puzzle, such as a specific context or a playful narrative that makes it stand out.
+- **Avoid tabs**: Ensure the puzzle does not require differentiating space and tab characters, as the user can't distinguish them from spaces in the game.
 
 #### Step-by-Step Process
 
 1. **Create puzzle file**: Add JSON file in `src/data/puzzles/{difficulty}/` directory
 2. **Update manifest**: Register puzzle metadata in `manifest.json`
-3. **Validate**: Run puzzle validation report after changes
+3. **Validate**: Run puzzle validation report after changes, read the output, and ensure all test cases pass
 
 #### Required Schema Structure
 

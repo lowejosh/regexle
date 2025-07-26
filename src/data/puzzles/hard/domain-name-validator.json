@@ -1,0 +1,18 @@
+{
+  "id": "hard-008",
+  "title": "Domain Name Validator",
+  "description": "Match valid domain names, which consist of two or more labels separated by dots. Each label must not start or end with a hyphen.",
+  "difficulty": "hard",
+  "testCases": [
+    { "input": "example.com", "shouldMatch": true },
+    { "input": "sub.domain.co.uk", "shouldMatch": true },
+    { "input": "a-b-c.net", "shouldMatch": true },
+    { "input": "123.org", "shouldMatch": true },
+    { "input": "-start.com", "shouldMatch": false },
+    { "input": "end-.com", "shouldMatch": false },
+    { "input": "no-tld", "shouldMatch": false },
+    { "input": "example..com", "shouldMatch": false }
+  ],
+  "solution": "^([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.)+[a-zA-Z]{2,}$",
+  "solutionSummary": "This complex pattern validates domain names. `([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.)+` matches one or more subdomains, ensuring they don't start or end with a hyphen. `[a-zA-Z]{2,}` matches the top-level domain (TLD) with at least two letters. It's a practical example of building a robust validator."
+}

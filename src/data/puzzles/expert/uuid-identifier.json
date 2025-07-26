@@ -1,0 +1,18 @@
+{
+  "id": "expert-006",
+  "title": "UUID Identifier",
+  "description": "Find valid Universally Unique Identifiers (UUIDs) in their canonical 8-4-4-4-12 hexadecimal format.",
+  "difficulty": "expert",
+  "testCases": [
+    { "input": "123e4567-e89b-12d3-a456-426614174000", "shouldMatch": true },
+    { "input": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11", "shouldMatch": true },
+    { "input": "DEADBEEF-CAFE-BABE-FADE-D15EA5EBEEF5", "shouldMatch": true },
+    { "input": "00000000-0000-0000-0000-000000000000", "shouldMatch": true },
+    { "input": "123e4567-e89b-12d3-a456-42661417400", "shouldMatch": false },
+    { "input": "123e4567e89b12d3a456426614174000", "shouldMatch": false },
+    { "input": "123e4567-e89b-12d3-a456-42661417400G", "shouldMatch": false },
+    { "input": "123e4567-e89b-12d3-a456", "shouldMatch": false }
+  ],
+  "solution": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$",
+  "solutionSummary": "This pattern validates UUIDs by strictly enforcing the 8-4-4-4-12 structure. Each section `[0-9a-fA-F]{n}` matches exactly `n` hexadecimal characters (case-insensitive). The hyphens are matched literally. This is a precise and common use of regex for format validation."
+}

@@ -1,0 +1,18 @@
+{
+  "id": "easy-009",
+  "title": "Repeating Digits",
+  "description": "Find identifiers that consist of exactly three repeating digits.",
+  "difficulty": "easy",
+  "testCases": [
+    { "input": "111", "shouldMatch": true },
+    { "input": "555", "shouldMatch": true },
+    { "input": "999", "shouldMatch": true },
+    { "input": "000", "shouldMatch": true },
+    { "input": "11", "shouldMatch": false },
+    { "input": "123", "shouldMatch": false },
+    { "input": "4444", "shouldMatch": false },
+    { "input": "77A", "shouldMatch": false }
+  ],
+  "solution": "^(\\d)\\1{2}$",
+  "solutionSummary": "This puzzle uses a capturing group and a backreference. The `(\\d)` captures a single digit, and `\\1{2}` matches the exact same digit two more times. The anchors `^` and `$` ensure the entire string is exactly three repeating digits."
+}

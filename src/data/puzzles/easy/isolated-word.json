@@ -1,0 +1,18 @@
+{
+  "id": "easy-006",
+  "title": "Isolated Word",
+  "description": "Find the word 'log' only when it stands alone, not as part of a larger word like 'logic' or 'blog'.",
+  "difficulty": "easy",
+  "testCases": [
+    { "input": "request log", "shouldMatch": true },
+    { "input": "log file", "shouldMatch": true },
+    { "input": "the log is full", "shouldMatch": true },
+    { "input": "log", "shouldMatch": true },
+    { "input": "logic", "shouldMatch": false },
+    { "input": "blogging", "shouldMatch": false },
+    { "input": "analog", "shouldMatch": false },
+    { "input": "dialogue", "shouldMatch": false }
+  ],
+  "solution": "\\blog\\b",
+  "solutionSummary": "This puzzle uses word boundaries (\\b) to match a whole word. A word boundary is a zero-width assertion that matches the position between a word character and a non-word character, ensuring you don't match substrings inside other words."
+}

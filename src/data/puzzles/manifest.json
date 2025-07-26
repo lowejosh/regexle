@@ -46,6 +46,78 @@
       "summary": "Social media hashtags - # followed by letters/numbers/underscores"
     },
     {
+      "id": "easy-006",
+      "title": "Isolated Word",
+      "difficulty": "easy",
+      "category": "text",
+      "tags": ["word", "boundary"],
+      "file": "easy/isolated-word.json",
+      "summary": "Match a whole word using word boundaries"
+    },
+    {
+      "id": "easy-007",
+      "title": "Flexible Acronym",
+      "difficulty": "easy",
+      "category": "text",
+      "tags": ["case-insensitive", "acronym"],
+      "file": "easy/flexible-acronym.json",
+      "summary": "Match text regardless of case"
+    },
+    {
+      "id": "easy-008",
+      "title": "Optional Plurals",
+      "difficulty": "easy",
+      "category": "text",
+      "tags": ["optional", "plural"],
+      "file": "easy/optional-plurals.json",
+      "summary": "Match both singular and plural forms"
+    },
+    {
+      "id": "easy-009",
+      "title": "Repeating Digits",
+      "difficulty": "easy",
+      "category": "numbers",
+      "tags": ["repeat", "backreference"],
+      "file": "easy/repeating-digits.json",
+      "summary": "Match a specific number of repeating characters"
+    },
+    {
+      "id": "easy-006",
+      "title": "Isolated Word",
+      "difficulty": "easy",
+      "category": "text",
+      "tags": ["word", "boundary"],
+      "file": "easy/isolated-word.json",
+      "summary": "Match a whole word using word boundaries"
+    },
+    {
+      "id": "easy-007",
+      "title": "Flexible Acronym",
+      "difficulty": "easy",
+      "category": "text",
+      "tags": ["case-insensitive", "acronym"],
+      "file": "easy/flexible-acronym.json",
+      "summary": "Match text regardless of case"
+    },
+    {
+      "id": "easy-008",
+      "title": "Optional Plurals",
+      "difficulty": "easy",
+      "category": "text",
+      "tags": ["optional", "plural"],
+      "file": "easy/optional-plurals.json",
+      "summary": "Match both singular and plural forms"
+    },
+    {
+      "id": "easy-009",
+      "title": "Repeating Digits",
+      "difficulty": "easy",
+      "category": "numbers",
+      "tags": ["repeat", "backreference"],
+      "file": "easy/repeating-digits.json",
+      "summary": "Match a specific number of repeating characters"
+    },
+    {
       "id": "medium-001",
       "title": "Markup Containers",
       "difficulty": "medium",
@@ -109,6 +181,60 @@
       "summary": "24-hour time format - HH:MM military time"
     },
     {
+      "id": "medium-008",
+      "title": "Quoted Dialogue",
+      "difficulty": "medium",
+      "category": "text",
+      "tags": ["quotes", "greedy"],
+      "file": "medium/quoted-dialogue.json",
+      "summary": "Match content within double quotes"
+    },
+    {
+      "id": "medium-009",
+      "title": "Temperature Readings",
+      "difficulty": "medium",
+      "category": "numbers",
+      "tags": ["optional", "sign"],
+      "file": "medium/temperature-readings.json",
+      "summary": "Match numbers with optional signs"
+    },
+    {
+      "id": "medium-010",
+      "title": "Camel Case Identifier",
+      "difficulty": "medium",
+      "category": "identity",
+      "tags": ["naming", "convention"],
+      "file": "medium/camel-case-identifier.json",
+      "summary": "Validate camelCase variable names"
+    },
+    {
+      "id": "medium-008",
+      "title": "Quoted Dialogue",
+      "difficulty": "medium",
+      "category": "text",
+      "tags": ["quotes", "greedy"],
+      "file": "medium/quoted-dialogue.json",
+      "summary": "Match content within double quotes"
+    },
+    {
+      "id": "medium-009",
+      "title": "Temperature Readings",
+      "difficulty": "medium",
+      "category": "numbers",
+      "tags": ["optional", "sign"],
+      "file": "medium/temperature-readings.json",
+      "summary": "Match numbers with optional signs"
+    },
+    {
+      "id": "medium-010",
+      "title": "Camel Case Identifier",
+      "difficulty": "medium",
+      "category": "identity",
+      "tags": ["naming", "convention"],
+      "file": "medium/camel-case-identifier.json",
+      "summary": "Validate camelCase variable names"
+    },
+    {
       "id": "hard-001",
       "title": "Access Key Strength",
       "difficulty": "hard",
@@ -163,6 +289,42 @@
       "summary": "ISBN-10 book identifiers - 9 digits plus check digit"
     },
     {
+      "id": "hard-007",
+      "title": "Markdown Image Links",
+      "difficulty": "hard",
+      "category": "structure",
+      "tags": ["markdown", "links"],
+      "file": "hard/markdown-image-links.json",
+      "summary": "Validate Markdown image syntax"
+    },
+    {
+      "id": "hard-008",
+      "title": "Domain Name Validator",
+      "difficulty": "hard",
+      "category": "networking",
+      "tags": ["validation", "dns"],
+      "file": "hard/domain-name-validator.json",
+      "summary": "Validate domain names with complex rules"
+    },
+    {
+      "id": "hard-007",
+      "title": "Markdown Image Links",
+      "difficulty": "hard",
+      "category": "structure",
+      "tags": ["markdown", "links"],
+      "file": "hard/markdown-image-links.json",
+      "summary": "Validate Markdown image syntax"
+    },
+    {
+      "id": "hard-008",
+      "title": "Domain Name Validator",
+      "difficulty": "hard",
+      "category": "networking",
+      "tags": ["validation", "dns"],
+      "file": "hard/domain-name-validator.json",
+      "summary": "Validate domain names with complex rules"
+    },
+    {
       "id": "expert-001",
       "title": "Serialized Text Format",
       "difficulty": "expert",
@@ -208,6 +370,24 @@
       "summary": "Chemical formulas - molecular structure notation"
     },
     {
+      "id": "expert-006",
+      "title": "UUID Identifier",
+      "difficulty": "expert",
+      "category": "identity",
+      "tags": ["format", "uuid"],
+      "file": "expert/uuid-identifier.json",
+      "summary": "Validate universally unique identifiers (UUIDs)"
+    },
+    {
+      "id": "expert-006",
+      "title": "UUID Identifier",
+      "difficulty": "expert",
+      "category": "identity",
+      "tags": ["format", "uuid"],
+      "file": "expert/uuid-identifier.json",
+      "summary": "Validate universally unique identifiers (UUIDs)"
+    },
+    {
       "id": "nightmare-001",
       "title": "Recursive Nightmare",
       "difficulty": "nightmare",
@@ -224,6 +404,15 @@
       "tags": ["whitespace", "hidden"],
       "file": "nightmare/whitespace-phantom.json",
       "summary": "Invisible characters - whitespace edge cases"
+    },
+    {
+      "id": "nightmare-003",
+      "title": "Prime Number Sieve",
+      "difficulty": "nightmare",
+      "category": "mathematics",
+      "tags": ["prime", "unary", "lookahead"],
+      "file": "nightmare/prime-number-sieve.json",
+      "summary": "Prime number validation using unary representation"
     }
   ],
   "categories": [
