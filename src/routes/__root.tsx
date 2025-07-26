@@ -11,8 +11,20 @@ function RootComponent() {
   const location = useLocation();
 
   return (
-    <div className="min-h-screen bg-background">
-      <nav className="border-b border-border bg-card px-6 py-4">
+    <div className="min-h-screen w-full bg-[#fff8f0] relative">
+      {/* Soft Warm Pastel Texture */}
+      <div
+        className="absolute inset-0 z-0"
+        style={{
+          backgroundImage: `
+            radial-gradient(circle at 20% 80%, rgba(255, 182, 153, 0.3) 0%, transparent 50%),
+            radial-gradient(circle at 80% 20%, rgba(255, 244, 214, 0.5) 0%, transparent 50%),
+            radial-gradient(circle at 40% 40%, rgba(255, 182, 153, 0.1) 0%, transparent 50%)`,
+        }}
+      />
+
+      {/* Navigation - positioned above the background */}
+      <nav className="relative z-10 border-b border-border bg-card/80 backdrop-blur-sm px-6 py-4">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <Link to="/" className="group">
             <RegexTitle />
@@ -60,7 +72,9 @@ function RootComponent() {
           </div>
         </div>
       </nav>
-      <main>
+
+      {/* Main content - positioned above the background */}
+      <main className="relative z-10">
         <Outlet />
       </main>
     </div>

@@ -18,13 +18,14 @@ const badgeVariants = cva(
         correct:
           "border-transparent bg-green-500 text-white hover:bg-green-600",
         incorrect: "border-transparent bg-red-500 text-white hover:bg-red-600",
-        easy: "border-transparent bg-green-100 text-green-800 hover:bg-green-200",
+        easy: "border border-green-300 bg-green-100 text-green-800 hover:bg-green-200",
         medium:
-          "border-transparent bg-yellow-100 text-yellow-800 hover:bg-yellow-200",
-        hard: "border-transparent bg-orange-100 text-orange-800 hover:bg-orange-200",
-        expert: "border-transparent bg-red-100 text-red-800 hover:bg-red-200",
+          "border border-yellow-300 bg-yellow-100 text-yellow-800 hover:bg-yellow-200",
+        hard: "border border-orange-300 bg-orange-100 text-orange-800 hover:bg-orange-200",
+        expert:
+          "border border-red-300 bg-red-100 text-red-800 hover:bg-red-200",
         nightmare:
-          "border-transparent bg-purple-100 text-purple-800 hover:bg-purple-200",
+          "border border-purple-300 bg-purple-100 text-purple-800 hover:bg-purple-200",
       },
     },
     defaultVariants: {

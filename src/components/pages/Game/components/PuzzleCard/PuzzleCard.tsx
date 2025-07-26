@@ -6,6 +6,7 @@ import {
   CardTitle,
 } from "@/components/ui";
 import { Badge } from "@/components/ui/Badge";
+import { toTitleCase } from "@/lib/utils";
 import { RegexInput } from "../RegexInput";
 import { TestCases } from "../TestCases/TestCases";
 import { GameResults } from "../GameResults";
@@ -55,7 +56,9 @@ export function PuzzleCard({ puzzle: propPuzzle }: PuzzleCardProps) {
         <div className="flex items-center justify-between">
           <CardTitle>{puzzle.title}</CardTitle>
           <div className="flex items-center gap-4">
-            <Badge variant={puzzle.difficulty}>{puzzle.difficulty}</Badge>
+            <Badge variant={puzzle.difficulty}>
+              {toTitleCase(puzzle.difficulty)}
+            </Badge>
             <SpinWheelButton
               availableSpins={availableSpins}
               gameResult={gameResult}
