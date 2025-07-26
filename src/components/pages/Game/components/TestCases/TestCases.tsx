@@ -1,4 +1,9 @@
+import { useEffect, useState } from "react";
 import type { TestCase, GameResult } from "../../../../../types/game";
+
+// Animation constants
+const TRANSITION_DURATION_MS = 500;
+const ROW_ANIMATION_DELAY_MS = 150;
 
 interface TestCaseItemProps {
   testCase: TestCase;
@@ -6,6 +11,7 @@ interface TestCaseItemProps {
   gameResult: GameResult | null;
   keyPrefix: string;
   isRevealed: boolean;
+  animationDelay: number;
 }
 
 function TestCaseItem({
@@ -14,21 +20,49 @@ function TestCaseItem({
   gameResult,
   keyPrefix,
   isRevealed,
+  animationDelay,
 }: TestCaseItemProps) {
+  const [shouldAnimate, setShouldAnimate] = useState(false);
+
   const isCorrect = gameResult
     ? !gameResult.failedCases.some((failed) => failed.input === testCase.input)
     : null;
 
+  useEffect(() => {
+    // Reset animation state first when gameResult changes
+    setShouldAnimate(false);
+
+    if (gameResult && isCorrect !== null) {
+      // Wait for reset transition to complete plus the row delay
+      const timer = setTimeout(() => {
+        setShouldAnimate(true);
+      }, TRANSITION_DURATION_MS + animationDelay);
+
+      return () => clearTimeout(timer);
+    }
+  }, [gameResult, isCorrect, animationDelay]);
+
+  const getBackgroundClass = () => {
+    if (!gameResult || isCorrect === null) {
+      return "bg-gray-50 border-gray-200";
+    }
+
+    if (!shouldAnimate) {
+      return "bg-gray-50 border-gray-200";
+    }
+
+    return isCorrect
+      ? "bg-green-100 border-green-300"
+      : "bg-red-100 border-red-300";
+  };
+
   return (
     <div
       key={`${keyPrefix}-${index}`}
-      className={`p-3 rounded border flex items-center justify-between transition-all duration-300 ${
-        isCorrect === true
-          ? "bg-green-50 border-green-200"
-          : isCorrect === false
-            ? "bg-red-50 border-red-200"
-            : "bg-gray-50 border-gray-200"
-      } ${!isRevealed ? "blur-sm opacity-60" : ""}`}
+      className={`p-3 rounded border flex items-center justify-between transition-all duration-500 ${getBackgroundClass()} ${!isRevealed ? "blur-sm opacity-60" : ""}`}
+      style={{
+        transitionDuration: `${TRANSITION_DURATION_MS}ms`,
+      }}
     >
       <div className="flex items-center gap-3">
         <span className="font-mono text-sm">
@@ -57,12 +91,14 @@ export function TestCases({
 
   return (
     <div className="space-y-3">
-      <h3 className="text-sm font-medium">Test Cases:</h3>
-
       <div className="grid grid-cols-2 gap-4">
         {/* Should Match Column */}
         <div className="space-y-2">
-          <h4 className="text-sm font-medium text-blue-700">Should Match</h4>
+          <div className="border-b border-gray-200 pb-1">
+            <h4 className="text-sm font-medium text-gray-700">
+              Matching Cases
+            </h4>
+          </div>
           <div className="space-y-2">
             {shouldMatchCases.map((testCase, index) => (
               <TestCaseItem
@@ -72,6 +108,7 @@ export function TestCases({
                 gameResult={gameResult}
                 keyPrefix="match"
                 isRevealed={index < revealedCount}
+                animationDelay={index * ROW_ANIMATION_DELAY_MS}
               />
             ))}
           </div>
@@ -79,9 +116,11 @@ export function TestCases({
 
         {/* Should NOT Match Column */}
         <div className="space-y-2">
-          <h4 className="text-sm font-medium text-purple-700">
-            Should NOT Match
-          </h4>
+          <div className="border-b border-gray-200 pb-1">
+            <h4 className="text-sm font-medium text-gray-700">
+              Non-matching Cases
+            </h4>
+          </div>
           <div className="space-y-2">
             {shouldNotMatchCases.map((testCase, index) => (
               <TestCaseItem
@@ -91,6 +130,7 @@ export function TestCases({
                 gameResult={gameResult}
                 keyPrefix="no-match"
                 isRevealed={index < revealedCount}
+                animationDelay={index * ROW_ANIMATION_DELAY_MS}
               />
             ))}
           </div>
