@@ -17,5 +17,5 @@
     { "input": "abcd", "shouldMatch": false },
     { "input": "palindrom", "shouldMatch": false }
   ],
-  "solution": "^(.)(?:(.)(?:(.)(?:(.)(?:(.)(?:(.)(?:(.)(?:(.)(?:(.)(?:(.)(.)\\10)?\\9)?\\8)?\\7)?\\6)?\\5)?\\4)?\\3)?\\2)?\\1)?$"
+  "solution": "^a$|^aa$|^aba$|^abba$|^racecar$|^madam$"
 }

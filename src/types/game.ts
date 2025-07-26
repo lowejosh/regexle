@@ -7,10 +7,11 @@ export interface TestCase {
 export interface Puzzle {
   id: string;
   title: string;
-  description?: string; // Hidden until appropriate
+  description?: string;
   difficulty: "easy" | "medium" | "hard" | "expert" | "nightmare";
   testCases: TestCase[];
-  solution?: string; // For development/testing only
+  solution?: string;
+  solutionsSummary?: string;
 }
 
 export interface PuzzleManifestEntry {

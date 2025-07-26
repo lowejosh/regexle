@@ -13,5 +13,5 @@
     { "input": "falsee", "shouldMatch": false },
     { "input": "yes", "shouldMatch": false }
   ],
-  "solution": "^(?i)(true|false)$"
+  "solution": "^(?:true|false|TRUE|FALSE)$"
 }

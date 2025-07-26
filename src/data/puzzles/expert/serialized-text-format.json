@@ -15,5 +15,5 @@
     { "input": "\"bad\\escape\"", "shouldMatch": false },
     { "input": "\"multi\nline\"", "shouldMatch": false }
   ],
-  "solution": "^\"(?:[^\"\\\\]|\\\\.)*\"$"
+  "solution": "^\"(?:[^\"\\\\\\n]|\\\\[\"\\\\nrtfb/])*\"$"
 }

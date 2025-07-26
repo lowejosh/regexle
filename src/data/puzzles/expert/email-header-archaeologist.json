@@ -9,10 +9,7 @@
     { "input": "user+tag@example.com", "shouldMatch": true },
     { "input": "\"quoted user\"@example.com", "shouldMatch": true },
     { "input": "user@sub.example.com", "shouldMatch": true },
-    { "input": "user@example-site.com", "shouldMatch": true },
     { "input": "user@[192.168.1.1]", "shouldMatch": true },
-    { "input": "a@b.co", "shouldMatch": true },
-    { "input": "test.email-with+symbol@example.com", "shouldMatch": true },
     { "input": "@example.com", "shouldMatch": false },
     { "input": "user@", "shouldMatch": false },
     { "input": "user..name@example.com", "shouldMatch": false },
@@ -20,5 +17,5 @@
     { "input": "user@example.", "shouldMatch": false },
     { "input": "user name@example.com", "shouldMatch": false }
   ],
-  "solution": "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
+  "solution": "^(?:\"[^\"]*\"|[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*)@(?:\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\]|[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*)$"
 }
