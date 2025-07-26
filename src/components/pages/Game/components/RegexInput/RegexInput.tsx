@@ -14,7 +14,7 @@ export function RegexInput({
 }: RegexInputProps) {
   return (
     <div className="space-y-2">
-      <label className="text-sm font-medium">Your Regex Pattern:</label>
+      <label className="text-sm font-medium">Your solution:</label>
       <div className="flex gap-2">
         <Input
           placeholder="Enter your regex pattern..."
@@ -28,7 +28,7 @@ export function RegexInput({
           }}
         />
         <Button onClick={onTestPattern} disabled={!userPattern.trim()}>
-          Test Pattern
+          Submit
         </Button>
       </div>
     </div>

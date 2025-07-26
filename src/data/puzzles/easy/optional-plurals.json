@@ -1,7 +1,7 @@
 {
   "id": "easy-008",
   "title": "Optional Plurals",
-  "description": "You need to find references to 'file' and 'files' in a system log. Match both the singular and plural forms of the word.",
+  "description": "Create a pattern that matches the word 'file' whether it appears in singular or plural form. The pattern should only match complete words, not partial matches within other words.",
   "difficulty": "easy",
   "testCases": [
     { "input": "file", "shouldMatch": true },
