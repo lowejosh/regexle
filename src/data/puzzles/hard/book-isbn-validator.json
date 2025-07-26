@@ -1,0 +1,20 @@
+{
+  "id": "hard-006",
+  "title": "Book ISBN Validator",
+  "description": "Find valid ISBN-10 book identifiers. They have 9 digits followed by either a digit or the letter X as a check digit.",
+  "difficulty": "hard",
+  "testCases": [
+    { "input": "0123456789", "shouldMatch": true },
+    { "input": "123456789X", "shouldMatch": true },
+    { "input": "987654321X", "shouldMatch": true },
+    { "input": "0000000000", "shouldMatch": true },
+    { "input": "555666777X", "shouldMatch": true },
+    { "input": "12345678", "shouldMatch": false },
+    { "input": "123456789x", "shouldMatch": false },
+    { "input": "12345678AB", "shouldMatch": false },
+    { "input": "123-456-789", "shouldMatch": false },
+    { "input": "12345678901", "shouldMatch": false }
+  ],
+  "solution": "^[0-9]{9}[0-9X]$",
+  "solutionSummary": "This pattern matches ISBN-10 format with [0-9]{9} for exactly 9 digits, followed by [0-9X] for the check digit which can be either a digit or uppercase X. The anchors ensure the string is exactly 10 characters long."
+}

@@ -37,6 +37,15 @@
       "summary": "Boolean values - matching true/false literals"
     },
     {
+      "id": "easy-005",
+      "title": "Social Media Hashtag Hunter",
+      "difficulty": "easy",
+      "category": "text",
+      "tags": ["social", "hashtag"],
+      "file": "easy/social-media-hashtag-hunter.json",
+      "summary": "Social media hashtags - # followed by letters/numbers/underscores"
+    },
+    {
       "id": "medium-001",
       "title": "Markup Containers",
       "difficulty": "medium",
@@ -80,6 +89,24 @@
       "tags": ["naming", "convention"],
       "file": "medium/underscored-identity-crisis.json",
       "summary": "Variable names - underscore naming conventions"
+    },
+    {
+      "id": "medium-006",
+      "title": "License Plate Detective",
+      "difficulty": "medium",
+      "category": "identity",
+      "tags": ["format", "vehicle"],
+      "file": "medium/license-plate-detective.json",
+      "summary": "Vehicle license plates - 3 letters dash 3 numbers"
+    },
+    {
+      "id": "medium-007",
+      "title": "Time Zone Traveler",
+      "difficulty": "medium",
+      "category": "time",
+      "tags": ["format", "military"],
+      "file": "medium/time-zone-traveler.json",
+      "summary": "24-hour time format - HH:MM military time"
     },
     {
       "id": "hard-001",
@@ -127,6 +154,15 @@
       "summary": "Semantic versioning - x.y.z format"
     },
     {
+      "id": "hard-006",
+      "title": "Book ISBN Validator",
+      "difficulty": "hard",
+      "category": "identity",
+      "tags": ["format", "books"],
+      "file": "hard/book-isbn-validator.json",
+      "summary": "ISBN-10 book identifiers - 9 digits plus check digit"
+    },
+    {
       "id": "expert-001",
       "title": "Serialized Text Format",
       "difficulty": "expert",
@@ -161,6 +197,15 @@
       "tags": ["algebra", "parsing"],
       "file": "expert/mathematical-expression-oracle.json",
       "summary": "Math expressions - algebraic notation"
+    },
+    {
+      "id": "expert-005",
+      "title": "Chemical Formula Parser",
+      "difficulty": "expert",
+      "category": "science",
+      "tags": ["chemistry", "molecules"],
+      "file": "expert/chemical-formula-parser.json",
+      "summary": "Chemical formulas - molecular structure notation"
     },
     {
       "id": "nightmare-001",
@@ -261,6 +306,11 @@
       "id": "mathematics",
       "name": "Mathematics",
       "description": "Patterns for mathematical expressions"
+    },
+    {
+      "id": "science",
+      "name": "Science",
+      "description": "Patterns for scientific notation and formulas"
     },
     {
       "id": "meta",

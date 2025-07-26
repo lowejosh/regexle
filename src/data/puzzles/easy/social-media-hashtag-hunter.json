@@ -1,0 +1,20 @@
+{
+  "id": "easy-005",
+  "title": "Social Media Hashtag Hunter",
+  "description": "Find hashtags used in social media posts. They start with # and contain letters, numbers, or underscores.",
+  "difficulty": "easy",
+  "testCases": [
+    { "input": "#coding", "shouldMatch": true },
+    { "input": "#JavaScript123", "shouldMatch": true },
+    { "input": "#web_development", "shouldMatch": true },
+    { "input": "#AI", "shouldMatch": true },
+    { "input": "#react_hooks", "shouldMatch": true },
+    { "input": "coding", "shouldMatch": false },
+    { "input": "#", "shouldMatch": false },
+    { "input": "#123-test", "shouldMatch": false },
+    { "input": "# coding", "shouldMatch": false },
+    { "input": "#coding!", "shouldMatch": false }
+  ],
+  "solution": "^#[a-zA-Z0-9_]+$",
+  "solutionSummary": "This pattern matches hashtags starting with # followed by one or more letters, numbers, or underscores. The ^ and $ anchors ensure the entire string is a valid hashtag, and [a-zA-Z0-9_]+ matches the allowed characters."
+}

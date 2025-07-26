@@ -1,0 +1,20 @@
+{
+  "id": "medium-007",
+  "title": "Time Zone Traveler",
+  "description": "Find time expressions in 24-hour format. They show hours and minutes separated by a colon, like military time.",
+  "difficulty": "medium",
+  "testCases": [
+    { "input": "09:30", "shouldMatch": true },
+    { "input": "23:59", "shouldMatch": true },
+    { "input": "00:00", "shouldMatch": true },
+    { "input": "12:45", "shouldMatch": true },
+    { "input": "15:22", "shouldMatch": true },
+    { "input": "24:00", "shouldMatch": false },
+    { "input": "9:30", "shouldMatch": false },
+    { "input": "12:60", "shouldMatch": false },
+    { "input": "25:30", "shouldMatch": false },
+    { "input": "12-45", "shouldMatch": false }
+  ],
+  "solution": "^([01][0-9]|2[0-3]):[0-5][0-9]$",
+  "solutionSummary": "This pattern validates 24-hour time format. Hours are matched with ([01][0-9]|2[0-3]) which allows 00-19 OR 20-23. Minutes use [0-5][0-9] for 00-59. The parentheses group the hour alternatives, and the colon is literal."
+}

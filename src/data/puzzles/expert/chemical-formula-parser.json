@@ -1,0 +1,22 @@
+{
+  "id": "expert-005",
+  "title": "Chemical Formula Parser",
+  "description": "Find valid chemical formulas that represent molecules. They start with a capital letter, may have lowercase letters, and can have numbers to show how many atoms.",
+  "difficulty": "expert",
+  "testCases": [
+    { "input": "H2O", "shouldMatch": true },
+    { "input": "CO2", "shouldMatch": true },
+    { "input": "NaCl", "shouldMatch": true },
+    { "input": "C6H12O6", "shouldMatch": true },
+    { "input": "CaCO3", "shouldMatch": true },
+    { "input": "H2SO4", "shouldMatch": true },
+    { "input": "h2o", "shouldMatch": false },
+    { "input": "H2o", "shouldMatch": false },
+    { "input": "2H2O", "shouldMatch": false },
+    { "input": "H2O-", "shouldMatch": false },
+    { "input": "H_2O", "shouldMatch": false },
+    { "input": "123", "shouldMatch": false }
+  ],
+  "solution": "^[A-Z][a-z]?[0-9]*([A-Z][a-z]?[0-9]*)*$",
+  "solutionSummary": "This pattern matches chemical formulas by starting with [A-Z][a-z]?[0-9]* (capital letter, optional lowercase, optional numbers), then repeating this pattern with ([A-Z][a-z]?[0-9]*)*. The ? makes elements optional, and * allows zero or more repetitions for complex molecules."
+}

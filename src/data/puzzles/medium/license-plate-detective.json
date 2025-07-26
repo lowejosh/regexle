@@ -1,0 +1,20 @@
+{
+  "id": "medium-006",
+  "title": "License Plate Detective",
+  "description": "Find vehicle license plates that follow a specific pattern. They have 3 letters followed by a dash and 3 numbers.",
+  "difficulty": "medium",
+  "testCases": [
+    { "input": "ABC-123", "shouldMatch": true },
+    { "input": "XYZ-789", "shouldMatch": true },
+    { "input": "DEF-456", "shouldMatch": true },
+    { "input": "GHI-012", "shouldMatch": true },
+    { "input": "JKL-999", "shouldMatch": true },
+    { "input": "AB-123", "shouldMatch": false },
+    { "input": "ABC-12", "shouldMatch": false },
+    { "input": "abc-123", "shouldMatch": false },
+    { "input": "ABC123", "shouldMatch": false },
+    { "input": "123-ABC", "shouldMatch": false }
+  ],
+  "solution": "^[A-Z]{3}-[0-9]{3}$",
+  "solutionSummary": "This pattern uses character classes and quantifiers to match exactly 3 uppercase letters [A-Z]{3}, followed by a literal dash -, then exactly 3 digits [0-9]{3}. The anchors ensure the entire string matches this format."
+}
