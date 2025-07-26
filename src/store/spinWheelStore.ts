@@ -1,23 +1,16 @@
 import { create } from "zustand";
 import { useGameStore, setGrantSpinHandler } from "./gameStore";
 import {
-  SpinResultProcessor,
   type WheelOption,
   type WheelOptionId,
 } from "../components/pages/Game/components";
+import { processSpinResult } from "../components/pages/Game/utils/spinResultHandlers";
 
 interface SpinWheelState {
-  // Spin wheel modal state
   isSpinWheelOpen: boolean;
   availableSpins: number;
-
-  // Partial description state
   partialDescription: string | null;
-
-  // Encouragement
   showEncouragementCallback: (() => void) | null;
-
-  // Rubber duck state
   isRubberDuckActive: boolean;
 }
 
@@ -95,35 +88,46 @@ export const useSpinWheelStore = create<SpinWheelStore>((set, get) => ({
     }
   },
 
-  // Rubber duck actions
+  // Rubber duck
   activateRubberDuck: () => {
     set({ isRubberDuckActive: true });
-    console.log("🦆 Rubber duck debugging activated!");
   },
   deactivateRubberDuck: () => set({ isRubberDuckActive: false }),
 
-  // Spin result processing
   handleSpinResult: (option: WheelOption) => {
     const state = get();
-
-    // Consume a spin first
     state.consumeSpin();
 
-    // Create context for handlers by combining both stores
     const gameState = useGameStore.getState();
+
     const context = {
       currentPuzzle: gameState.currentPuzzle,
       showDescription: gameState.showDescription,
-      gameResult: gameState.gameResult,
+    };
+
+    const actions = {
       toggleDescription: gameState.toggleDescription,
       setPartialDescription: state.setPartialDescription,
       setAvailableSpins: state.setAvailableSpins,
       showEncouragement: state.showEncouragement,
+      activateRubberDuck: state.activateRubberDuck,
+      revealMoreTestCases: gameState.revealMoreTestCases,
+      revealAllTestCases: () => {
+        if (gameState.currentPuzzle) {
+          const maxRevealable = Math.min(
+            gameState.currentPuzzle.testCases.filter((tc) => tc.shouldMatch)
+              .length,
+            gameState.currentPuzzle.testCases.filter((tc) => !tc.shouldMatch)
+              .length
+          );
+          gameState.setRevealedTestCases(maxRevealable);
+        }
+      },
     };
 
-    // Process the result using the appropriate handler
+    // Process the result using the new handler API
     const optionId: WheelOptionId = option.id;
-    SpinResultProcessor.process(optionId, context);
+    processSpinResult(optionId, context, actions);
   },
 
   // Reset methods
