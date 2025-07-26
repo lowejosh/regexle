@@ -13,5 +13,6 @@
     { "input": "user@", "shouldMatch": false },
     { "input": "user.domain.com", "shouldMatch": false }
   ],
-  "solution": "^[a-zA-Z0-9]+@[a-zA-Z0-9]+\\.[a-zA-Z]+$"
+  "solution": "^[a-zA-Z0-9]+@[a-zA-Z0-9]+\\.[a-zA-Z]+$",
+  "solutionSummary": "This pattern validates basic email addresses by requiring letters and numbers before the @ symbol, then letters and numbers for the domain, followed by a dot and letters for the extension. The ^ and $ anchors ensure the entire string matches this exact format from start to finish."
 }

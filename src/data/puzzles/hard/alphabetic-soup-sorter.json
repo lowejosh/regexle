@@ -15,5 +15,6 @@
     { "input": "zzaa", "shouldMatch": false },
     { "input": "abcba", "shouldMatch": false }
   ],
-  "solution": "^a*b*c*d*e*f*g*h*i*j*k*l*m*n*o*p*q*r*s*t*u*v*w*x*y*z*$"
+  "solution": "^a*b*c*d*e*f*g*h*i*j*k*l*m*n*o*p*q*r*s*t*u*v*w*x*y*z*$",
+  "solutionSummary": "This pattern matches alphabetically sorted strings by specifying the entire alphabet in order, with each letter followed by *. The * means 'zero or more', so each letter can appear multiple times or not at all, but they must appear in alphabetical sequence - no letter can come before an earlier one in the alphabet."
 }

@@ -13,5 +13,6 @@
     { "input": "a b c d e", "shouldMatch": false },
     { "input": "hello world", "shouldMatch": false }
   ],
-  "solution": "^[^\\s]*\\s[^\\s]*\\s[^\\s]*\\s[^\\s]*$"
+  "solution": "^[^\\s]*\\s[^\\s]*\\s[^\\s]*\\s[^\\s]*$",
+  "solutionSummary": "This pattern counts whitespace by alternating between non-whitespace segments [^\\s]* and required whitespace \\s exactly three times. The structure 'non-space*, space, non-space*, space, non-space*, space, non-space*' ensures exactly 3 whitespace characters divide 4 segments of text. The [^\\s] negative character class means 'any character except whitespace'."
 }

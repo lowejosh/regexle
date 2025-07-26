@@ -13,5 +13,6 @@
     { "input": "my var", "shouldMatch": false },
     { "input": "$invalid", "shouldMatch": false }
   ],
-  "solution": "^[a-zA-Z_][a-zA-Z0-9_]*$"
+  "solution": "^[a-zA-Z_][a-zA-Z0-9_]*$",
+  "solutionSummary": "This pattern validates programming variable names by requiring the first character to be a letter or underscore [a-zA-Z_], then allowing any number of letters, digits, or underscores [a-zA-Z0-9_]*. The * means 'zero or more', so single-character variables are valid, but numbers can't start the name."
 }

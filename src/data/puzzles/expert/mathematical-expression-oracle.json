@@ -17,5 +17,6 @@
     { "input": "((2+3)", "shouldMatch": false },
     { "input": "2**/3", "shouldMatch": false }
   ],
-  "solution": "^(?:\\()?-?\\d+(?:\\.\\d+)?(?:[+\\-*/](?:\\()?-?\\d+(?:\\.\\d+)?(?:\\))?)*(?:\\)?(?:[+\\-*/](?:\\()?-?\\d+(?:\\.\\d+)?(?:\\))?)*)*$"
+  "solution": "^(?:\\()?-?\\d+(?:\\.\\d+)?(?:[+\\-*/](?:\\()?-?\\d+(?:\\.\\d+)?(?:\\))?)*(?:\\)?(?:[+\\-*/](?:\\()?-?\\d+(?:\\.\\d+)?(?:\\))?)*)*$",
+  "solutionSummary": "This pattern validates mathematical expressions by allowing optional parentheses (?:\\()?, optional negative signs -?, digits with optional decimals \\d+(?:\\.\\d+)?, and operators [+\\-*/]. The nested (?:...)* structures handle multiple operations while ensuring each number can be optionally wrapped in parentheses, creating flexible expression matching."
 }

@@ -17,5 +17,6 @@
     { "input": "4532-1234-5678-9012-3456", "shouldMatch": false },
     { "input": "4532_1234_5678_9012", "shouldMatch": false }
   ],
-  "solution": "^(?:4[0-9]{3}[ -]?[0-9]{4}[ -]?[0-9]{4}[ -]?[0-9]{4}|4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{2}[ -]?[0-9]{4}[ -]?[0-9]{4}[ -]?[0-9]{4}|5[1-5][0-9]{14}|3[47][0-9]{2}[ -]?[0-9]{6}[ -]?[0-9]{5}|3[47][0-9]{13}|3[0-9]{3}[ -]?[0-9]{6}[ -]?[0-9]{5}|3[0-9]{13}|6(?:011|5[0-9]{2})[ -]?[0-9]{4}[ -]?[0-9]{4}[ -]?[0-9]{4}|6(?:011|5[0-9]{2})[0-9]{12})$"
+  "solution": "^(?:4[0-9]{3}(?:[ -]?[0-9]{4}){3}|5[1-5][0-9]{2}(?:[ -]?[0-9]{4}){3}|3[47][0-9]{2}(?:[ -]?[0-9]{6})(?:[ -]?[0-9]{5})|6(?:011|5[0-9]{2})(?:[ -]?[0-9]{4}){3})$",
+  "solutionSummary": "This pattern validates multiple credit card formats using alternation (|) to match different card types: Visa (starts with 4), Mastercard (starts with 5[1-5]), American Express (starts with 3[47]), and Discover (starts with 6011 or 65). It uses groups like (?:[ -]?[0-9]{4}){3} to handle repeating segments with optional separators, making the pattern much more concise."
 }

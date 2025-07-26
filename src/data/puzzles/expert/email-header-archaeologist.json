@@ -17,5 +17,6 @@
     { "input": "user@example.", "shouldMatch": false },
     { "input": "user name@example.com", "shouldMatch": false }
   ],
-  "solution": "^(?:\"[^\"]*\"|[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*)@(?:\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\]|[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*)$"
+  "solution": "^(?:\"[^\"]*\"|[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*)@(?:\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\]|[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*)$",
+  "solutionSummary": "This pattern validates RFC-compliant emails by handling two local part formats: quoted strings (\"...\") or regular characters with dots. The (?:...|...) alternation allows either format before the @. After @, it accepts either IP addresses in brackets [192.168.1.1] or domain names with length restrictions (up to 61 characters between dots), preventing consecutive dots and ensuring proper formatting."
 }

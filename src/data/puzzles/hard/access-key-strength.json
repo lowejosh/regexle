@@ -15,5 +15,6 @@
     { "input": "Pass1", "shouldMatch": false },
     { "input": "12345678", "shouldMatch": false }
   ],
-  "solution": "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$"
+  "solution": "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$",
+  "solutionSummary": "This pattern validates strong passwords using lookaheads - special checks that peek ahead without consuming characters. (?=.*[a-z]) checks 'somewhere ahead there's a lowercase letter', (?=.*[A-Z]) checks for uppercase, (?=.*\\d) checks for a digit, and .{8,} ensures at least 8 total characters. All conditions must be true."
 }

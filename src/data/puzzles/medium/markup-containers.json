@@ -15,5 +15,6 @@
     { "input": "<123>", "shouldMatch": false },
     { "input": "<>", "shouldMatch": false }
   ],
-  "solution": "^<[a-zA-Z]+>$"
+  "solution": "^<[a-zA-Z]+>$",
+  "solutionSummary": "This pattern matches simple HTML opening tags by requiring a '<' character, followed by one or more letters (the [a-zA-Z]+ character class allows any combination of uppercase and lowercase letters), and ending with '>'. It rejects closing tags, tags with attributes, or tags containing numbers."
 }

@@ -13,5 +13,6 @@
     { "input": "(123) 45-7890", "shouldMatch": false },
     { "input": "(123)456-7890", "shouldMatch": false }
   ],
-  "solution": "^\\([0-9]{3}\\) [0-9]{3}-[0-9]{4}$"
+  "solution": "^\\([0-9]{3}\\) [0-9]{3}-[0-9]{4}$",
+  "solutionSummary": "This pattern matches US phone numbers by looking for an opening parenthesis (escaped with \\), exactly 3 digits, a closing parenthesis, a space, 3 more digits, a hyphen, and finally 4 digits. The {3} and {4} quantifiers specify exactly how many digits are required in each section."
 }

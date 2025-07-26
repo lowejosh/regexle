@@ -13,5 +13,6 @@
     { "input": "/home/user/", "shouldMatch": false },
     { "input": "\\home\\user", "shouldMatch": false }
   ],
-  "solution": "^/([a-zA-Z0-9_-]+(/[a-zA-Z0-9_.-]+)*)?$"
+  "solution": "^/([a-zA-Z0-9_-]+(/[a-zA-Z0-9_.-]+)*)?$",
+  "solutionSummary": "This pattern matches Unix paths starting with '/'. The ? makes the entire path portion optional (allowing just '/'). [a-zA-Z0-9_-]+ matches the first directory name, then (/[a-zA-Z0-9_.-]+)* means 'zero or more additional /directory segments'. The * quantifier allows any number of subdirectories."
 }

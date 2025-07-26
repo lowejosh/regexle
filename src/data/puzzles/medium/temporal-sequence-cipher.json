@@ -15,5 +15,6 @@
     { "input": "12/25/23", "shouldMatch": false },
     { "input": "2023/12/25", "shouldMatch": false }
   ],
-  "solution": "^(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])/\\d{4}$"
+  "solution": "^(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])/\\d{4}$",
+  "solutionSummary": "This pattern validates MM/DD/YYYY dates using grouped alternatives. For months: (0[1-9]|1[0-2]) matches 01-09 OR 10-12. For days: (0[1-9]|[12][0-9]|3[01]) matches 01-09 OR 10-29 OR 30-31. The parentheses group alternatives together, and \\d{4} ensures exactly 4 digits for the year."
 }

@@ -15,5 +15,6 @@
     { "input": "#FF00000", "shouldMatch": false },
     { "input": "#", "shouldMatch": false }
   ],
-  "solution": "^#[0-9A-Fa-f]{6}$"
+  "solution": "^#[0-9A-Fa-f]{6}$",
+  "solutionSummary": "This pattern validates hexadecimal color codes by starting with a '#' symbol, then requiring exactly 6 characters that can be digits (0-9) or letters A-F (both uppercase and lowercase). The character class [0-9A-Fa-f] defines which characters are valid for hex notation, and {6} enforces the exact count."
 }

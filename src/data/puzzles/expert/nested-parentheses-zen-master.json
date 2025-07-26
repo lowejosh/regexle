@@ -17,5 +17,6 @@
     { "input": ")((", "shouldMatch": false },
     { "input": "((())()))", "shouldMatch": false }
   ],
-  "solution": "^(?:\\((?:[^()]|\\((?:[^()]|\\([^()]*\\))*\\))*\\))+$"
+  "solution": "^(?:\\((?:[^()]|\\((?:[^()]|\\([^()]*\\))*\\))*\\))+$",
+  "solutionSummary": "This pattern matches balanced parentheses by using nested structure recognition. The outer (?:...)+allows multiple parentheses groups, while the inner pattern recursively handles nesting: [^()] matches non-parentheses characters, and \\((?:[^()]|\\([^()]*\\))*\\) matches a parentheses group that can contain either non-parentheses characters or another level of nested parentheses."
 }

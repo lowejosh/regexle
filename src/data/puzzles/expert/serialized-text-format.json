@@ -15,5 +15,6 @@
     { "input": "\"bad\\escape\"", "shouldMatch": false },
     { "input": "\"multi\nline\"", "shouldMatch": false }
   ],
-  "solution": "^\"(?:[^\"\\\\\\n]|\\\\[\"\\\\nrtfb/])*\"$"
+  "solution": "^\"(?:[^\"\\\\\\n]|\\\\[\"\\\\nrtfb/])*\"$",
+  "solutionSummary": "This pattern validates JSON strings by requiring quotes at start and end, then allowing either normal characters (excluding quotes, backslashes, and newlines) or valid escape sequences. The [^\"\\\\\\n] means 'any character except quote, backslash, or newline', while \\\\[\"\\\\nrtfb/] matches proper JSON escape sequences like \\n, \\t, etc."
 }

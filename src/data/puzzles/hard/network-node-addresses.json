@@ -15,5 +15,6 @@
     { "input": "abc.def.ghi.jkl", "shouldMatch": false },
     { "input": "192.168.-1.1", "shouldMatch": false }
   ],
-  "solution": "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
+  "solution": "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$",
+  "solutionSummary": "This pattern validates IPv4 addresses by breaking down each number into ranges: 25[0-5] matches 250-255, 2[0-4][0-9] matches 200-249, and [01]?[0-9][0-9]? matches 0-199. The {3} repeats the 'number followed by dot' pattern three times, then matches the final number without a dot. This ensures each part is 0-255."
 }

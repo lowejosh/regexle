@@ -17,5 +17,6 @@
     { "input": "01.0.0", "shouldMatch": false },
     { "input": "1.0.0-", "shouldMatch": false }
   ],
-  "solution": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"
+  "solution": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$",
+  "solutionSummary": "This pattern validates semantic version numbers (major.minor.patch) by ensuring each number doesn't start with zero unless it's just '0'. The (?:...)? makes pre-release versions optional (like -alpha), and (?:\\+...)? makes build metadata optional (like +build.123). The complex character classes prevent leading zeros while allowing valid version identifiers."
 }

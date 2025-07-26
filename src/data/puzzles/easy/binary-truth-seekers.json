@@ -13,5 +13,6 @@
     { "input": "falsee", "shouldMatch": false },
     { "input": "yes", "shouldMatch": false }
   ],
-  "solution": "^(?:true|false|TRUE|FALSE)$"
+  "solution": "^(?:true|false|TRUE|FALSE)$",
+  "solutionSummary": "This pattern matches boolean values by using alternation (the | symbol) which works like 'OR' - it matches either 'true' OR 'false' OR 'TRUE' OR 'FALSE'. The (?:...) creates a non-capturing group that groups the alternatives without creating a memory reference."
 }
