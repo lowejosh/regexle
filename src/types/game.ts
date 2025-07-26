@@ -11,7 +11,7 @@ export interface Puzzle {
   difficulty: "easy" | "medium" | "hard" | "expert" | "nightmare";
   testCases: TestCase[];
   solution?: string;
-  solutionsSummary?: string;
+  solutionSummary?: string;
 }
 
 export interface PuzzleManifestEntry {

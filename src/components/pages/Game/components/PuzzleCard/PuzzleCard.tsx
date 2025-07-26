@@ -7,6 +7,9 @@ import { Badge } from "@/components/ui/Badge";
 import { GameResults } from "../GameResults";
 import { RegexInput } from "../RegexInput";
 import { toTitleCase } from "@/lib/utils";
+import { Button } from "@/components/ui/Button";
+import { useState } from "react";
+import { PuzzleCardSolutionReveal } from "./components";
 import {
   CardDescription,
   CardContent,
@@ -34,11 +37,19 @@ export function PuzzleCard({ puzzle: propPuzzle }: PuzzleCardProps) {
   const { partialDescription, getAvailableSpins, openSpinWheel } =
     useSpinWheelStore();
 
+  const [showSolution, setShowSolution] = useState(false);
   const availableSpins = getAvailableSpins();
 
   const puzzle = propPuzzle || currentPuzzle;
 
   if (!puzzle) return null;
+
+  const shouldMatchCases = puzzle.testCases.filter((tc) => tc.shouldMatch);
+  const shouldNotMatchCases = puzzle.testCases.filter((tc) => !tc.shouldMatch);
+  const allTestCasesRevealed =
+    revealedTestCases >=
+    Math.max(shouldMatchCases.length, shouldNotMatchCases.length);
+  const isPuzzleSolved = gameResult?.isCorrect;
 
   const handlePatternChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     updatePattern(e.target.value);
@@ -46,6 +57,10 @@ export function PuzzleCard({ puzzle: propPuzzle }: PuzzleCardProps) {
 
   const handleTestPattern = () => {
     testPatternWithEffects();
+  };
+
+  const handleGiveUp = () => {
+    setShowSolution(true);
   };
 
   return (
@@ -86,11 +101,23 @@ export function PuzzleCard({ puzzle: propPuzzle }: PuzzleCardProps) {
         {gameResult && (
           <GameResults gameResult={gameResult} attempts={attempts} />
         )}
-        {/* Dev Solution (for testing) */}
-        {process.env.NODE_ENV === "development" && puzzle.solution && (
-          <div className="p-2 bg-gray-100 rounded text-xs text-gray-600">
-            🔧 Dev Solution: <code>{puzzle.solution}</code>
+
+        {allTestCasesRevealed && !isPuzzleSolved && !showSolution && (
+          <div className="flex justify-end">
+            <Button
+              variant="outline"
+              onClick={handleGiveUp}
+              className="text-gray-500 hover:text-red-500 border-gray-200 hover:border-red-400 hover:bg-red-50 transition-all duration-300 hover:shadow-md group"
+            >
+              <span className="group-hover:animate-pulse">🏳️</span>
+              <span className="ml-2 font-medium">Surrender</span>
+            </Button>
           </div>
+        )}
+
+        {/* Solution Display */}
+        {showSolution && puzzle.solution && (
+          <PuzzleCardSolutionReveal puzzle={puzzle} />
         )}
       </CardContent>
     </Card>
