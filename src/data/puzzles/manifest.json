@@ -6,7 +6,6 @@
       "difficulty": "easy",
       "category": "communication",
       "tags": ["validation", "contact"],
-      "testCaseCount": 8,
       "file": "easy/digital-correspondence.json"
     },
     {
@@ -15,7 +14,6 @@
       "difficulty": "easy",
       "category": "communication",
       "tags": ["format", "numbers"],
-      "testCaseCount": 8,
       "file": "easy/voice-connection-format.json"
     },
     {
@@ -24,7 +22,6 @@
       "difficulty": "easy",
       "category": "numbers",
       "tags": ["format", "decimal"],
-      "testCaseCount": 8,
       "file": "easy/dotted-decimal-dance.json"
     },
     {
@@ -33,7 +30,6 @@
       "difficulty": "easy",
       "category": "logic",
       "tags": ["boolean", "simple"],
-      "testCaseCount": 6,
       "file": "easy/binary-truth-seekers.json"
     },
     {
@@ -42,7 +38,6 @@
       "difficulty": "medium",
       "category": "structure",
       "tags": ["syntax", "web"],
-      "testCaseCount": 10,
       "file": "medium/markup-containers.json"
     },
     {
@@ -51,7 +46,6 @@
       "difficulty": "medium",
       "category": "display",
       "tags": ["format", "visual"],
-      "testCaseCount": 10,
       "file": "medium/visual-spectrum-codes.json"
     },
     {
@@ -60,7 +54,6 @@
       "difficulty": "medium",
       "category": "time",
       "tags": ["date", "format"],
-      "testCaseCount": 10,
       "file": "medium/temporal-sequence-cipher.json"
     },
     {
@@ -69,7 +62,6 @@
       "difficulty": "medium",
       "category": "navigation",
       "tags": ["path", "system"],
-      "testCaseCount": 8,
       "file": "medium/slashed-path-wanderer.json"
     },
     {
@@ -78,7 +70,6 @@
       "difficulty": "medium",
       "category": "identity",
       "tags": ["naming", "convention"],
-      "testCaseCount": 8,
       "file": "medium/underscored-identity-crisis.json"
     },
     {
@@ -87,7 +78,6 @@
       "difficulty": "hard",
       "category": "security",
       "tags": ["validation", "complexity"],
-      "testCaseCount": 10,
       "file": "hard/access-key-strength.json"
     },
     {
@@ -96,7 +86,6 @@
       "difficulty": "hard",
       "category": "networking",
       "tags": ["format", "protocol"],
-      "testCaseCount": 10,
       "file": "hard/network-node-addresses.json"
     },
     {
@@ -105,7 +94,6 @@
       "difficulty": "hard",
       "category": "finance",
       "tags": ["payment", "validation"],
-      "testCaseCount": 12,
       "file": "hard/credit-card-whisperer.json"
     },
     {
@@ -114,7 +102,6 @@
       "difficulty": "hard",
       "category": "text",
       "tags": ["sorting", "alpha"],
-      "testCaseCount": 10,
       "file": "hard/alphabetic-soup-sorter.json"
     },
     {
@@ -123,7 +110,6 @@
       "difficulty": "hard",
       "category": "versioning",
       "tags": ["semantic", "software"],
-      "testCaseCount": 12,
       "file": "hard/version-number-archaeologist.json"
     },
     {
@@ -132,7 +118,6 @@
       "difficulty": "expert",
       "category": "data",
       "tags": ["format", "structure"],
-      "testCaseCount": 10,
       "file": "expert/serialized-text-format.json"
     },
     {
@@ -141,7 +126,6 @@
       "difficulty": "expert",
       "category": "structure",
       "tags": ["recursive", "balance"],
-      "testCaseCount": 12,
       "file": "expert/nested-parentheses-zen-master.json"
     },
     {
@@ -150,7 +134,6 @@
       "difficulty": "expert",
       "category": "protocols",
       "tags": ["rfc", "complex"],
-      "testCaseCount": 15,
       "file": "expert/email-header-archaeologist.json"
     },
     {
@@ -159,7 +142,6 @@
       "difficulty": "expert",
       "category": "mathematics",
       "tags": ["algebra", "parsing"],
-      "testCaseCount": 14,
       "file": "expert/mathematical-expression-oracle.json"
     },
     {
@@ -168,7 +150,6 @@
       "difficulty": "nightmare",
       "category": "meta",
       "tags": ["recursive", "impossible"],
-      "testCaseCount": 8,
       "file": "nightmare/recursive-nightmare.json"
     },
     {
@@ -177,7 +158,6 @@
       "difficulty": "nightmare",
       "category": "invisible",
       "tags": ["whitespace", "hidden"],
-      "testCaseCount": 10,
       "file": "nightmare/whitespace-phantom.json"
     }
   ],

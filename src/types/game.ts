@@ -19,7 +19,6 @@ export interface PuzzleManifestEntry {
   difficulty: "easy" | "medium" | "hard" | "expert" | "nightmare";
   category: string;
   tags: string[];
-  testCaseCount: number;
   file: string;
 }
 
