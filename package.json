@@ -7,7 +7,11 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:puzzles": "vitest run src/tests/puzzle-validation.test.ts",
+    "validate:puzzles": "vitest run src/tests/validation-report.test.ts"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.3",

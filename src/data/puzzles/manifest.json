@@ -2,7 +2,7 @@
   "puzzles": [
     {
       "id": "easy-001",
-      "title": "The @ Mystery",
+      "title": "Digital Correspondence",
       "difficulty": "easy",
       "category": "communication",
       "tags": ["validation", "contact"],
@@ -10,7 +10,7 @@
     },
     {
       "id": "easy-002",
-      "title": "Parenthetical Whispers",
+      "title": "Voice Connection Format",
       "difficulty": "easy",
       "category": "communication",
       "tags": ["format", "numbers"],
@@ -34,7 +34,7 @@
     },
     {
       "id": "medium-001",
-      "title": "Angle Bracket Prophecy",
+      "title": "Markup Containers",
       "difficulty": "medium",
       "category": "structure",
       "tags": ["syntax", "web"],
@@ -42,7 +42,7 @@
     },
     {
       "id": "medium-002",
-      "title": "Hexadecimal Rainbow Ritual",
+      "title": "Visual Spectrum Codes",
       "difficulty": "medium",
       "category": "display",
       "tags": ["format", "visual"],
@@ -74,7 +74,7 @@
     },
     {
       "id": "hard-001",
-      "title": "The Fortress Gate Keeper",
+      "title": "Access Key Strength",
       "difficulty": "hard",
       "category": "security",
       "tags": ["validation", "complexity"],
@@ -82,7 +82,7 @@
     },
     {
       "id": "hard-002",
-      "title": "Octet Oracle's Vision",
+      "title": "Network Node Addresses",
       "difficulty": "hard",
       "category": "networking",
       "tags": ["format", "protocol"],
@@ -114,7 +114,7 @@
     },
     {
       "id": "expert-001",
-      "title": "Quoted String Philosopher",
+      "title": "Serialized Text Format",
       "difficulty": "expert",
       "category": "data",
       "tags": ["format", "structure"],
@@ -146,7 +146,7 @@
     },
     {
       "id": "nightmare-001",
-      "title": "The Recursive Nightmare",
+      "title": "Recursive Nightmare",
       "difficulty": "nightmare",
       "category": "meta",
       "tags": ["recursive", "impossible"],
