@@ -1,7 +1,7 @@
 {
   "id": "hard-004",
   "title": "Alphabetic Soup Sorter",
-  "description": "Match strings that are in alphabetical order",
+    "description": "Find text where all letters appear in alphabetical order. Letters can repeat but must never go backwards in the alphabet.",
   "difficulty": "hard",
   "testCases": [
     { "input": "abc", "shouldMatch": true },

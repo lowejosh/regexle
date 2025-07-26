@@ -1,7 +1,7 @@
 {
   "id": "medium-001",
   "title": "Markup Containers",
-  "description": "Match opening HTML tags",
+  "description": "Find HTML opening tags that contain only the tag name. They start with < and end with > with letters in between.",
   "difficulty": "medium",
   "testCases": [
     { "input": "<div>", "shouldMatch": true },

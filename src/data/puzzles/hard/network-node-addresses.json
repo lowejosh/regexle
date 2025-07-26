@@ -1,7 +1,7 @@
 {
   "id": "hard-002",
   "title": "Network Node Addresses",
-  "description": "Match IPv4 addresses",
+  "description": "Find IP addresses that computers use to connect to networks. They have four numbers separated by dots, each number has limits.",
   "difficulty": "hard",
   "testCases": [
     { "input": "192.168.1.1", "shouldMatch": true },

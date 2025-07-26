@@ -1,7 +1,7 @@
 {
   "id": "medium-005",
   "title": "Underscored Identity Crisis",
-  "description": "Match valid variable names in programming",
+  "description": "Find valid variable names used in programming. They can contain letters, numbers, and underscores, but have rules about what can come first.",
   "difficulty": "medium",
   "testCases": [
     { "input": "user_name", "shouldMatch": true },

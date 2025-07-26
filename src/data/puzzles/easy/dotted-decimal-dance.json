@@ -1,7 +1,7 @@
 {
   "id": "easy-003",
   "title": "Dotted Decimal Dance",
-  "description": "Match decimal numbers with exactly 2 decimal places",
+  "description": "Find numbers that show prices or measurements with exactly two decimal places after the dot.",
   "difficulty": "easy",
   "testCases": [
     { "input": "12.34", "shouldMatch": true },

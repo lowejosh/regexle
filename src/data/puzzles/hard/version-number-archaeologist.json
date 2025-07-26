@@ -1,7 +1,7 @@
 {
   "id": "hard-005",
   "title": "Version Number Archaeologist",
-  "description": "Match semantic version numbers",
+  "description": "Find software version numbers that follow standard format. They have three numbers separated by dots and might have extra labels like -alpha or -beta.",
   "difficulty": "hard",
   "testCases": [
     { "input": "1.0.0", "shouldMatch": true },

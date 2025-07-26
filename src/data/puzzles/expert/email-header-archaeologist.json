@@ -1,7 +1,7 @@
 {
   "id": "expert-003",
   "title": "Email Header Archaeologist",
-  "description": "Match RFC-compliant email addresses",
+  "description": "Validate electronic addresses that conform to international messaging standards. These complex identifiers support advanced features like quoted strings, special characters, and extended local parts with specific formatting rules.",
   "difficulty": "expert",
   "testCases": [
     { "input": "user@example.com", "shouldMatch": true },

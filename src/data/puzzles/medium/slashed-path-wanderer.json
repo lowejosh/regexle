@@ -1,7 +1,7 @@
 {
   "id": "medium-004",
   "title": "Slashed Path Wanderer",
-  "description": "Match Unix-style file paths",
+  "description": "Find file paths that show where files are stored on computers. They start with / and use slashes to separate folders.",
   "difficulty": "medium",
   "testCases": [
     { "input": "/home/user", "shouldMatch": true },

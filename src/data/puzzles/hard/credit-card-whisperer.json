@@ -1,7 +1,7 @@
 {
   "id": "hard-003",
   "title": "Credit Card Whisperer",
-  "description": "Match credit card numbers with proper formatting",
+  "description": "Find credit card numbers formatted with dashes. Different card types have different patterns and lengths but all use groups of digits.",
   "difficulty": "hard",
   "testCases": [
     { "input": "4532-1234-5678-9012", "shouldMatch": true },

@@ -1,7 +1,7 @@
 {
   "id": "expert-001",
   "title": "Serialized Text Format",
-  "description": "Match valid JSON strings",
+  "description": "Validate text data that follows structured encoding rules. These strings are wrapped in quotation marks and may contain escaped characters for special symbols and formatting.",
   "difficulty": "expert",
   "testCases": [
     { "input": "\"hello\"", "shouldMatch": true },

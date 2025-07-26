@@ -1,7 +1,7 @@
 {
   "id": "easy-001",
   "title": "Digital Correspondence",
-  "description": "Match valid email addresses",
+  "description": "Find email addresses that people use to send messages. They have a name, an @ symbol, and a domain.",
   "difficulty": "easy",
   "testCases": [
     { "input": "user@example.com", "shouldMatch": true },

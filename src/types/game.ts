@@ -21,6 +21,7 @@ export interface PuzzleManifestEntry {
   category: string;
   tags: string[];
   file: string;
+  summary: string;
 }
 
 export interface PuzzleCategory {

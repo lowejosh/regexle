@@ -1,7 +1,7 @@
 {
   "id": "hard-001",
   "title": "Access Key Strength",
-  "description": "Match strong passwords",
+  "description": "Find strong passwords that meet security requirements. They need a mix of uppercase, lowercase, and numbers with enough length.",
   "difficulty": "hard",
   "testCases": [
     { "input": "Password123", "shouldMatch": true },

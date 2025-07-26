@@ -1,7 +1,7 @@
 {
   "id": "medium-003",
   "title": "Temporal Sequence Cipher",
-  "description": "Match dates in MM/DD/YYYY format",
+  "description": "Find dates written in American format. Each date has a month, day, and year separated by slashes.",
   "difficulty": "medium",
   "testCases": [
     { "input": "12/25/2023", "shouldMatch": true },

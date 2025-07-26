@@ -1,7 +1,7 @@
 {
   "id": "medium-002",
   "title": "Visual Spectrum Codes",
-  "description": "Match hexadecimal color codes",
+  "description": "Find color codes used in web design. They might start with # and use numbers and letters A-F to represent colors.",
   "difficulty": "medium",
   "testCases": [
     { "input": "#FF0000", "shouldMatch": true },

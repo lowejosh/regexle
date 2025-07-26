@@ -1,7 +1,7 @@
 {
   "id": "expert-002",
   "title": "Nested Parentheses Zen Master",
-  "description": "Match properly balanced parentheses",
+  "description": "Identify grouping symbols that maintain perfect structural harmony. Each opening symbol must have a corresponding closing partner, and they must be arranged in proper hierarchical order without crossing boundaries.",
   "difficulty": "expert",
   "testCases": [
     { "input": "()", "shouldMatch": true },

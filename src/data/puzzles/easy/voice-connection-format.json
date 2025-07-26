@@ -1,7 +1,7 @@
 {
   "id": "easy-002",
   "title": "Voice Connection Format",
-  "description": "Match US phone numbers in format (123) 456-7890",
+  "description": "Find phone numbers in a specific American format. They have an area code in parentheses, a space, then the local number with a dash.",
   "difficulty": "easy",
   "testCases": [
     { "input": "(123) 456-7890", "shouldMatch": true },

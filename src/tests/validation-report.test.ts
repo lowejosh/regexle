@@ -1,20 +1,11 @@
 import { describe, it, expect } from "vitest";
 import { readFileSync } from "fs";
 import { join } from "path";
-import type { Puzzle } from "../types/game";
-
-interface ManifestEntry {
-  id: string;
-  title: string;
-  difficulty: string;
-  category: string;
-  tags: string[];
-  file: string;
-}
-
-interface Manifest {
-  puzzles: ManifestEntry[];
-}
+import type {
+  Puzzle,
+  PuzzleManifest,
+  PuzzleManifestEntry,
+} from "../types/game";
 
 interface ValidationIssue {
   puzzleId: string;
@@ -34,7 +25,7 @@ const TEST_CASE_LIMITS = {
 } as const;
 
 // Helper functions
-function loadManifest(): Manifest {
+function loadManifest(): PuzzleManifest {
   const manifestPath = join(__dirname, "../data/puzzles/manifest.json");
   const manifestContent = readFileSync(manifestPath, "utf-8");
   return JSON.parse(manifestContent);
@@ -46,7 +37,7 @@ function loadPuzzle(filePath: string): Puzzle {
   return JSON.parse(puzzleContent);
 }
 
-function validatePuzzle(manifestEntry: ManifestEntry): ValidationIssue[] {
+function validatePuzzle(manifestEntry: PuzzleManifestEntry): ValidationIssue[] {
   const issues: ValidationIssue[] = [];
 
   try {

@@ -1,7 +1,7 @@
 {
   "id": "expert-004",
   "title": "Mathematical Expression Oracle",
-  "description": "Match basic mathematical expressions",
+  "description": "Recognize computational formulas that combine numbers with arithmetic operations. These expressions contain numeric values connected by mathematical operators, following standard algebraic notation conventions.",
   "difficulty": "expert",
   "testCases": [
     { "input": "2+3", "shouldMatch": true },

@@ -1,7 +1,7 @@
 {
   "id": "easy-004",
   "title": "Binary Truth Seekers",
-  "description": "Match boolean values in various formats",
+  "description": "Find words that represent yes/no answers in programming. They can be written in different cases but mean the same thing.",
   "difficulty": "easy",
   "testCases": [
     { "input": "true", "shouldMatch": true },
