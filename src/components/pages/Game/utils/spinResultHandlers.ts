@@ -14,6 +14,7 @@ export interface SpinResultActions {
   setAvailableSpins: (updater: (prev: number) => number) => void;
   showEncouragement: () => void;
   activateRubberDuck: () => void;
+  deactivateRubberDuck: () => void;
   revealMoreTestCases: () => void;
   revealAllTestCases: () => void;
 }
@@ -55,6 +56,11 @@ const spinHandlers = {
 
   "rubber-duck": (_context: SpinResultContext, actions: SpinResultActions) => {
     actions.activateRubberDuck();
+
+    // Auto-deactivate after 30 seconds
+    setTimeout(() => {
+      actions.deactivateRubberDuck();
+    }, 30000);
   },
 
   "comic-sans-mode": () => {

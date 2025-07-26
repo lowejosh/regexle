@@ -141,6 +141,7 @@ export const useSpinWheelStore = create<SpinWheelStore>((set, get) => ({
       setAvailableSpins: state.setAvailableSpins,
       showEncouragement: state.showEncouragement,
       activateRubberDuck: state.activateRubberDuck,
+      deactivateRubberDuck: state.deactivateRubberDuck,
       revealMoreTestCases: gameState.revealMoreTestCases,
       revealAllTestCases: () => {
         if (gameState.currentPuzzle) {
