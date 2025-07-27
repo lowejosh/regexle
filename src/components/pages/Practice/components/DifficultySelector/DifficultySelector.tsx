@@ -52,7 +52,7 @@ export function DifficultySelector({
                   ${
                     isSelected
                       ? "border-primary bg-accent shadow-md scale-105"
-                      : "border-border bg-secondary hover:bg-accent hover:border-primary/50 hover:shadow-sm hover:scale-102"
+                      : "border-border hover:bg-accent hover:border-primary/50 hover:shadow-sm hover:scale-102"
                   }
                 `}
               >
@@ -92,7 +92,7 @@ export function DifficultySelector({
             <Button
               onClick={onLoadPuzzle}
               size="lg"
-              className="px-8 py-3 text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-200"
+              className="px-8 py-3 text-base font-semibold"
             >
               Load New Puzzle
             </Button>
