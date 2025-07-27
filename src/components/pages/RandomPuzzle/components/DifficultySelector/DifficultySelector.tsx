@@ -26,14 +26,14 @@ export function DifficultySelector({
   return (
     <Card>
       <CardHeader className="text-center pb-4">
-        <CardTitle className="text-xl">Choose Your Challenge</CardTitle>
-        <CardDescription className="text-base">
+        <CardTitle className="text-lg sm:text-xl">Choose Your Challenge</CardTitle>
+        <CardDescription className="text-sm sm:text-base">
           Select a difficulty level to match your regex expertise
         </CardDescription>
       </CardHeader>
-      <CardContent className="space-y-6">
+      <CardContent className="space-y-4 sm:space-y-6">
         {/* Difficulty Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3">
           {difficulties.map(({ value, label, description }) => {
             const isSelected = displayDifficulty === value;
 

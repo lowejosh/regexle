@@ -81,7 +81,7 @@ export function RegexTitle({ className = "" }: RegexTitleProps) {
 
   return (
     <div className={`relative ${className}`}>
-      <h1 className="text-2xl font-bold font-mono tracking-wide text-primary group-hover:text-primary/80 transition-colors">
+      <h1 className="text-xl sm:text-2xl font-bold font-mono tracking-wide text-primary group-hover:text-primary/80 transition-colors">
         <span className="relative">
           {/* Main text - normal, glitching, or showing pattern */}
           {isGlitching ? (

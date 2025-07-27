@@ -29,32 +29,30 @@ export function SpinWheel() {
 
     return (
       <>
-        {segments.map(
-          ({ option, pathData, textX, textY, textRotation }) => (
-            <g key={option.id}>
-              <path
-                d={pathData}
-                fill={option.color}
-                stroke={strokeColor}
-                strokeWidth="2"
-                className="transition-opacity hover:opacity-90"
-              />
-              <text
-                x={textX}
-                y={textY}
-                textAnchor="middle"
-                dominantBaseline="middle"
-                fill="white"
-                fontSize="12"
-                fontWeight="bold"
-                className="pointer-events-none select-none"
-                transform={`rotate(${textRotation}, ${textX}, ${textY})`}
-              >
-                {option.label}
-              </text>
-            </g>
-          )
-        )}
+        {segments.map(({ option, pathData, textX, textY, textRotation }) => (
+          <g key={option.id}>
+            <path
+              d={pathData}
+              fill={option.color}
+              stroke={strokeColor}
+              strokeWidth="2"
+              className="transition-opacity hover:opacity-90"
+            />
+            <text
+              x={textX}
+              y={textY}
+              textAnchor="middle"
+              dominantBaseline="middle"
+              fill="white"
+              fontSize="12"
+              fontWeight="bold"
+              className="pointer-events-none select-none"
+              transform={`rotate(${textRotation}, ${textX}, ${textY})`}
+            >
+              {option.label}
+            </text>
+          </g>
+        ))}
         {/* Center circle */}
         <circle
           cx={WHEEL_CONFIG.WHEEL_SIZE / 2}
@@ -82,7 +80,7 @@ export function SpinWheel() {
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.8, opacity: 0 }}
-            className="bg-background border border-border rounded-lg p-6 max-w-md w-full mx-4 relative shadow-lg"
+            className="bg-background border border-border rounded-lg p-4 sm:p-6 max-w-md w-full mx-4 relative shadow-lg"
             onClick={(e) => e.stopPropagation()}
           >
             <Button

@@ -59,13 +59,13 @@ function TestCaseItem({
   return (
     <div
       key={`${keyPrefix}-${index}`}
-      className={`p-3 rounded border flex items-center justify-between transition-all duration-500 ${getBackgroundClass()} ${!isRevealed ? "blur-sm opacity-60" : ""}`}
+      className={`p-2 sm:p-3 rounded border flex items-center justify-between transition-all duration-500 ${getBackgroundClass()} ${!isRevealed ? "blur-sm opacity-60" : ""}`}
       style={{
         transitionDuration: `${TRANSITION_DURATION_MS}ms`,
       }}
     >
-      <div className="flex items-center gap-3">
-        <span className="font-mono text-sm">
+      <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
+        <span className="font-mono text-xs sm:text-sm break-all">
           {isRevealed
             ? `"${testCase.input}"`
             : `"${"•".repeat(Math.max(3, testCase.input.length))}"`}
@@ -91,12 +91,12 @@ export function TestCases({
 
   return (
     <div className="space-y-3">
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {/* Should Match Column */}
         <div className="space-y-2">
           <div className="border-b border-border pb-1">
             <h4 className="text-sm font-medium text-foreground">
-              Matching Cases
+              Should Match
             </h4>
           </div>
           <div className="space-y-2">
@@ -118,7 +118,7 @@ export function TestCases({
         <div className="space-y-2">
           <div className="border-b border-border pb-1">
             <h4 className="text-sm font-medium text-foreground">
-              Non-matching Cases
+              Should Not Match
             </h4>
           </div>
           <div className="space-y-2">

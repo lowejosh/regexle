@@ -69,9 +69,9 @@ export function PuzzleCard({ puzzle: propPuzzle }: PuzzleCardProps) {
   return (
     <Card>
       <CardHeader>
-        <div className="flex items-center justify-between">
-          <CardTitle>{puzzle.title}</CardTitle>
-          <div className="flex items-center gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-0">
+          <CardTitle className="text-xl sm:text-2xl">{puzzle.title}</CardTitle>
+          <div className="flex items-center gap-2 sm:gap-4 self-start sm:self-auto">
             <Badge variant={puzzle.difficulty}>
               {toTitleCase(puzzle.difficulty)}
             </Badge>
@@ -83,14 +83,14 @@ export function PuzzleCard({ puzzle: propPuzzle }: PuzzleCardProps) {
           </div>
         </div>
         {puzzle.description && (
-          <CardDescription>
+          <CardDescription className="text-sm">
             {showDescription && puzzle.description}
             {!showDescription && partialDescription}
           </CardDescription>
         )}
       </CardHeader>
 
-      <CardContent className="space-y-6">
+      <CardContent className="space-y-4 sm:space-y-6">
         <RegexInput
           userPattern={userPattern}
           onPatternChange={handlePatternChange}
