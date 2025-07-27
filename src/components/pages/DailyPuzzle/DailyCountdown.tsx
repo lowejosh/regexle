@@ -30,7 +30,6 @@ export function DailyCountdown({ onNewDay }: DailyCountdownProps) {
 
         setTimeLeft({ hours, minutes, seconds });
       } else {
-        // Countdown reached zero - trigger new day callback
         setTimeLeft({ hours: 0, minutes: 0, seconds: 0 });
         if (onNewDay) {
           onNewDay();
@@ -38,10 +37,7 @@ export function DailyCountdown({ onNewDay }: DailyCountdownProps) {
       }
     };
 
-    // Calculate immediately
     calculateTimeLeft();
-
-    // Update every second
     const timer = setInterval(calculateTimeLeft, 1000);
 
     return () => clearInterval(timer);

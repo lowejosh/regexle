@@ -73,20 +73,11 @@ export const useStatisticsStore = create<StatisticsStore>()(
       ...initialState,
 
       recordSolve: (puzzleId, difficulty, attempts, solutionRevealed, mode) => {
-        console.log("Recording solve:", {
-          puzzleId,
-          difficulty,
-          attempts,
-          solutionRevealed,
-          mode,
-        });
-
         const state = get();
         const isFirstTimeSolving = !state.solvedPuzzleIds.has(puzzleId);
 
-        // Only count statistics for first-time solves, except for daily puzzles which always count for streaks
+        // Only count statistics for first-time solves, except daily puzzles which always count for streaks
         if (!isFirstTimeSolving && mode !== "daily") {
-          console.log("Puzzle already solved, not counting towards stats");
           return;
         }
 
@@ -115,13 +106,6 @@ export const useStatisticsStore = create<StatisticsStore>()(
             : prevState.totalAttempts;
 
           const newStreak = get().calculateStreak();
-
-          console.log("Updated statistics:", {
-            totalSolved,
-            totalAttempts,
-            averageAttempts: totalSolved > 0 ? totalAttempts / totalSolved : 0,
-            isFirstTime: isFirstTimeSolving,
-          });
 
           return {
             solveHistory: newHistory,
@@ -200,7 +184,6 @@ export const useStatisticsStore = create<StatisticsStore>()(
 
         if (dailyPuzzleSolves.length === 0) return 0;
 
-        // Sort by date descending
         const sortedSolves = [...dailyPuzzleSolves].sort(
           (a, b) =>
             new Date(b.solvedAt).getTime() - new Date(a.solvedAt).getTime()

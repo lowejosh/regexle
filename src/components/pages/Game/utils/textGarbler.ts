@@ -10,11 +10,8 @@ const GARBLE_CHARS = ["█", "▓", "▒", "░", "?", "*", "#", "@", "&", "%"];
  */
 export function garbleText(text: string): string {
   const chars = text.split("");
-
-  // Calculate how many characters to garble (half)
   const numToGarble = Math.floor(chars.length / 2);
 
-  // Get random indexes to garble
   const indexesToGarble = new Set<number>();
   while (indexesToGarble.size < numToGarble) {
     const randomIndex = Math.floor(Math.random() * chars.length);
@@ -24,7 +21,6 @@ export function garbleText(text: string): string {
     }
   }
 
-  // Replace characters at selected indexes
   indexesToGarble.forEach((index) => {
     chars[index] =
       GARBLE_CHARS[Math.floor(Math.random() * GARBLE_CHARS.length)];

@@ -21,35 +21,20 @@ interface SpinWheelState {
 }
 
 interface SpinWheelActions {
-  // Modal actions
   openSpinWheel: () => void;
   closeSpinWheel: () => void;
-
-  // Mode management
   setCurrentMode: (mode: "daily" | "random") => void;
-
-  // Spin management
   getAvailableSpins: () => number;
   setAvailableSpins: (spins: number | ((prev: number) => number)) => void;
   consumeSpin: () => void;
   grantSpin: () => void;
-
-  // Partial description
   setPartialDescription: (description: string | null) => void;
   clearPartialDescription: () => void;
-
-  // Encouragement
   setShowEncouragementCallback: (callback: (() => void) | null) => void;
   showEncouragement: () => void;
-
-  // Rubber duck actions
   activateRubberDuck: () => void;
   deactivateRubberDuck: () => void;
-
-  // Spin result processing
   handleSpinResult: (option: WheelOption) => void;
-
-  // Reset methods
   resetForNewPuzzle: () => void;
   resetAll: () => void;
 }
@@ -57,7 +42,6 @@ interface SpinWheelActions {
 type SpinWheelStore = SpinWheelState & SpinWheelActions;
 
 export const useSpinWheelStore = create<SpinWheelStore>((set, get) => ({
-  // Initial state
   isSpinWheelOpen: false,
   dailySpins: 1,
   randomSpins: 1,
@@ -66,14 +50,11 @@ export const useSpinWheelStore = create<SpinWheelStore>((set, get) => ({
   showEncouragementCallback: null,
   isRubberDuckActive: false,
 
-  // Modal actions
   openSpinWheel: () => set({ isSpinWheelOpen: true }),
   closeSpinWheel: () => set({ isSpinWheelOpen: false }),
 
-  // Mode management
   setCurrentMode: (mode) => set({ currentMode: mode }),
 
-  // Spin management
   getAvailableSpins: () => {
     const state = get();
     return state.currentMode === "daily" ? state.dailySpins : state.randomSpins;
@@ -83,36 +64,28 @@ export const useSpinWheelStore = create<SpinWheelStore>((set, get) => ({
     const currentSpins =
       state.currentMode === "daily" ? state.dailySpins : state.randomSpins;
     const newSpins = typeof spins === "function" ? spins(currentSpins) : spins;
-
-    if (state.currentMode === "daily") {
-      set({ dailySpins: newSpins });
-    } else {
-      set({ randomSpins: newSpins });
-    }
+    const key = state.currentMode === "daily" ? "dailySpins" : "randomSpins";
+    set({ [key]: newSpins });
   },
   consumeSpin: () => {
     const state = get();
-    if (state.currentMode === "daily") {
-      set({ dailySpins: Math.max(0, state.dailySpins - 1) });
-    } else {
-      set({ randomSpins: Math.max(0, state.randomSpins - 1) });
-    }
+    const key = state.currentMode === "daily" ? "dailySpins" : "randomSpins";
+    const currentValue =
+      state.currentMode === "daily" ? state.dailySpins : state.randomSpins;
+    set({ [key]: Math.max(0, currentValue - 1) });
   },
   grantSpin: () => {
     const state = get();
-    if (state.currentMode === "daily") {
-      set({ dailySpins: state.dailySpins + 1 });
-    } else {
-      set({ randomSpins: state.randomSpins + 1 });
-    }
+    const key = state.currentMode === "daily" ? "dailySpins" : "randomSpins";
+    const currentValue =
+      state.currentMode === "daily" ? state.dailySpins : state.randomSpins;
+    set({ [key]: currentValue + 1 });
   },
 
-  // Partial description
   setPartialDescription: (description) =>
     set({ partialDescription: description }),
   clearPartialDescription: () => set({ partialDescription: null }),
 
-  // Encouragement
   setShowEncouragementCallback: (callback) =>
     set({ showEncouragementCallback: callback }),
   showEncouragement: () => {
@@ -122,7 +95,6 @@ export const useSpinWheelStore = create<SpinWheelStore>((set, get) => ({
     }
   },
 
-  // Rubber duck
   activateRubberDuck: () => {
     set({ isRubberDuckActive: true });
   },
@@ -160,12 +132,10 @@ export const useSpinWheelStore = create<SpinWheelStore>((set, get) => ({
       },
     };
 
-    // Process the result using the new handler API
     const optionId: WheelOptionId = option.id;
     processSpinResult(optionId, context, actions);
   },
 
-  // Reset methods
   resetForNewPuzzle: () => {
     const state = get();
     if (state.currentMode === "daily") {
@@ -195,13 +165,11 @@ export const useSpinWheelStore = create<SpinWheelStore>((set, get) => ({
     }),
 }));
 
-// Set up the grant spin handler callback
 setGrantSpinHandler(() => {
   const store = useSpinWheelStore.getState();
   store.grantSpin();
 });
 
-// Set up the reset spin wheel handler callback
 setResetSpinWheelHandler(() => {
   const store = useSpinWheelStore.getState();
   store.resetForNewPuzzle();

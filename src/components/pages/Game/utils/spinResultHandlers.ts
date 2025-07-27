@@ -50,17 +50,12 @@ const spinHandlers = {
     actions.setAvailableSpins((prev) => prev + 1);
   },
 
-  clippy: () => {
-    // TODO
-  },
-
   "rubber-duck": (_context: SpinResultContext, actions: SpinResultActions) => {
     actions.activateRubberDuck();
 
-    // Auto-deactivate after 30 seconds
     setTimeout(() => {
       actions.deactivateRubberDuck();
-    }, 30000);
+    }, 30000); // 30 seconds
   },
 
   "comic-sans-mode": () => {

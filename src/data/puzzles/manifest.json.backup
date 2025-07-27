@@ -5,10 +5,7 @@
       "title": "Digital Correspondence",
       "difficulty": "easy",
       "category": "communication",
-      "tags": [
-        "validation",
-        "contact"
-      ],
+      "tags": ["validation", "contact"],
       "file": "easy/digital-correspondence.json",
       "summary": "Email validation - basic email format matching"
     },
@@ -17,10 +14,7 @@
       "title": "Voice Connection Format",
       "difficulty": "easy",
       "category": "communication",
-      "tags": [
-        "format",
-        "numbers"
-      ],
+      "tags": ["format", "numbers"],
       "file": "easy/voice-connection-format.json",
       "summary": "US phone numbers - (123) 456-7890 format"
     },
@@ -29,10 +23,7 @@
       "title": "Dotted Decimal Dance",
       "difficulty": "easy",
       "category": "numbers",
-      "tags": [
-        "format",
-        "decimal"
-      ],
+      "tags": ["format", "decimal"],
       "file": "easy/dotted-decimal-dance.json",
       "summary": "IP addresses - basic IPv4 validation"
     },
@@ -41,10 +32,7 @@
       "title": "Binary Truth Seekers",
       "difficulty": "easy",
       "category": "logic",
-      "tags": [
-        "boolean",
-        "simple"
-      ],
+      "tags": ["boolean", "simple"],
       "file": "easy/binary-truth-seekers.json",
       "summary": "Boolean values - matching true/false literals"
     },
@@ -53,10 +41,7 @@
       "title": "Social Media Hashtag Hunter",
       "difficulty": "easy",
       "category": "text",
-      "tags": [
-        "social",
-        "hashtag"
-      ],
+      "tags": ["social", "hashtag"],
       "file": "easy/social-media-hashtag-hunter.json",
       "summary": "Social media hashtags - # followed by letters/numbers/underscores"
     },
@@ -65,10 +50,7 @@
       "title": "Isolated Word",
       "difficulty": "easy",
       "category": "text",
-      "tags": [
-        "word",
-        "boundary"
-      ],
+      "tags": ["word", "boundary"],
       "file": "easy/isolated-word.json",
       "summary": "Match a whole word using word boundaries"
     },
@@ -77,10 +59,7 @@
       "title": "Flexible Acronym",
       "difficulty": "easy",
       "category": "text",
-      "tags": [
-        "case-insensitive",
-        "acronym"
-      ],
+      "tags": ["case-insensitive", "acronym"],
       "file": "easy/flexible-acronym.json",
       "summary": "Match text regardless of case"
     },
@@ -89,10 +68,7 @@
       "title": "Optional Plurals",
       "difficulty": "easy",
       "category": "text",
-      "tags": [
-        "optional",
-        "plural"
-      ],
+      "tags": ["optional", "plural"],
       "file": "easy/optional-plurals.json",
       "summary": "Match both singular and plural forms"
     },
@@ -101,10 +77,43 @@
       "title": "Repeating Digits",
       "difficulty": "easy",
       "category": "numbers",
-      "tags": [
-        "repeat",
-        "backreference"
-      ],
+      "tags": ["repeat", "backreference"],
+      "file": "easy/repeating-digits.json",
+      "summary": "Match a specific number of repeating characters"
+    },
+    {
+      "id": "easy-006",
+      "title": "Isolated Word",
+      "difficulty": "easy",
+      "category": "text",
+      "tags": ["word", "boundary"],
+      "file": "easy/isolated-word.json",
+      "summary": "Match a whole word using word boundaries"
+    },
+    {
+      "id": "easy-007",
+      "title": "Flexible Acronym",
+      "difficulty": "easy",
+      "category": "text",
+      "tags": ["case-insensitive", "acronym"],
+      "file": "easy/flexible-acronym.json",
+      "summary": "Match text regardless of case"
+    },
+    {
+      "id": "easy-008",
+      "title": "Optional Plurals",
+      "difficulty": "easy",
+      "category": "text",
+      "tags": ["optional", "plural"],
+      "file": "easy/optional-plurals.json",
+      "summary": "Match both singular and plural forms"
+    },
+    {
+      "id": "easy-009",
+      "title": "Repeating Digits",
+      "difficulty": "easy",
+      "category": "numbers",
+      "tags": ["repeat", "backreference"],
       "file": "easy/repeating-digits.json",
       "summary": "Match a specific number of repeating characters"
     },
@@ -113,10 +122,7 @@
       "title": "Markup Containers",
       "difficulty": "medium",
       "category": "structure",
-      "tags": [
-        "syntax",
-        "web"
-      ],
+      "tags": ["syntax", "web"],
       "file": "medium/markup-containers.json",
       "summary": "HTML opening tags - simple tag name matching"
     },
@@ -125,10 +131,7 @@
       "title": "Visual Spectrum Codes",
       "difficulty": "medium",
       "category": "display",
-      "tags": [
-        "format",
-        "visual"
-      ],
+      "tags": ["format", "visual"],
       "file": "medium/visual-spectrum-codes.json",
       "summary": "Hex color codes - 3/6 digit hex validation"
     },
@@ -137,10 +140,7 @@
       "title": "Temporal Sequence Cipher",
       "difficulty": "medium",
       "category": "time",
-      "tags": [
-        "date",
-        "format"
-      ],
+      "tags": ["date", "format"],
       "file": "medium/temporal-sequence-cipher.json",
       "summary": "Date formats - DD/MM/YYYY patterns"
     },
@@ -149,10 +149,7 @@
       "title": "Slashed Path Wanderer",
       "difficulty": "medium",
       "category": "navigation",
-      "tags": [
-        "path",
-        "system"
-      ],
+      "tags": ["path", "system"],
       "file": "medium/slashed-path-wanderer.json",
       "summary": "File paths - Unix-style path validation"
     },
@@ -161,10 +158,7 @@
       "title": "Underscored Identity Crisis",
       "difficulty": "medium",
       "category": "identity",
-      "tags": [
-        "naming",
-        "convention"
-      ],
+      "tags": ["naming", "convention"],
       "file": "medium/underscored-identity-crisis.json",
       "summary": "Variable names - underscore naming conventions"
     },
@@ -173,10 +167,7 @@
       "title": "License Plate Detective",
       "difficulty": "medium",
       "category": "identity",
-      "tags": [
-        "format",
-        "vehicle"
-      ],
+      "tags": ["format", "vehicle"],
       "file": "medium/license-plate-detective.json",
       "summary": "Vehicle license plates - 3 letters dash 3 numbers"
     },
@@ -185,10 +176,7 @@
       "title": "Time Zone Traveler",
       "difficulty": "medium",
       "category": "time",
-      "tags": [
-        "format",
-        "military"
-      ],
+      "tags": ["format", "military"],
       "file": "medium/time-zone-traveler.json",
       "summary": "24-hour time format - HH:MM military time"
     },
@@ -197,10 +185,7 @@
       "title": "Quoted Dialogue",
       "difficulty": "medium",
       "category": "text",
-      "tags": [
-        "quotes",
-        "greedy"
-      ],
+      "tags": ["quotes", "greedy"],
       "file": "medium/quoted-dialogue.json",
       "summary": "Match content within double quotes"
     },
@@ -209,10 +194,7 @@
       "title": "Temperature Readings",
       "difficulty": "medium",
       "category": "numbers",
-      "tags": [
-        "optional",
-        "sign"
-      ],
+      "tags": ["optional", "sign"],
       "file": "medium/temperature-readings.json",
       "summary": "Match numbers with optional signs"
     },
@@ -221,10 +203,34 @@
       "title": "Camel Case Identifier",
       "difficulty": "medium",
       "category": "identity",
-      "tags": [
-        "naming",
-        "convention"
-      ],
+      "tags": ["naming", "convention"],
+      "file": "medium/camel-case-identifier.json",
+      "summary": "Validate camelCase variable names"
+    },
+    {
+      "id": "medium-008",
+      "title": "Quoted Dialogue",
+      "difficulty": "medium",
+      "category": "text",
+      "tags": ["quotes", "greedy"],
+      "file": "medium/quoted-dialogue.json",
+      "summary": "Match content within double quotes"
+    },
+    {
+      "id": "medium-009",
+      "title": "Temperature Readings",
+      "difficulty": "medium",
+      "category": "numbers",
+      "tags": ["optional", "sign"],
+      "file": "medium/temperature-readings.json",
+      "summary": "Match numbers with optional signs"
+    },
+    {
+      "id": "medium-010",
+      "title": "Camel Case Identifier",
+      "difficulty": "medium",
+      "category": "identity",
+      "tags": ["naming", "convention"],
       "file": "medium/camel-case-identifier.json",
       "summary": "Validate camelCase variable names"
     },
@@ -233,10 +239,7 @@
       "title": "Access Key Strength",
       "difficulty": "hard",
       "category": "security",
-      "tags": [
-        "validation",
-        "complexity"
-      ],
+      "tags": ["validation", "complexity"],
       "file": "hard/access-key-strength.json",
       "summary": "Password validation - complex requirements"
     },
@@ -245,10 +248,7 @@
       "title": "Network Node Addresses",
       "difficulty": "hard",
       "category": "networking",
-      "tags": [
-        "format",
-        "protocol"
-      ],
+      "tags": ["format", "protocol"],
       "file": "hard/network-node-addresses.json",
       "summary": "MAC addresses - colon-separated hex pairs"
     },
@@ -257,10 +257,7 @@
       "title": "Credit Card Whisperer",
       "difficulty": "hard",
       "category": "finance",
-      "tags": [
-        "payment",
-        "validation"
-      ],
+      "tags": ["payment", "validation"],
       "file": "hard/credit-card-whisperer.json",
       "summary": "Credit card numbers - various card formats"
     },
@@ -269,10 +266,7 @@
       "title": "Alphabetic Soup Sorter",
       "difficulty": "hard",
       "category": "text",
-      "tags": [
-        "sorting",
-        "alpha"
-      ],
+      "tags": ["sorting", "alpha"],
       "file": "hard/alphabetic-soup-sorter.json",
       "summary": "Sorted strings - alphabetically ordered text"
     },
@@ -281,10 +275,7 @@
       "title": "Version Number Archaeologist",
       "difficulty": "hard",
       "category": "versioning",
-      "tags": [
-        "semantic",
-        "software"
-      ],
+      "tags": ["semantic", "software"],
       "file": "hard/version-number-archaeologist.json",
       "summary": "Semantic versioning - x.y.z format"
     },
@@ -293,10 +284,7 @@
       "title": "Book ISBN Validator",
       "difficulty": "hard",
       "category": "identity",
-      "tags": [
-        "format",
-        "books"
-      ],
+      "tags": ["format", "books"],
       "file": "hard/book-isbn-validator.json",
       "summary": "ISBN-10 book identifiers - 9 digits plus check digit"
     },
@@ -305,10 +293,7 @@
       "title": "Markdown Image Links",
       "difficulty": "hard",
       "category": "structure",
-      "tags": [
-        "markdown",
-        "links"
-      ],
+      "tags": ["markdown", "links"],
       "file": "hard/markdown-image-links.json",
       "summary": "Validate Markdown image syntax"
     },
@@ -317,10 +302,25 @@
       "title": "Domain Name Validator",
       "difficulty": "hard",
       "category": "networking",
-      "tags": [
-        "validation",
-        "dns"
-      ],
+      "tags": ["validation", "dns"],
+      "file": "hard/domain-name-validator.json",
+      "summary": "Validate domain names with complex rules"
+    },
+    {
+      "id": "hard-007",
+      "title": "Markdown Image Links",
+      "difficulty": "hard",
+      "category": "structure",
+      "tags": ["markdown", "links"],
+      "file": "hard/markdown-image-links.json",
+      "summary": "Validate Markdown image syntax"
+    },
+    {
+      "id": "hard-008",
+      "title": "Domain Name Validator",
+      "difficulty": "hard",
+      "category": "networking",
+      "tags": ["validation", "dns"],
       "file": "hard/domain-name-validator.json",
       "summary": "Validate domain names with complex rules"
     },
@@ -329,11 +329,7 @@
       "title": "Web Address Archaeologist",
       "difficulty": "hard",
       "category": "networking",
-      "tags": [
-        "validation",
-        "url",
-        "security"
-      ],
+      "tags": ["validation", "url", "security"],
       "file": "hard/web-address-archaeologist.json",
       "summary": "HTTPS URL validation - secure web addresses with proper structure"
     },
@@ -342,10 +338,7 @@
       "title": "Temporal Coordinates Cipher",
       "difficulty": "hard",
       "category": "time",
-      "tags": [
-        "timestamp",
-        "validation"
-      ],
+      "tags": ["timestamp", "validation"],
       "file": "hard/temporal-coordinates-cipher.json",
       "summary": "ISO datetime stamps - precise timestamp validation with ranges"
     },
@@ -354,10 +347,7 @@
       "title": "System Event Chronicle",
       "difficulty": "hard",
       "category": "data",
-      "tags": [
-        "logging",
-        "structure"
-      ],
+      "tags": ["logging", "structure"],
       "file": "hard/system-event-chronicle.json",
       "summary": "Structured logs - complex log entry format validation"
     },
@@ -366,10 +356,7 @@
       "title": "Serialized Text Format",
       "difficulty": "expert",
       "category": "data",
-      "tags": [
-        "format",
-        "structure"
-      ],
+      "tags": ["format", "structure"],
       "file": "expert/serialized-text-format.json",
       "summary": "JSON-like structures - nested data patterns"
     },
@@ -378,10 +365,7 @@
       "title": "Nested Parentheses Zen Master",
       "difficulty": "expert",
       "category": "structure",
-      "tags": [
-        "recursive",
-        "balance"
-      ],
+      "tags": ["recursive", "balance"],
       "file": "expert/nested-parentheses-zen-master.json",
       "summary": "Balanced parentheses - recursive matching"
     },
@@ -390,10 +374,7 @@
       "title": "Email Header Archaeologist",
       "difficulty": "expert",
       "category": "protocols",
-      "tags": [
-        "rfc",
-        "complex"
-      ],
+      "tags": ["rfc", "complex"],
       "file": "expert/email-header-archaeologist.json",
       "summary": "RFC email headers - complex email parsing"
     },
@@ -402,10 +383,7 @@
       "title": "Mathematical Expression Oracle",
       "difficulty": "expert",
       "category": "mathematics",
-      "tags": [
-        "algebra",
-        "parsing"
-      ],
+      "tags": ["algebra", "parsing"],
       "file": "expert/mathematical-expression-oracle.json",
       "summary": "Math expressions - algebraic notation"
     },
@@ -414,10 +392,7 @@
       "title": "Chemical Formula Parser",
       "difficulty": "expert",
       "category": "science",
-      "tags": [
-        "chemistry",
-        "molecules"
-      ],
+      "tags": ["chemistry", "molecules"],
       "file": "expert/chemical-formula-parser.json",
       "summary": "Chemical formulas - molecular structure notation"
     },
@@ -426,10 +401,16 @@
       "title": "UUID Identifier",
       "difficulty": "expert",
       "category": "identity",
-      "tags": [
-        "format",
-        "uuid"
-      ],
+      "tags": ["format", "uuid"],
+      "file": "expert/uuid-identifier.json",
+      "summary": "Validate universally unique identifiers (UUIDs)"
+    },
+    {
+      "id": "expert-006",
+      "title": "UUID Identifier",
+      "difficulty": "expert",
+      "category": "identity",
+      "tags": ["format", "uuid"],
       "file": "expert/uuid-identifier.json",
       "summary": "Validate universally unique identifiers (UUIDs)"
     },
@@ -438,10 +419,7 @@
       "title": "Configuration Parameter Oracle",
       "difficulty": "expert",
       "category": "data",
-      "tags": [
-        "config",
-        "parsing"
-      ],
+      "tags": ["config", "parsing"],
       "file": "expert/configuration-parameter-oracle.json",
       "summary": "Config file entries - key-value pairs with dot notation"
     },
@@ -450,10 +428,7 @@
       "title": "Data Structure Sentinel",
       "difficulty": "expert",
       "category": "data",
-      "tags": [
-        "json",
-        "validation"
-      ],
+      "tags": ["json", "validation"],
       "file": "expert/data-structure-sentinel.json",
       "summary": "Simple JSON objects - string key-value pair validation"
     },
@@ -462,10 +437,7 @@
       "title": "Whitespace Phantom",
       "difficulty": "nightmare",
       "category": "invisible",
-      "tags": [
-        "whitespace",
-        "hidden"
-      ],
+      "tags": ["whitespace", "hidden"],
       "file": "nightmare/whitespace-phantom.json",
       "summary": "Invisible characters - whitespace edge cases"
     },
@@ -474,11 +446,7 @@
       "title": "Prime Number Sieve",
       "difficulty": "nightmare",
       "category": "mathematics",
-      "tags": [
-        "prime",
-        "unary",
-        "lookahead"
-      ],
+      "tags": ["prime", "unary", "lookahead"],
       "file": "nightmare/prime-number-sieve.json",
       "summary": "Prime number validation using unary representation"
     },
@@ -487,11 +455,7 @@
       "title": "Log File Locator",
       "difficulty": "easy",
       "category": "text",
-      "tags": [
-        "file",
-        "extension",
-        "anchor"
-      ],
+      "tags": ["file", "extension", "anchor"],
       "file": "easy/log-file-locator.json",
       "summary": "Match file names ending with a specific extension using anchors."
     },
@@ -500,11 +464,7 @@
       "title": "Numeric Password",
       "difficulty": "easy",
       "category": "security",
-      "tags": [
-        "validation",
-        "numbers",
-        "quantifier"
-      ],
+      "tags": ["validation", "numbers", "quantifier"],
       "file": "easy/numeric-password.json",
       "summary": "Validate a password that must be an exact number of digits."
     },
@@ -513,11 +473,7 @@
       "title": "Variable Name Validator",
       "difficulty": "medium",
       "category": "identity",
-      "tags": [
-        "naming",
-        "convention",
-        "character-class"
-      ],
+      "tags": ["naming", "convention", "character-class"],
       "file": "medium/variable-name-validator.json",
       "summary": "Validate variable names based on common programming language rules."
     },
@@ -526,11 +482,7 @@
       "title": "HTML Tag Attribute Hunter",
       "difficulty": "hard",
       "category": "structure",
-      "tags": [
-        "html",
-        "attribute",
-        "negated-set"
-      ],
+      "tags": ["html", "attribute", "negated-set"],
       "file": "hard/html-tag-attribute-hunter.json",
       "summary": "Extract key-value attributes from an HTML tag using a negated character set."
     },
@@ -539,11 +491,7 @@
       "title": "CSS Class List Validator",
       "difficulty": "expert",
       "category": "display",
-      "tags": [
-        "css",
-        "validation",
-        "repeating-group"
-      ],
+      "tags": ["css", "validation", "repeating-group"],
       "file": "expert/css-class-list-validator.json",
       "summary": "Validate a space-separated list of CSS class names using repeating groups."
     },
@@ -552,11 +500,7 @@
       "title": "Musical Note Recognition",
       "difficulty": "easy",
       "category": "music",
-      "tags": [
-        "notes",
-        "accidentals",
-        "character-class"
-      ],
+      "tags": ["notes", "accidentals", "character-class"],
       "file": "easy/musical-note-recognition.json",
       "summary": "Identify musical notes in standard notation with optional sharps and flats."
     },
@@ -565,11 +509,7 @@
       "title": "Product Code Scanner",
       "difficulty": "medium",
       "category": "identity",
-      "tags": [
-        "format",
-        "structure",
-        "exact-quantifier"
-      ],
+      "tags": ["format", "structure", "exact-quantifier"],
       "file": "medium/product-code-scanner.json",
       "summary": "Validate structured product codes with category, number, and version components."
     },
@@ -578,11 +518,7 @@
       "title": "Log Timestamp Extractor",
       "difficulty": "hard",
       "category": "time",
-      "tags": [
-        "timestamp",
-        "validation",
-        "range"
-      ],
+      "tags": ["timestamp", "validation", "range"],
       "file": "hard/log-timestamp-extractor.json",
       "summary": "Extract and validate server log timestamps with precise date and time ranges."
     }

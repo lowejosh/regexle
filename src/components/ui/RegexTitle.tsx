@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { GlitchText } from "./GlitchText";
 
-// Constants
 const REGEX_PATTERNS = [
   "/^Regexle$/",
   "/Reg[ex]+le/i",
@@ -70,10 +69,8 @@ export function RegexTitle({ className = "" }: RegexTitleProps) {
       timeoutIds.push(setTimeout(executeGlitchSequence, delay));
     };
 
-    // Start the cycle
     scheduleNextGlitch();
 
-    // Cleanup
     return () => {
       timeoutIds.forEach(clearTimeout);
     };
@@ -83,7 +80,6 @@ export function RegexTitle({ className = "" }: RegexTitleProps) {
     <div className={`relative ${className}`}>
       <h1 className="text-xl sm:text-2xl font-bold font-mono tracking-wide text-primary group-hover:text-primary/80 transition-colors">
         <span className="relative">
-          {/* Main text - normal, glitching, or showing pattern */}
           {isGlitching ? (
             <GlitchText speed={50} className="text-primary/80">
               Regexle

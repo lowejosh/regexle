@@ -11,8 +11,6 @@ interface GlitchTextProps {
 const DEFAULT_GLITCH_CHARS =
   "!@#$%^&*()_+-=[]{}|;:,.<>?~`1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
-// Originally had this for the description -- didnt like it, but it looked cool, might find another use
-
 export function GlitchText({
   children,
   className = "",

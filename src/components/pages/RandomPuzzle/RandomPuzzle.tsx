@@ -7,7 +7,7 @@ export function RandomPuzzle() {
   const [difficulty, setDifficulty] = useState<
     Puzzle["difficulty"] | undefined
   >(undefined);
-  const [puzzleKey, setPuzzleKey] = useState(0); // Force re-render when loading new puzzle
+  const [puzzleKey, setPuzzleKey] = useState(0);
 
   const handleLoadNew = () => {
     setPuzzleKey((prev) => prev + 1);
@@ -17,7 +17,7 @@ export function RandomPuzzle() {
     newDifficulty: Puzzle["difficulty"] | undefined
   ) => {
     setDifficulty(newDifficulty);
-    setPuzzleKey((prev) => prev + 1); // Force re-mount to ensure clean state
+    setPuzzleKey((prev) => prev + 1);
   };
 
   return (

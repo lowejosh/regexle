@@ -5,9 +5,7 @@ import { puzzleLoader } from "../data/puzzleLoader";
 import { puzzleService, type GameMode } from "../services/puzzleService";
 import { useStatisticsStore } from "./statisticsStore";
 
-// Callback for granting spins on test failure (set from spin wheel store)
 let grantSpinCallback: (() => void) | null = null;
-// Callback for resetting spin wheel state on new puzzle (set from spin wheel store)
 let resetSpinWheelCallback: (() => void) | null = null;
 
 export const setGrantSpinHandler = (callback: (() => void) | null) => {
@@ -18,9 +16,7 @@ export const setResetSpinWheelHandler = (callback: (() => void) | null) => {
   resetSpinWheelCallback = callback;
 };
 
-// Helper function to reset state for new puzzle
 const resetPuzzleState = () => {
-  // Reset spin wheel state
   if (resetSpinWheelCallback) {
     resetSpinWheelCallback();
   }
@@ -35,7 +31,6 @@ const resetPuzzleState = () => {
 };
 
 interface GameStore extends GameState {
-  // Actions
   loadPuzzle: (puzzle: Puzzle) => void;
   loadRandomPuzzle: (difficulty?: Puzzle["difficulty"]) => Promise<void>;
   loadDailyPuzzle: () => Promise<void>;
@@ -51,14 +46,12 @@ interface GameStore extends GameState {
   setDifficulty: (difficulty: Puzzle["difficulty"]) => void;
   toggleDescription: () => void;
   setSolutionRevealed: (revealed: boolean) => void;
-  // Test case revelation
   setRevealedTestCases: (cases: number | ((prev: number) => number)) => void;
   revealMoreTestCases: () => void;
   handleTestFailure: () => void;
 }
 
 export const useGameStore = create<GameStore>((set, get) => ({
-  // Initial state
   currentPuzzle: null,
   userPattern: "",
   gameResult: null,
@@ -69,8 +62,6 @@ export const useGameStore = create<GameStore>((set, get) => ({
   revealedTestCases: 1,
   attempts: 0,
   solutionRevealed: false,
-
-  // Actions
   loadPuzzle: (puzzle: Puzzle) => {
     set({
       currentPuzzle: puzzle,
@@ -128,7 +119,6 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
   updatePattern: (pattern: string) => {
     set({ userPattern: pattern });
-    // Remove auto-testing - only test on button press
   },
 
   testPattern: () => {
@@ -141,31 +131,26 @@ export const useGameStore = create<GameStore>((set, get) => ({
     );
     set({
       gameResult: result,
-      attempts: state.attempts + 1, // Increment attempt counter
+      attempts: state.attempts + 1,
     });
   },
 
-  // Test pattern and handle post-test logic (side effects)
   testPatternWithEffects: () => {
     const state = get();
     if (!state.currentPuzzle || !state.userPattern.trim()) return;
 
-    // First, run the test
     const result = RegexGameEngine.testPattern(
       state.userPattern,
       state.currentPuzzle.testCases
     );
     set({
       gameResult: result,
-      attempts: state.attempts + 1, // Increment attempt counter
+      attempts: state.attempts + 1,
     });
 
-    // Handle side effects immediately
     if (result && !result.isCorrect && state.currentPuzzle) {
-      // Handle test failure directly
       state.handleTestFailure();
     } else if (result && result.isCorrect) {
-      // Handle successful solve
       state.completePuzzle();
     }
   },
@@ -178,7 +163,6 @@ export const useGameStore = create<GameStore>((set, get) => ({
     const newCompleted = new Set(state.completedPuzzles);
     newCompleted.add(state.currentPuzzle.id);
 
-    // Record statistics
     useStatisticsStore
       .getState()
       .recordSolve(
@@ -216,7 +200,6 @@ export const useGameStore = create<GameStore>((set, get) => ({
     set({ solutionRevealed: revealed });
   },
 
-  // Test case revelation actions
   setRevealedTestCases: (cases) =>
     set({
       revealedTestCases:
@@ -239,7 +222,6 @@ export const useGameStore = create<GameStore>((set, get) => ({
   handleTestFailure: () => {
     const state = get();
     state.revealMoreTestCases();
-    // Notify spin wheel store to grant a spin
     if (grantSpinCallback) {
       grantSpinCallback();
     }

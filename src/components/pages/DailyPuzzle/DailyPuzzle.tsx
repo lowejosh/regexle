@@ -3,11 +3,10 @@ import { Game } from "@/components/pages/Game";
 import { DailyCountdown } from "./DailyCountdown";
 
 export function DailyPuzzle() {
-  const [gameKey, setGameKey] = useState(0);
+  const [puzzleKey, setPuzzleKey] = useState(0);
 
   const handleNewDay = () => {
-    // Force Game component to remount and load new daily puzzle
-    setGameKey((prev) => prev + 1);
+    setPuzzleKey((prev) => prev + 1);
   };
 
   return (
@@ -23,7 +22,7 @@ export function DailyPuzzle() {
 
       <DailyCountdown onNewDay={handleNewDay} />
 
-      <Game key={gameKey} mode="daily" />
+      <Game key={puzzleKey} mode="daily" />
     </div>
   );
 }
