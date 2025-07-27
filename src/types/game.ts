@@ -48,6 +48,7 @@ export interface GameState {
   gameResult: GameResult | null;
   completedPuzzles: Set<string>;
   currentDifficulty: Puzzle["difficulty"];
+  currentMode: "daily" | "random";
   showDescription: boolean;
   revealedTestCases: number;
   attempts: number;

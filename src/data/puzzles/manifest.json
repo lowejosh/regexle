@@ -388,15 +388,6 @@
       "summary": "Validate universally unique identifiers (UUIDs)"
     },
     {
-      "id": "nightmare-001",
-      "title": "Recursive Nightmare",
-      "difficulty": "nightmare",
-      "category": "meta",
-      "tags": ["recursive", "impossible"],
-      "file": "nightmare/recursive-nightmare.json",
-      "summary": "Meta-recursive patterns - self-referential regex"
-    },
-    {
       "id": "nightmare-002",
       "title": "Whitespace Phantom",
       "difficulty": "nightmare",

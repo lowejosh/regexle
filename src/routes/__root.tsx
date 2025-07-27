@@ -64,6 +64,20 @@ function RootComponent() {
                 <span className="sm:hidden">Cheat</span>
               </Button>
             </Link>
+            <Link to="/statistics">
+              <Button
+                variant="ghost"
+                size="sm"
+                className={`text-xs sm:text-sm px-2 sm:px-3 ${
+                  location.pathname === "/statistics"
+                    ? "text-primary"
+                    : "hover:bg-accent hover:text-accent-foreground"
+                }`}
+              >
+                <span className="hidden sm:inline">Statistics</span>
+                <span className="sm:hidden">Stats</span>
+              </Button>
+            </Link>
             <ThemeToggle />
           </div>
         </div>

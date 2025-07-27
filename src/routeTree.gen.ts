@@ -9,10 +9,16 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as StatisticsRouteImport } from './routes/statistics'
 import { Route as RandomRouteImport } from './routes/random'
 import { Route as CheatsheetRouteImport } from './routes/cheatsheet'
 import { Route as IndexRouteImport } from './routes/index'
 
+const StatisticsRoute = StatisticsRouteImport.update({
+  id: '/statistics',
+  path: '/statistics',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RandomRoute = RandomRouteImport.update({
   id: '/random',
   path: '/random',
@@ -33,34 +39,45 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/cheatsheet': typeof CheatsheetRoute
   '/random': typeof RandomRoute
+  '/statistics': typeof StatisticsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/cheatsheet': typeof CheatsheetRoute
   '/random': typeof RandomRoute
+  '/statistics': typeof StatisticsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/cheatsheet': typeof CheatsheetRoute
   '/random': typeof RandomRoute
+  '/statistics': typeof StatisticsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/cheatsheet' | '/random'
+  fullPaths: '/' | '/cheatsheet' | '/random' | '/statistics'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/cheatsheet' | '/random'
-  id: '__root__' | '/' | '/cheatsheet' | '/random'
+  to: '/' | '/cheatsheet' | '/random' | '/statistics'
+  id: '__root__' | '/' | '/cheatsheet' | '/random' | '/statistics'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CheatsheetRoute: typeof CheatsheetRoute
   RandomRoute: typeof RandomRoute
+  StatisticsRoute: typeof StatisticsRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/statistics': {
+      id: '/statistics'
+      path: '/statistics'
+      fullPath: '/statistics'
+      preLoaderRoute: typeof StatisticsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/random': {
       id: '/random'
       path: '/random'
@@ -89,6 +106,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CheatsheetRoute: CheatsheetRoute,
   RandomRoute: RandomRoute,
+  StatisticsRoute: StatisticsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

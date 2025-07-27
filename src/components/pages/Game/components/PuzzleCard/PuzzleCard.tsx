@@ -1,5 +1,6 @@
 import { useSpinWheelStore } from "../../../../../store/spinWheelStore";
 import { useGameStore } from "../../../../../store/gameStore";
+import { useStatisticsStore } from "../../../../../store/statisticsStore";
 import type { Puzzle } from "../../../../../types/game";
 import { SpinWheelButton } from "../SpinWheelButton";
 import { TestCases } from "../TestCases/TestCases";
@@ -39,6 +40,8 @@ export function PuzzleCard({ puzzle: propPuzzle }: PuzzleCardProps) {
   const { partialDescription, getAvailableSpins, openSpinWheel } =
     useSpinWheelStore();
 
+  const { isPuzzleSolved: isPreviouslySolved } = useStatisticsStore();
+
   const [showSolution, setShowSolution] = useState(false);
   const availableSpins = getAvailableSpins();
 
@@ -52,6 +55,7 @@ export function PuzzleCard({ puzzle: propPuzzle }: PuzzleCardProps) {
     revealedTestCases >=
     Math.max(shouldMatchCases.length, shouldNotMatchCases.length);
   const isPuzzleSolved = gameResult?.isCorrect;
+  const wasPreviouslySolved = isPreviouslySolved(puzzle.id);
 
   const handlePatternChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     updatePattern(e.target.value);
@@ -66,6 +70,17 @@ export function PuzzleCard({ puzzle: propPuzzle }: PuzzleCardProps) {
     setSolutionRevealed(true);
   };
 
+  const handleInstantSolve = () => {
+    // Set the correct pattern and test it
+    if (puzzle.solution) {
+      updatePattern(puzzle.solution);
+      // Use setTimeout to ensure the pattern is updated before testing
+      setTimeout(() => {
+        testPatternWithEffects();
+      }, 0);
+    }
+  };
+
   return (
     <Card>
       <CardHeader>
@@ -75,6 +90,14 @@ export function PuzzleCard({ puzzle: propPuzzle }: PuzzleCardProps) {
             <Badge variant={puzzle.difficulty}>
               {toTitleCase(puzzle.difficulty)}
             </Badge>
+            {wasPreviouslySolved && (
+              <Badge
+                variant="secondary"
+                className="text-xs bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
+              >
+                Previously solved
+              </Badge>
+            )}
             <SpinWheelButton
               availableSpins={availableSpins}
               gameResult={gameResult}
@@ -109,8 +132,22 @@ export function PuzzleCard({ puzzle: propPuzzle }: PuzzleCardProps) {
           />
         )}
 
-        {allTestCasesRevealed && !isPuzzleSolved && !showSolution && (
+        {/* Temporary test button - always visible when puzzle not solved */}
+        {!isPuzzleSolved && (
           <div className="flex justify-end">
+            <Button
+              variant="outline"
+              onClick={handleInstantSolve}
+              className="text-muted-foreground hover:text-green-500 border-border hover:border-green-400 hover:bg-green-50 dark:hover:bg-green-900/20 transition-all duration-300 hover:shadow-md group"
+            >
+              <span className="group-hover:animate-pulse">⚡</span>
+              <span className="ml-2 font-medium">Instant Solve (Test)</span>
+            </Button>
+          </div>
+        )}
+
+        {allTestCasesRevealed && !isPuzzleSolved && !showSolution && (
+          <div className="flex justify-end gap-3">
             <Button
               variant="outline"
               onClick={handleGiveUp}

@@ -3,6 +3,7 @@ import type { GameState, Puzzle } from "../types/game";
 import { RegexGameEngine } from "../engine/gameEngine";
 import { puzzleLoader } from "../data/puzzleLoader";
 import { puzzleService, type GameMode } from "../services/puzzleService";
+import { useStatisticsStore } from "./statisticsStore";
 
 // Callback for granting spins on test failure (set from spin wheel store)
 let grantSpinCallback: (() => void) | null = null;
@@ -63,6 +64,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   gameResult: null,
   completedPuzzles: new Set(),
   currentDifficulty: "easy",
+  currentMode: "random",
   showDescription: false,
   revealedTestCases: 1,
   attempts: 0,
@@ -82,6 +84,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       if (puzzle) {
         set({
           currentPuzzle: puzzle,
+          currentMode: "random",
           ...resetPuzzleState(),
         });
       }
@@ -96,6 +99,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       if (puzzle) {
         set({
           currentPuzzle: puzzle,
+          currentMode: "daily",
           ...resetPuzzleState(),
         });
       }
@@ -113,6 +117,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       if (puzzle) {
         set({
           currentPuzzle: puzzle,
+          currentMode: mode,
           ...resetPuzzleState(),
         });
       }
@@ -155,21 +160,34 @@ export const useGameStore = create<GameStore>((set, get) => ({
       attempts: state.attempts + 1, // Increment attempt counter
     });
 
-    // Then handle side effects asynchronously
-    setTimeout(() => {
-      if (result && !result.isCorrect && state.currentPuzzle) {
-        // Handle test failure directly
-        state.handleTestFailure();
-      }
-    }, 100);
+    // Handle side effects immediately
+    if (result && !result.isCorrect && state.currentPuzzle) {
+      // Handle test failure directly
+      state.handleTestFailure();
+    } else if (result && result.isCorrect) {
+      // Handle successful solve
+      state.completePuzzle();
+    }
   },
 
   completePuzzle: () => {
     const state = get();
+
     if (!state.currentPuzzle || !state.gameResult?.isCorrect) return;
 
     const newCompleted = new Set(state.completedPuzzles);
     newCompleted.add(state.currentPuzzle.id);
+
+    // Record statistics
+    useStatisticsStore
+      .getState()
+      .recordSolve(
+        state.currentPuzzle.id,
+        state.currentPuzzle.difficulty,
+        state.attempts,
+        state.solutionRevealed,
+        state.currentMode
+      );
 
     set({ completedPuzzles: newCompleted });
   },
