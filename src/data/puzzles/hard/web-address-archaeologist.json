@@ -1,0 +1,20 @@
+{
+  "id": "hard-009",
+  "title": "Web Address Archaeologist",
+  "description": "Find complete web addresses with secure protocols and proper structure. These URLs must use secure connections and follow standard formatting rules.",
+  "difficulty": "hard",
+  "testCases": [
+    { "input": "https://www.example.com", "shouldMatch": true },
+    { "input": "https://api.github.com/users", "shouldMatch": true },
+    { "input": "https://subdomain.site.org/path", "shouldMatch": true },
+    { "input": "https://secure.domain.net", "shouldMatch": true },
+    { "input": "https://cdn.example.io/assets", "shouldMatch": true },
+    { "input": "http://insecure.com", "shouldMatch": false },
+    { "input": "ftp://files.server.net", "shouldMatch": false },
+    { "input": "https://", "shouldMatch": false },
+    { "input": "www.example.com", "shouldMatch": false },
+    { "input": "https://invalid..domain.com", "shouldMatch": false }
+  ],
+  "solution": "^https://([a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])*\\.)+[a-zA-Z]{2,}(/[^\\s]*)?$",
+  "solutionSummary": "Uses anchors (^$) to match the entire string, requires 'https://' protocol, validates domain names with proper character classes and quantifiers, ensures domains don't start/end with hyphens, requires valid TLD with 2+ characters, and allows optional paths with non-whitespace characters."
+}

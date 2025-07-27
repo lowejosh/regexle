@@ -1,0 +1,18 @@
+{
+  "id": "expert-008",
+  "title": "Configuration Parameter Oracle",
+  "description": "Find valid configuration entries with proper key-value syntax. These settings must follow specific formatting rules for system configuration files.",
+  "difficulty": "expert",
+  "testCases": [
+    { "input": "database.host=localhost:5432", "shouldMatch": true },
+    { "input": "app.debug_mode=true", "shouldMatch": true },
+    { "input": "cache.timeout=300", "shouldMatch": true },
+    { "input": "api.rate_limit=1000", "shouldMatch": true },
+    { "input": "invalid key=value", "shouldMatch": false },
+    { "input": "no.equals.sign", "shouldMatch": false },
+    { "input": "=no_key_before_equals", "shouldMatch": false },
+    { "input": "trailing.equals=", "shouldMatch": false }
+  ],
+  "solution": "^[a-z]+(?:\\.[a-z_]+)*=[a-zA-Z0-9_:]+$",
+  "solutionSummary": "Uses non-capturing groups (?:...) with quantifiers, word boundaries, and character classes: [a-z]+ for the first key part, (?:\\.[a-z_]+)* for optional dot-separated sections with underscores allowed, = for the separator, and [a-zA-Z0-9_:]+ for values that can contain alphanumeric characters, underscores, and colons."
+}

@@ -1,0 +1,18 @@
+{
+  "id": "hard-011",
+  "title": "System Event Chronicle",
+  "description": "Find structured log entries with proper formatting. These system messages contain timestamps, log levels, and component information in a specific pattern.",
+  "difficulty": "hard",
+  "testCases": [
+    { "input": "[2024-01-15 09:30:45] INFO [auth.service] User login successful", "shouldMatch": true },
+    { "input": "[2023-12-31 23:59:59] ERROR [db.connection] Connection timeout", "shouldMatch": true },
+    { "input": "[2024-06-20 14:15:30] WARN [cache.redis] Memory threshold exceeded", "shouldMatch": true },
+    { "input": "[2024-03-10 08:00:00] DEBUG [api.controller] Request processed", "shouldMatch": true },
+    { "input": "2024-01-15 09:30:45 INFO auth.service User login", "shouldMatch": false },
+    { "input": "[2024-01-15] INFO [auth.service] User login", "shouldMatch": false },
+    { "input": "[2024-01-15 09:30:45] [auth.service] User login", "shouldMatch": false },
+    { "input": "[2024-01-15 09:30:45] INFO auth.service User login", "shouldMatch": false }
+  ],
+  "solution": "^\\[\\d{4}-\\d{2}-\\d{2}\\s\\d{2}:\\d{2}:\\d{2}\\]\\s(INFO|ERROR|WARN|DEBUG)\\s\\[[a-z]+\\.[a-z]+\\]\\s.+$",
+  "solutionSummary": "Combines multiple regex concepts: escaped brackets \\[ \\], date/time patterns \\d{4}-\\d{2}-\\d{2}\\s\\d{2}:\\d{2}:\\d{2}, alternation for log levels (INFO|ERROR|WARN|DEBUG), component naming pattern \\[[a-z]+\\.[a-z]+\\], and .+ for the message content."
+}

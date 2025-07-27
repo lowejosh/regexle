@@ -1,0 +1,18 @@
+{
+  "id": "expert-009",
+  "title": "Data Structure Sentinel",
+  "description": "Find simple JSON objects with string properties. These data structures must follow basic JSON syntax rules for key-value pairs.",
+  "difficulty": "expert",
+  "testCases": [
+    { "input": "{\"name\":\"John\",\"age\":\"30\"}", "shouldMatch": true },
+    { "input": "{\"status\":\"active\"}", "shouldMatch": true },
+    { "input": "{\"id\":\"123\",\"type\":\"user\",\"role\":\"admin\"}", "shouldMatch": true },
+    { "input": "{\"message\":\"Hello World\"}", "shouldMatch": true },
+    { "input": "{name:\"John\",age:\"30\"}", "shouldMatch": false },
+    { "input": "{\"name\":John,\"age\":\"30\"}", "shouldMatch": false },
+    { "input": "{\"name\":\"John\",\"age\":30}", "shouldMatch": false },
+    { "input": "name:John,age:30", "shouldMatch": false }
+  ],
+  "solution": "^\\{\"[a-zA-Z_][a-zA-Z0-9_]*\":\"[^\"]*\"(?:,\"[a-zA-Z_][a-zA-Z0-9_]*\":\"[^\"]*\")*\\}$",
+  "solutionSummary": "Validates JSON object structure: \\{ for opening brace, \"[a-zA-Z_][a-zA-Z0-9_]*\" for quoted keys starting with letter/underscore, : separator, \"[^\"]*\" for quoted string values (any characters except quotes), (?:,\"key\":\"value\")* for additional key-value pairs, and \\} for closing brace."
+}

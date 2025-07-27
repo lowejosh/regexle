@@ -325,6 +325,33 @@
       "summary": "Validate domain names with complex rules"
     },
     {
+      "id": "hard-009",
+      "title": "Web Address Archaeologist",
+      "difficulty": "hard",
+      "category": "networking",
+      "tags": ["validation", "url", "security"],
+      "file": "hard/web-address-archaeologist.json",
+      "summary": "HTTPS URL validation - secure web addresses with proper structure"
+    },
+    {
+      "id": "hard-010",
+      "title": "Temporal Coordinates Cipher",
+      "difficulty": "hard",
+      "category": "time",
+      "tags": ["timestamp", "validation"],
+      "file": "hard/temporal-coordinates-cipher.json",
+      "summary": "ISO datetime stamps - precise timestamp validation with ranges"
+    },
+    {
+      "id": "hard-011",
+      "title": "System Event Chronicle",
+      "difficulty": "hard",
+      "category": "data",
+      "tags": ["logging", "structure"],
+      "file": "hard/system-event-chronicle.json",
+      "summary": "Structured logs - complex log entry format validation"
+    },
+    {
       "id": "expert-001",
       "title": "Serialized Text Format",
       "difficulty": "expert",
@@ -386,6 +413,24 @@
       "tags": ["format", "uuid"],
       "file": "expert/uuid-identifier.json",
       "summary": "Validate universally unique identifiers (UUIDs)"
+    },
+    {
+      "id": "expert-008",
+      "title": "Configuration Parameter Oracle",
+      "difficulty": "expert",
+      "category": "data",
+      "tags": ["config", "parsing"],
+      "file": "expert/configuration-parameter-oracle.json",
+      "summary": "Config file entries - key-value pairs with dot notation"
+    },
+    {
+      "id": "expert-009",
+      "title": "Data Structure Sentinel",
+      "difficulty": "expert",
+      "category": "data",
+      "tags": ["json", "validation"],
+      "file": "expert/data-structure-sentinel.json",
+      "summary": "Simple JSON objects - string key-value pair validation"
     },
     {
       "id": "nightmare-002",
