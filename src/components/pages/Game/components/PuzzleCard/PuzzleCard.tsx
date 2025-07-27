@@ -95,7 +95,7 @@ export function PuzzleCard({ puzzle: propPuzzle }: PuzzleCardProps) {
                 variant="secondary"
                 className="text-xs bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
               >
-                Previously solved
+                Completed
               </Badge>
             )}
             <SpinWheelButton
@@ -118,6 +118,7 @@ export function PuzzleCard({ puzzle: propPuzzle }: PuzzleCardProps) {
           userPattern={userPattern}
           onPatternChange={handlePatternChange}
           onTestPattern={handleTestPattern}
+          disabled={isPuzzleSolved || wasPreviouslySolved}
         />
         <TestCases
           testCases={puzzle.testCases}

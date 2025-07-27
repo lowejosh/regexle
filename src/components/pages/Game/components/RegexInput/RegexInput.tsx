@@ -5,12 +5,14 @@ interface RegexInputProps {
   userPattern: string;
   onPatternChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onTestPattern: () => void;
+  disabled?: boolean;
 }
 
 export function RegexInput({
   userPattern,
   onPatternChange,
   onTestPattern,
+  disabled = false,
 }: RegexInputProps) {
   return (
     <div className="space-y-2">
@@ -21,15 +23,16 @@ export function RegexInput({
           value={userPattern}
           onChange={onPatternChange}
           className="font-mono flex-1"
+          disabled={disabled}
           onKeyDown={(e) => {
-            if (e.key === "Enter") {
+            if (e.key === "Enter" && !disabled) {
               onTestPattern();
             }
           }}
         />
-        <Button 
-          onClick={onTestPattern} 
-          disabled={!userPattern.trim()}
+        <Button
+          onClick={onTestPattern}
+          disabled={disabled || !userPattern.trim()}
           className="w-full sm:w-auto"
         >
           Submit

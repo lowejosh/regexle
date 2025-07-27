@@ -10,7 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as StatisticsRouteImport } from './routes/statistics'
-import { Route as RandomRouteImport } from './routes/random'
+import { Route as PracticeRouteImport } from './routes/practice'
 import { Route as CheatsheetRouteImport } from './routes/cheatsheet'
 import { Route as IndexRouteImport } from './routes/index'
 
@@ -19,9 +19,9 @@ const StatisticsRoute = StatisticsRouteImport.update({
   path: '/statistics',
   getParentRoute: () => rootRouteImport,
 } as any)
-const RandomRoute = RandomRouteImport.update({
-  id: '/random',
-  path: '/random',
+const PracticeRoute = PracticeRouteImport.update({
+  id: '/practice',
+  path: '/practice',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CheatsheetRoute = CheatsheetRouteImport.update({
@@ -38,34 +38,34 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/cheatsheet': typeof CheatsheetRoute
-  '/random': typeof RandomRoute
+  '/practice': typeof PracticeRoute
   '/statistics': typeof StatisticsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/cheatsheet': typeof CheatsheetRoute
-  '/random': typeof RandomRoute
+  '/practice': typeof PracticeRoute
   '/statistics': typeof StatisticsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/cheatsheet': typeof CheatsheetRoute
-  '/random': typeof RandomRoute
+  '/practice': typeof PracticeRoute
   '/statistics': typeof StatisticsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/cheatsheet' | '/random' | '/statistics'
+  fullPaths: '/' | '/cheatsheet' | '/practice' | '/statistics'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/cheatsheet' | '/random' | '/statistics'
-  id: '__root__' | '/' | '/cheatsheet' | '/random' | '/statistics'
+  to: '/' | '/cheatsheet' | '/practice' | '/statistics'
+  id: '__root__' | '/' | '/cheatsheet' | '/practice' | '/statistics'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CheatsheetRoute: typeof CheatsheetRoute
-  RandomRoute: typeof RandomRoute
+  PracticeRoute: typeof PracticeRoute
   StatisticsRoute: typeof StatisticsRoute
 }
 
@@ -78,11 +78,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StatisticsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/random': {
-      id: '/random'
-      path: '/random'
-      fullPath: '/random'
-      preLoaderRoute: typeof RandomRouteImport
+    '/practice': {
+      id: '/practice'
+      path: '/practice'
+      fullPath: '/practice'
+      preLoaderRoute: typeof PracticeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cheatsheet': {
@@ -105,7 +105,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CheatsheetRoute: CheatsheetRoute,
-  RandomRoute: RandomRoute,
+  PracticeRoute: PracticeRoute,
   StatisticsRoute: StatisticsRoute,
 }
 export const routeTree = rootRouteImport

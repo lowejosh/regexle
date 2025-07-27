@@ -36,18 +36,18 @@ function RootComponent() {
                 <span className="sm:hidden">Daily</span>
               </Button>
             </Link>
-            <Link to="/random">
+            <Link to="/practice">
               <Button
                 variant="ghost"
                 size="sm"
                 className={`text-xs sm:text-sm px-2 sm:px-3 ${
-                  location.pathname === "/random"
+                  location.pathname === "/practice"
                     ? "text-primary"
                     : "hover:bg-accent hover:text-accent-foreground"
                 }`}
               >
-                <span className="hidden sm:inline">Random Puzzle</span>
-                <span className="sm:hidden">Random</span>
+                <span className="hidden sm:inline">Practice</span>
+                <span className="sm:hidden">Practice</span>
               </Button>
             </Link>
             <Link to="/cheatsheet">

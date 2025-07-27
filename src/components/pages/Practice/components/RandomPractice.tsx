@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Game } from "@/components/pages/Game";
-import { DifficultySelector } from "./components/DifficultySelector";
+import { DifficultySelector } from "./DifficultySelector";
 import type { Puzzle } from "@/types/game";
 
-export function RandomPuzzle() {
+export function RandomPractice() {
   const [difficulty, setDifficulty] = useState<
     Puzzle["difficulty"] | undefined
   >(undefined);
@@ -21,8 +21,7 @@ export function RandomPuzzle() {
   };
 
   return (
-    <div className="max-w-5xl mx-auto p-4 sm:p-6 space-y-6 sm:space-y-8">
-      {/* Difficulty Selection */}
+    <div className="space-y-6">
       <DifficultySelector
         selectedDifficulty={difficulty}
         onDifficultyChange={handleDifficultyChange}
