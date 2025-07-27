@@ -44,16 +44,16 @@ function TestCaseItem({
 
   const getBackgroundClass = () => {
     if (!gameResult || isCorrect === null) {
-      return "bg-gray-50 border-gray-200";
+      return "bg-muted border-border";
     }
 
     if (!shouldAnimate) {
-      return "bg-gray-50 border-gray-200";
+      return "bg-muted border-border";
     }
 
     return isCorrect
-      ? "bg-green-100 border-green-300"
-      : "bg-red-100 border-red-300";
+      ? "bg-green-100 border-green-300 dark:bg-green-900/20 dark:border-green-600/50"
+      : "bg-red-100 border-red-300 dark:bg-red-900/20 dark:border-red-600/50";
   };
 
   return (
@@ -94,8 +94,8 @@ export function TestCases({
       <div className="grid grid-cols-2 gap-4">
         {/* Should Match Column */}
         <div className="space-y-2">
-          <div className="border-b border-gray-200 pb-1">
-            <h4 className="text-sm font-medium text-gray-700">
+          <div className="border-b border-border pb-1">
+            <h4 className="text-sm font-medium text-foreground">
               Matching Cases
             </h4>
           </div>
@@ -116,8 +116,8 @@ export function TestCases({
 
         {/* Should NOT Match Column */}
         <div className="space-y-2">
-          <div className="border-b border-gray-200 pb-1">
-            <h4 className="text-sm font-medium text-gray-700">
+          <div className="border-b border-border pb-1">
+            <h4 className="text-sm font-medium text-foreground">
               Non-matching Cases
             </h4>
           </div>

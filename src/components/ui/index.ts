@@ -3,6 +3,7 @@ export { Input } from "./Input";
 export { Badge } from "./Badge";
 export { GlitchText } from "./GlitchText";
 export { RegexTitle } from "./RegexTitle";
+export { ThemeToggle } from "./ThemeToggle";
 export {
   CardDescription,
   CardContent,
@@ -10,3 +11,6 @@ export {
   CardTitle,
   Card,
 } from "./Card";
+export * from "./Textarea";
+export * from "./ThemeToggle";
+export * from "./CircuitBoardBackground";

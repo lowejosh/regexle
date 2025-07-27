@@ -5,12 +5,14 @@ import { useSpinWheel, calculateWheelSegmentData } from "./SpinWheel.hooks";
 import { useSpinWheelStore } from "../../../../../store/spinWheelStore";
 import { WHEEL_CONFIG } from "./SpinWheel.consts";
 import { Button } from "@/components/ui/Button";
+import { useThemeStore } from "@/store/themeStore";
 
 export function SpinWheel() {
   const { isSpinWheelOpen, closeSpinWheel, handleSpinResult } =
     useSpinWheelStore();
   const { isSpinning, rotation, selectedOption, handleSpin, resetWheel } =
     useSpinWheel();
+  const { isDarkMode } = useThemeStore();
 
   const handleClaimReward = () => {
     if (selectedOption) {
@@ -22,31 +24,48 @@ export function SpinWheel() {
 
   const createWheelSegments = () => {
     const segments = calculateWheelSegmentData();
+    const strokeColor = isDarkMode ? "#222" : "#ffffff";
+    const centerFillColor = isDarkMode ? "#111" : "#333";
 
-    return segments.map(({ option, pathData, textX, textY, textRotation }) => (
-      <g key={option.id}>
-        <path
-          d={pathData}
-          fill={option.color}
-          stroke="#ffffff"
+    return (
+      <>
+        {segments.map(
+          ({ option, pathData, textX, textY, textRotation }) => (
+            <g key={option.id}>
+              <path
+                d={pathData}
+                fill={option.color}
+                stroke={strokeColor}
+                strokeWidth="2"
+                className="transition-opacity hover:opacity-90"
+              />
+              <text
+                x={textX}
+                y={textY}
+                textAnchor="middle"
+                dominantBaseline="middle"
+                fill="white"
+                fontSize="12"
+                fontWeight="bold"
+                className="pointer-events-none select-none"
+                transform={`rotate(${textRotation}, ${textX}, ${textY})`}
+              >
+                {option.label}
+              </text>
+            </g>
+          )
+        )}
+        {/* Center circle */}
+        <circle
+          cx={WHEEL_CONFIG.WHEEL_SIZE / 2}
+          cy={WHEEL_CONFIG.WHEEL_SIZE / 2}
+          r={WHEEL_CONFIG.CENTER_SIZE}
+          fill={centerFillColor}
+          stroke={strokeColor}
           strokeWidth="2"
-          className="transition-opacity hover:opacity-90"
         />
-        <text
-          x={textX}
-          y={textY}
-          textAnchor="middle"
-          dominantBaseline="middle"
-          fill="white"
-          fontSize="12"
-          fontWeight="bold"
-          className="pointer-events-none select-none"
-          transform={`rotate(${textRotation}, ${textX}, ${textY})`}
-        >
-          {option.label}
-        </text>
-      </g>
-    ));
+      </>
+    );
   };
 
   return (
@@ -56,14 +75,14 @@ export function SpinWheel() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 !m-0"
+          className="fixed inset-0 bg-black/50 dark:bg-black/70 flex items-center justify-center z-50 !m-0"
           onClick={closeSpinWheel}
         >
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.8, opacity: 0 }}
-            className="bg-white rounded-lg p-6 max-w-md w-full mx-4 relative"
+            className="bg-background border border-border rounded-lg p-6 max-w-md w-full mx-4 relative shadow-lg"
             onClick={(e) => e.stopPropagation()}
           >
             <Button
@@ -96,15 +115,6 @@ export function SpinWheel() {
                     className="drop-shadow-lg"
                   >
                     {createWheelSegments()}
-                    {/* Center circle */}
-                    <circle
-                      cx={WHEEL_CONFIG.WHEEL_SIZE / 2}
-                      cy={WHEEL_CONFIG.WHEEL_SIZE / 2}
-                      r={WHEEL_CONFIG.CENTER_SIZE}
-                      fill="#333"
-                      stroke="#fff"
-                      strokeWidth="2"
-                    />
                   </svg>
                 </motion.div>
 
@@ -118,10 +128,14 @@ export function SpinWheel() {
                 <motion.div
                   initial={{ scale: 0.8, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
-                  className="p-4 bg-green-50 border border-green-200 rounded-lg"
+                  className="p-4 bg-green-50 border border-green-200 rounded-lg dark:bg-green-900/50 dark:border-green-500/30"
                 >
-                  <h3 className="font-bold text-green-800">You got:</h3>
-                  <p className="text-green-700">{selectedOption.label}</p>
+                  <h3 className="font-bold text-green-800 dark:text-green-200">
+                    You got:
+                  </h3>
+                  <p className="text-green-700 dark:text-green-300">
+                    {selectedOption.label}
+                  </p>
                 </motion.div>
               )}
 

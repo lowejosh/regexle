@@ -10,25 +10,27 @@ export function PuzzleCardSolutionReveal({ puzzle }: SolutionRevealProps) {
     STUPID_QUOTES[Math.floor(Math.random() * STUPID_QUOTES.length)];
 
   return (
-    <div className="space-y-4 p-6 bg-gradient-to-r from-red-50 to-orange-50 border border-red-200 rounded-lg">
-      <div className="flex items-center gap-2 text-red-800">
+    <div className="space-y-4 p-6 bg-gradient-to-r from-red-50 to-orange-50 dark:from-red-900/20 dark:to-orange-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+      <div className="flex items-center gap-2 text-red-800 dark:text-red-300">
         <span className="text-lg">🤡</span>
         <h3 className="font-semibold text-lg">Womp, womp...</h3>
       </div>
 
       <div className="space-y-3">
-        <p className="text-sm text-red-700 italic">{randomQuote}</p>
+        <p className="text-sm text-red-700 dark:text-red-300 italic">
+          {randomQuote}
+        </p>
 
-        <code className="block p-3 bg-white border border-red-200 rounded-md text-sm font-mono text-gray-800 break-all">
+        <code className="block p-3 bg-background border border-red-200 dark:border-red-800 rounded-md text-sm font-mono text-foreground break-all">
           {puzzle.solution}
         </code>
 
         {puzzle.solutionSummary && (
           <div>
-            <span className="text-sm font-medium text-red-700 block mb-1">
+            <span className="text-sm font-medium text-red-700 dark:text-red-300 block mb-1">
               Pay attention:
             </span>
-            <p className="text-sm text-gray-700 leading-relaxed">
+            <p className="text-sm text-muted-foreground leading-relaxed">
               {puzzle.solutionSummary}
             </p>
           </div>

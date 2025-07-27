@@ -6,23 +6,17 @@ import {
 } from "@tanstack/react-router";
 import { Button } from "@/components/ui/Button";
 import { RegexTitle } from "@/components/ui/RegexTitle";
+import { CircuitBoardBackground } from "@/components/ui/CircuitBoardBackground";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 function RootComponent() {
   const location = useLocation();
 
   return (
-    <div className="min-h-screen w-full bg-[#fff8f0] relative">
-      <div
-        className="absolute inset-0 z-0"
-        style={{
-          backgroundImage: `
-            radial-gradient(circle at 20% 80%, rgba(255, 182, 153, 0.3) 0%, transparent 50%),
-            radial-gradient(circle at 80% 20%, rgba(255, 244, 214, 0.5) 0%, transparent 50%),
-            radial-gradient(circle at 40% 40%, rgba(255, 182, 153, 0.1) 0%, transparent 50%)`,
-        }}
-      />
+    <div className="min-h-screen w-full bg-white dark:bg-[#0f0f0f] relative text-gray-800 dark:text-white">
+      <CircuitBoardBackground />
 
-      <nav className="relative z-10 border-b border-border bg-card/80 backdrop-blur-sm px-6 py-4">
+      <nav className="relative z-10 border-b border-border/60 bg-card/60 backdrop-blur-md px-6 py-4">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <Link to="/" className="group">
             <RegexTitle />
@@ -67,6 +61,7 @@ function RootComponent() {
                 Cheat Sheet
               </Button>
             </Link>
+            <ThemeToggle />
           </div>
         </div>
       </nav>

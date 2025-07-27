@@ -85,17 +85,13 @@ export function RegexTitle({ className = "" }: RegexTitleProps) {
         <span className="relative">
           {/* Main text - normal, glitching, or showing pattern */}
           {isGlitching ? (
-            <GlitchText speed={50} className="text-orange-400">
+            <GlitchText speed={50} className="text-primary/80">
               Regexle
             </GlitchText>
           ) : showPattern ? (
-            <span className="text-orange-400">{currentPattern}</span>
+            <span className="text-primary/80">{currentPattern}</span>
           ) : (
-            <>
-              <span className="text-primary">Reg</span>
-              <span className="text-orange-500">ex</span>
-              <span className="text-primary">le</span>
-            </>
+            <span className="text-primary">Regexle</span>
           )}
         </span>
       </h1>

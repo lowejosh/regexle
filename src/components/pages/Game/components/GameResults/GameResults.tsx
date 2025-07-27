@@ -13,31 +13,34 @@ export function GameResults({
   solutionRevealed,
 }: GameResultsProps) {
   const isSuccess = gameResult.isCorrect;
-  const percentage = Math.round((gameResult.passedTests / gameResult.totalTests) * 100);
+  const percentage = Math.round(
+    (gameResult.passedTests / gameResult.totalTests) * 100
+  );
 
   return (
-    <div className="bg-background border rounded-lg p-4 space-y-3">
+    <div className="bg-background border border-black/10 dark:border-white/10 rounded-lg p-4 space-y-3">
       {/* Header with score and percentage */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className={`
+          <div
+            className={`
             w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold
-            ${isSuccess 
-              ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' 
-              : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
+            ${
+              isSuccess
+                ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
+                : "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400"
             }
-          `}>
-            {isSuccess ? '✓' : '✗'}
+          `}
+          >
+            {isSuccess ? "✓" : "✗"}
           </div>
           <span className="font-medium text-sm">
             {gameResult.passedTests}/{gameResult.totalTests} Tests
           </span>
-          <span className="text-xs text-muted-foreground">
-            ({percentage}%)
-          </span>
+          <span className="text-xs text-muted-foreground">({percentage}%)</span>
         </div>
-        
-        <Badge 
+
+        <Badge
           variant={isSuccess ? "correct" : "incorrect"}
           className="text-xs px-2 py-1"
         >
@@ -47,12 +50,13 @@ export function GameResults({
 
       {/* Progress bar */}
       <div className="w-full bg-muted rounded-full h-2">
-        <div 
+        <div
           className={`
             h-2 rounded-full transition-all duration-500 ease-out
-            ${isSuccess 
-              ? 'bg-green-500 dark:bg-green-400' 
-              : 'bg-red-500 dark:bg-red-400'
+            ${
+              isSuccess
+                ? "bg-green-500 dark:bg-green-800"
+                : "bg-red-500 dark:bg-red-800"
             }
           `}
           style={{ width: `${percentage}%` }}

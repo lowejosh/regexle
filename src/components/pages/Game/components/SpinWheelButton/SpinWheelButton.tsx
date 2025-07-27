@@ -38,7 +38,7 @@ export function SpinWheelButton({
       {/* Multiple spins indicator */}
       {availableSpins > 1 && (
         <span
-          className={`absolute -top-2 -right-2 ${SPIN_BUTTON_CONFIG.INDICATOR_COLORS.MULTIPLE_SPINS} text-white text-xs rounded-full w-5 h-5 flex items-center justify-center ${SPIN_BUTTON_ANIMATIONS.INDICATOR_PULSE}`}
+          className={`absolute -top-2 -right-2 ${SPIN_BUTTON_CONFIG.INDICATOR_COLORS.MULTIPLE_SPINS} text-white dark:text-background text-xs rounded-full w-5 h-5 flex items-center justify-center ${SPIN_BUTTON_ANIMATIONS.INDICATOR_PULSE}`}
         >
           {availableSpins}
         </span>

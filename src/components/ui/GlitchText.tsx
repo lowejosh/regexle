@@ -62,12 +62,10 @@ export function GlitchText({
       className={`font-mono transition-all duration-200 ${
         isRevealed
           ? "text-foreground"
-          : "text-slate-500 animate-pulse blur-[0.5px] drop-shadow-sm"
+          : "text-muted-foreground animate-pulse blur-[0.5px] drop-shadow-sm"
       } ${className}`}
       style={{
-        textShadow: isRevealed
-          ? "none"
-          : "0 0 3px rgba(100, 116, 139, 0.4), 0 0 6px rgba(100, 116, 139, 0.2)",
+        textShadow: isRevealed ? "none" : undefined,
       }}
     >
       {displayText}
