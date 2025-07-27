@@ -1,0 +1,18 @@
+{
+  "id": "easy-013",
+  "title": "Musical Note Recognition",
+  "description": "Identify musical notes in standard notation. Valid notes are the letters A through G, optionally followed by a sharp (#) or flat (b) symbol.",
+  "difficulty": "easy",
+  "testCases": [
+    { "input": "A", "shouldMatch": true },
+    { "input": "C#", "shouldMatch": true },
+    { "input": "Bb", "shouldMatch": true },
+    { "input": "F#", "shouldMatch": true },
+    { "input": "H", "shouldMatch": false },
+    { "input": "A##", "shouldMatch": false },
+    { "input": "Cb#", "shouldMatch": false },
+    { "input": "123", "shouldMatch": false }
+  ],
+  "solution": "^[A-G][#b]?$",
+  "solutionSummary": "This pattern matches musical notes using a character class `[A-G]` for the note letters, followed by an optional sharp or flat symbol `[#b]?`. The `?` quantifier makes the accidental optional, allowing for both natural notes (A, B, C) and accidentals (A#, Bb)."
+}

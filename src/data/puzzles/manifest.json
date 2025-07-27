@@ -449,6 +449,78 @@
       "tags": ["prime", "unary", "lookahead"],
       "file": "nightmare/prime-number-sieve.json",
       "summary": "Prime number validation using unary representation"
+    },
+    {
+      "id": "easy-010",
+      "title": "Log File Locator",
+      "difficulty": "easy",
+      "category": "text",
+      "tags": ["file", "extension", "anchor"],
+      "file": "easy/log-file-locator.json",
+      "summary": "Match file names ending with a specific extension using anchors."
+    },
+    {
+      "id": "easy-011",
+      "title": "Numeric Password",
+      "difficulty": "easy",
+      "category": "security",
+      "tags": ["validation", "numbers", "quantifier"],
+      "file": "easy/numeric-password.json",
+      "summary": "Validate a password that must be an exact number of digits."
+    },
+    {
+      "id": "medium-011",
+      "title": "Variable Name Validator",
+      "difficulty": "medium",
+      "category": "identity",
+      "tags": ["naming", "convention", "character-class"],
+      "file": "medium/variable-name-validator.json",
+      "summary": "Validate variable names based on common programming language rules."
+    },
+    {
+      "id": "hard-012",
+      "title": "HTML Tag Attribute Hunter",
+      "difficulty": "hard",
+      "category": "structure",
+      "tags": ["html", "attribute", "negated-set"],
+      "file": "hard/html-tag-attribute-hunter.json",
+      "summary": "Extract key-value attributes from an HTML tag using a negated character set."
+    },
+    {
+      "id": "expert-010",
+      "title": "CSS Class List Validator",
+      "difficulty": "expert",
+      "category": "display",
+      "tags": ["css", "validation", "repeating-group"],
+      "file": "expert/css-class-list-validator.json",
+      "summary": "Validate a space-separated list of CSS class names using repeating groups."
+    },
+    {
+      "id": "easy-013",
+      "title": "Musical Note Recognition",
+      "difficulty": "easy",
+      "category": "music",
+      "tags": ["notes", "accidentals", "character-class"],
+      "file": "easy/musical-note-recognition.json",
+      "summary": "Identify musical notes in standard notation with optional sharps and flats."
+    },
+    {
+      "id": "medium-012",
+      "title": "Product Code Scanner",
+      "difficulty": "medium",
+      "category": "identity",
+      "tags": ["format", "structure", "exact-quantifier"],
+      "file": "medium/product-code-scanner.json",
+      "summary": "Validate structured product codes with category, number, and version components."
+    },
+    {
+      "id": "hard-013",
+      "title": "Log Timestamp Extractor",
+      "difficulty": "hard",
+      "category": "time",
+      "tags": ["timestamp", "validation", "range"],
+      "file": "hard/log-timestamp-extractor.json",
+      "summary": "Extract and validate server log timestamps with precise date and time ranges."
     }
   ],
   "categories": [
@@ -531,6 +603,11 @@
       "id": "mathematics",
       "name": "Mathematics",
       "description": "Patterns for mathematical expressions"
+    },
+    {
+      "id": "music",
+      "name": "Music",
+      "description": "Patterns for musical notation and theory"
     },
     {
       "id": "science",

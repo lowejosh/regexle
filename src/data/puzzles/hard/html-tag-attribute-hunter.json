@@ -1,0 +1,18 @@
+{
+  "id": "hard-012",
+  "title": "HTML Tag Attribute Hunter",
+  "description": "Extract attributes from HTML tags. An attribute is a key-value pair inside an opening HTML tag, where the value is enclosed in double quotes.",
+  "difficulty": "hard",
+  "testCases": [
+    { "input": "class=\"container\"", "shouldMatch": true },
+    { "input": "id=\"main-content\"", "shouldMatch": true },
+    { "input": "href=\"/index.html\"", "shouldMatch": true },
+    { "input": "data-value=\"123\"", "shouldMatch": true },
+    { "input": "class='container'", "shouldMatch": false },
+    { "input": "id=main", "shouldMatch": false },
+    { "input": "disabled", "shouldMatch": false },
+    { "input": "class=\"container", "shouldMatch": false }
+  ],
+  "solution": "^[a-zA-Z\\-]+=\"[^\"]*\"$",
+  "solutionSummary": "This pattern identifies HTML attributes. `[a-zA-Z\\-]+` matches attribute names, which can contain letters and hyphens. It's followed by an equals sign and a value in double quotes. `[^\"]*` is a negated character set that matches any character except a double quote, effectively capturing the attribute's value."
+}

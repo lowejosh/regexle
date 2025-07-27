@@ -1,0 +1,18 @@
+{
+  "id": "easy-010",
+  "title": "Log File Locator",
+  "description": "Identify system log files. These files are important for tracking events and always end with a specific three-letter extension.",
+  "difficulty": "easy",
+  "testCases": [
+    { "input": "system.log", "shouldMatch": true },
+    { "input": "application.log", "shouldMatch": true },
+    { "input": "error_2025.log", "shouldMatch": true },
+    { "input": "data-archive.log", "shouldMatch": true },
+    { "input": "system.log.txt", "shouldMatch": false },
+    { "input": "log_file", "shouldMatch": false },
+    { "input": "system.logs", "shouldMatch": false },
+    { "input": "archive.zip", "shouldMatch": false }
+  ],
+  "solution": "\\.log$",
+  "solutionSummary": "This pattern uses the backslash `\\` to escape the dot, treating it as a literal character instead of a wildcard. The dollar sign `$` is an anchor that ensures the pattern matches only at the end of the string, correctly identifying files with the '.log' extension."
+}

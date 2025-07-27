@@ -1,0 +1,18 @@
+{
+  "id": "easy-012",
+  "title": "Weekend Day Finder",
+  "description": "Match days that represent the weekend. Weekend days are Saturday and Sunday, and they can be written in full or abbreviated as 'Sat' and 'Sun'.",
+  "difficulty": "easy",
+  "testCases": [
+    { "input": "Saturday", "shouldMatch": true },
+    { "input": "Sunday", "shouldMatch": true },
+    { "input": "Sat", "shouldMatch": true },
+    { "input": "Sun", "shouldMatch": true },
+    { "input": "Monday", "shouldMatch": false },
+    { "input": "Friday", "shouldMatch": false },
+    { "input": "Weekend", "shouldMatch": false },
+    { "input": "Day", "shouldMatch": false }
+  ],
+  "solution": "^(Saturday|Sunday|Sat|Sun)$",
+  "solutionSummary": "This pattern uses alternation with the pipe symbol `|` to match any of the four weekend day options. The anchors `^` and `$` ensure the entire string matches one of these exact options, preventing partial matches."
+}

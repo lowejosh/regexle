@@ -1,0 +1,18 @@
+{
+  "id": "medium-012",
+  "title": "Product Code Scanner",
+  "description": "Validate product codes used in a warehouse system. Valid codes start with two uppercase letters (category), followed by a dash, then exactly four digits (product number), another dash, and end with a single letter (version).",
+  "difficulty": "medium",
+  "testCases": [
+    { "input": "AB-1234-X", "shouldMatch": true },
+    { "input": "ZZ-9999-A", "shouldMatch": true },
+    { "input": "CD-0001-B", "shouldMatch": true },
+    { "input": "EF-5678-Z", "shouldMatch": true },
+    { "input": "A-1234-X", "shouldMatch": false },
+    { "input": "AB-123-X", "shouldMatch": false },
+    { "input": "AB-1234-XY", "shouldMatch": false },
+    { "input": "ab-1234-x", "shouldMatch": false }
+  ],
+  "solution": "^[A-Z]{2}-\\d{4}-[A-Z]$",
+  "solutionSummary": "This pattern validates structured product codes using exact quantifiers. `[A-Z]{2}` matches exactly two uppercase letters, `\\d{4}` matches exactly four digits, and `[A-Z]` matches a single uppercase letter. The literal dashes separate each component, creating a rigid format validation."
+}

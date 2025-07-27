@@ -1,0 +1,18 @@
+{
+  "id": "medium-011",
+  "title": "Variable Name Validator",
+  "description": "Identify valid variable names in a programming language. They must start with a letter or underscore, and can be followed by any number of letters, numbers, or underscores.",
+  "difficulty": "medium",
+  "testCases": [
+    { "input": "my_variable", "shouldMatch": true },
+    { "input": "_privateVar", "shouldMatch": true },
+    { "input": "user123", "shouldMatch": true },
+    { "input": "config_setting_1", "shouldMatch": true },
+    { "input": "1variable", "shouldMatch": false },
+    { "input": "my-variable", "shouldMatch": false },
+    { "input": "var!", "shouldMatch": false },
+    { "input": "my variable", "shouldMatch": false }
+  ],
+  "solution": "^[a-zA-Z_][a-zA-Z0-9_]*$",
+  "solutionSummary": "This pattern validates variable names. The first character class `[a-zA-Z_]` ensures the name starts with a letter or underscore. The second character class `[a-zA-Z0-9_]` allows letters, numbers, or underscores for the rest of the name. The `*` quantifier means the second part can appear zero or more times."
+}
