@@ -1,99 +1,67 @@
-import { useStatisticsStore } from "../../../../../store/statisticsStore";
+import { useGameStore } from "@/store/gameStore";
 import { Card } from "@/components/ui/Card";
-import { Badge } from "@/components/ui/Badge";
-import type { Puzzle } from "../../../../../types/game";
+import { Progress } from "@/components/ui/Progress";
 
-const DIFFICULTY_CONFIG: Record<
-  Puzzle["difficulty"],
-  { color: string; icon: string; name: string }
-> = {
-  easy: { color: "bg-green-500", icon: "🟢", name: "Easy" },
-  medium: { color: "bg-yellow-500", icon: "🟡", name: "Medium" },
-  hard: { color: "bg-orange-500", icon: "🟠", name: "Hard" },
-  expert: { color: "bg-red-500", icon: "🔴", name: "Expert" },
-  nightmare: { color: "bg-purple-500", icon: "🟣", name: "Nightmare" },
+const difficultyConfig = {
+  easy: { label: "Easy", color: "bg-green-500" },
+  medium: { label: "Medium", color: "bg-yellow-500" },
+  hard: { label: "Hard", color: "bg-orange-500" },
+  expert: { label: "Expert", color: "bg-red-500" },
+  nightmare: { label: "Nightmare", color: "bg-purple-500" },
 };
 
 export function DifficultyBreakdown() {
-  const { getDifficultyStats } = useStatisticsStore();
+  const getCompletionRateByDifficulty = useGameStore(
+    (state) => state.getCompletionRateByDifficulty
+  );
+  const getTotalPuzzlesByDifficulty = useGameStore(
+    (state) => state.getTotalPuzzlesByDifficulty
+  );
+  const completedPuzzles = useGameStore((state) => state.completedPuzzles);
 
-  const difficulties: Puzzle["difficulty"][] = [
-    "easy",
-    "medium",
-    "hard",
-    "expert",
-    "nightmare",
-  ];
+  const completionRates = getCompletionRateByDifficulty();
+  const totalByDifficulty = getTotalPuzzlesByDifficulty();
+
+  const difficultyData = Object.entries(difficultyConfig).map(
+    ([key, config]) => {
+      const completed = Array.from(completedPuzzles).filter((id) =>
+        id.includes(`-${key}-`)
+      ).length;
+      const total = totalByDifficulty[key] || 0;
+      const percentage = completionRates[key] || 0;
+
+      return {
+        difficulty: config.label,
+        completed,
+        total,
+        percentage,
+        color: config.color,
+      };
+    }
+  );
 
   return (
     <Card className="p-6">
-      <h3 className="text-lg font-semibold text-foreground mb-4">
-        Difficulty Breakdown
-      </h3>
-
-      <div className="space-y-4">
-        {difficulties.map((difficulty) => {
-          const stats = getDifficultyStats(difficulty);
-          const config = DIFFICULTY_CONFIG[difficulty];
-          const successRate =
-            stats.totalSolved > 0
-              ? (
-                  (stats.solvedWithoutSolution / stats.totalSolved) *
-                  100
-                ).toFixed(0)
-              : "0";
-
-          return (
-            <div
-              key={difficulty}
-              className="flex items-center justify-between p-3 rounded-lg bg-muted/50"
-            >
-              <div className="flex items-center space-x-3">
-                <span className="text-lg">{config.icon}</span>
-                <div>
-                  <div className="font-medium text-foreground">
-                    {config.name}
-                  </div>
-                  <div className="text-sm text-muted-foreground">
-                    {stats.totalSolved} solved
-                    {stats.totalSolved > 0 && (
-                      <span>
-                        {" "}
-                        • {stats.averageAttempts.toFixed(1)} avg attempts
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex items-center space-x-2">
-                <Badge
-                  variant={stats.totalSolved > 0 ? "correct" : "secondary"}
-                  className="text-xs"
-                >
-                  {successRate}% clean
-                </Badge>
-                {stats.totalSolved > 0 && (
-                  <div className="w-16 h-2 bg-muted rounded-full overflow-hidden">
-                    <div
-                      className={`h-full ${config.color} transition-all duration-500`}
-                      style={{
-                        width: `${Math.min(100, (stats.totalSolved / 10) * 100)}%`,
-                      }}
-                    />
-                  </div>
-                )}
-              </div>
+      <h2 className="text-xl font-semibold mb-6">Difficulty Breakdown</h2>
+      <div className="space-y-6">
+        {difficultyData.map((item) => (
+          <div key={item.difficulty} className="space-y-2">
+            <div className="flex justify-between items-center">
+              <span className="text-sm font-medium">{item.difficulty}</span>
+              <span className="text-sm text-muted-foreground">
+                {item.completed} / {item.total} completed
+              </span>
             </div>
-          );
-        })}
-      </div>
-
-      <div className="mt-4 pt-4 border-t border-border">
-        <p className="text-xs text-muted-foreground">
-          "Clean" means solved without revealing the solution. Progress bars
-          show completion relative to 10 puzzles per difficulty.
-        </p>
+            <Progress
+              value={item.percentage}
+              className="h-3"
+              indicatorClassName={item.color}
+            />
+            <p className="text-xs text-muted-foreground text-right">
+              {item.percentage.toFixed(1)}%
+            </p>
+          </div>
+        ))}
       </div>
     </Card>
   );

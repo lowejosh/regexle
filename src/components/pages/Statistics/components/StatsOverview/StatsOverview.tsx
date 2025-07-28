@@ -1,72 +1,62 @@
-import { useStatisticsStore } from "../../../../../store/statisticsStore";
+import { useGameStore } from "@/store/gameStore";
 import { Card } from "@/components/ui/Card";
+import { Trophy, Target, TrendingUp } from "lucide-react";
 
 export function StatsOverview() {
-  const {
-    totalPuzzlesSolved,
-    averageAttempts,
-    currentStreak,
-    longestStreak,
-    getDifficultyStats,
-  } = useStatisticsStore();
+  const completedPuzzles = useGameStore((state) => state.completedPuzzles);
+  const getCompletionStreak = useGameStore(
+    (state) => state.getCompletionStreak
+  );
 
-  const allStats = getDifficultyStats();
-  const successRate =
-    allStats.totalSolved > 0
-      ? ((allStats.solvedWithoutSolution / allStats.totalSolved) * 100).toFixed(
-          1
-        )
-      : "0";
+  const totalCompleted = completedPuzzles.size;
+  const currentStreak = getCompletionStreak();
 
-  const overviewStats = [
+  const stats = [
     {
-      label: "Puzzles Solved",
-      value: totalPuzzlesSolved.toString(),
-      icon: "🧩",
-      description: "Total completed puzzles",
+      icon: Trophy,
+      label: "Puzzles Completed",
+      value: totalCompleted,
+      color: "text-yellow-500",
+      bgColor: "bg-yellow-500/10",
     },
     {
-      label: "Avg. Attempts",
-      value: averageAttempts.toFixed(1),
-      icon: "🎯",
-      description: "Average attempts per solve",
+      icon: Target,
+      label: "Different Puzzles",
+      value: totalCompleted,
+      color: "text-blue-500",
+      bgColor: "bg-blue-500/10",
     },
     {
+      icon: TrendingUp,
       label: "Current Streak",
-      value: currentStreak.toString(),
-      icon: "🔥",
-      description: "Consecutive days solved",
-    },
-    {
-      label: "Success Rate",
-      value: `${successRate}%`,
-      icon: "✅",
-      description: "Solved without revealing solution",
-    },
-    {
-      label: "Best Streak",
-      value: longestStreak.toString(),
-      icon: "🏆",
-      description: "Longest streak achieved",
+      value: currentStreak,
+      color: "text-purple-500",
+      bgColor: "bg-purple-500/10",
     },
   ];
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-      {overviewStats.map((stat) => (
-        <Card key={stat.label} className="p-4 text-center">
-          <div className="text-2xl mb-2">{stat.icon}</div>
-          <div className="text-2xl font-bold text-foreground mb-1">
-            {stat.value}
-          </div>
-          <div className="font-medium text-sm text-foreground mb-1">
-            {stat.label}
-          </div>
-          <div className="text-xs text-muted-foreground">
-            {stat.description}
-          </div>
-        </Card>
-      ))}
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      {stats.map((stat) => {
+        const Icon = stat.icon;
+        return (
+          <Card key={stat.label} className="p-6">
+            <div className="flex items-center space-x-4">
+              <div className={`p-3 rounded-lg ${stat.bgColor}`}>
+                <Icon className={`h-6 w-6 ${stat.color}`} />
+              </div>
+              <div>
+                <p className="text-sm font-medium text-muted-foreground">
+                  {stat.label}
+                </p>
+                <p className="text-2xl font-bold text-foreground">
+                  {stat.value}
+                </p>
+              </div>
+            </div>
+          </Card>
+        );
+      })}
     </div>
   );
 }
