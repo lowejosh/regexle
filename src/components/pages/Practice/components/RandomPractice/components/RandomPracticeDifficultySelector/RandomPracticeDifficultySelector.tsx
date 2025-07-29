@@ -8,19 +8,19 @@ import {
   CardTitle,
 } from "@/components/ui/Card";
 import type { Puzzle } from "@/types/game";
-import { difficulties } from "./DifficultySelector.consts";
+import { difficulties } from "./RandomPracticeDifficultySelector.consts";
 
-interface DifficultySelectorProps {
+interface RandomPracticeDifficultySelectorProps {
   selectedDifficulty: Puzzle["difficulty"] | undefined;
   onDifficultyChange: (difficulty: Puzzle["difficulty"] | undefined) => void;
   onLoadPuzzle: () => void;
 }
 
-export function DifficultySelector({
+export function RandomPracticeDifficultySelector({
   selectedDifficulty,
   onDifficultyChange,
   onLoadPuzzle,
-}: DifficultySelectorProps) {
+}: RandomPracticeDifficultySelectorProps) {
   const displayDifficulty = selectedDifficulty || "any";
 
   return (

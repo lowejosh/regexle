@@ -6,10 +6,11 @@ import {
   AchievementHighlights,
   DifficultyRadar,
 } from "./components";
+import { PageLayout } from "@/components/ui";
 
 export function Statistics() {
   return (
-    <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 space-y-4">
+    <PageLayout showHeader={false} spacing="normal">
       <StatsOverview />
       <div className="grid gap-6 lg:grid-cols-2">
         <DifficultyBreakdown />
@@ -20,6 +21,6 @@ export function Statistics() {
         <AchievementHighlights />
       </div>
       <DifficultyRadar />
-    </div>
+    </PageLayout>
   );
 }

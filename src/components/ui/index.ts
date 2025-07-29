@@ -15,3 +15,5 @@ export * from "./Textarea";
 export * from "./ThemeToggle";
 export * from "./CircuitBoardBackground";
 export { Tabs, TabsContent, TabsList, TabsTrigger } from "./Tabs";
+export { PageLayout } from "./PageLayout";
+export type { PageLayoutProps } from "./PageLayout";
