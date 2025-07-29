@@ -68,10 +68,138 @@ export default {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        "color-flash-wiggle": {
+          "0%, 100%": { 
+            backgroundColor: "rgb(254 249 195)", 
+            borderColor: "rgb(253 224 71)",
+            transform: "rotate(0deg)"
+          },
+          "8%": { 
+            backgroundColor: "rgb(254 249 195)", 
+            borderColor: "rgb(253 224 71)",
+            transform: "rotate(-3deg)"
+          },
+          "16%": { 
+            backgroundColor: "rgb(254 226 226)", 
+            borderColor: "rgb(248 113 113)",
+            transform: "rotate(0deg)"
+          },
+          "25%": { 
+            backgroundColor: "rgb(254 226 226)", 
+            borderColor: "rgb(248 113 113)",
+            transform: "rotate(3deg)"
+          },
+          "33%": { 
+            backgroundColor: "rgb(219 234 254)", 
+            borderColor: "rgb(96 165 250)",
+            transform: "rotate(0deg)"
+          },
+          "41%": { 
+            backgroundColor: "rgb(219 234 254)", 
+            borderColor: "rgb(96 165 250)",
+            transform: "rotate(-3deg)"
+          },
+          "50%": { 
+            backgroundColor: "rgb(220 252 231)", 
+            borderColor: "rgb(74 222 128)",
+            transform: "rotate(0deg)"
+          },
+          "58%": { 
+            backgroundColor: "rgb(220 252 231)", 
+            borderColor: "rgb(74 222 128)",
+            transform: "rotate(3deg)"
+          },
+          "66%": { 
+            backgroundColor: "rgb(243 232 255)", 
+            borderColor: "rgb(168 85 247)",
+            transform: "rotate(0deg)"
+          },
+          "75%": { 
+            backgroundColor: "rgb(243 232 255)", 
+            borderColor: "rgb(168 85 247)",
+            transform: "rotate(-3deg)"
+          },
+          "83%": { 
+            backgroundColor: "rgb(255 237 213)", 
+            borderColor: "rgb(251 146 60)",
+            transform: "rotate(0deg)"
+          },
+          "91%": { 
+            backgroundColor: "rgb(255 237 213)", 
+            borderColor: "rgb(251 146 60)",
+            transform: "rotate(3deg)"
+          },
+        },
+        "color-flash-wiggle-dark": {
+          "0%, 100%": { 
+            backgroundColor: "rgb(133 77 14 / 0.3)", 
+            borderColor: "rgb(161 98 7)",
+            transform: "rotate(0deg)"
+          },
+          "8%": { 
+            backgroundColor: "rgb(133 77 14 / 0.3)", 
+            borderColor: "rgb(161 98 7)",
+            transform: "rotate(-3deg)"
+          },
+          "16%": { 
+            backgroundColor: "rgb(127 29 29 / 0.3)", 
+            borderColor: "rgb(185 28 28)",
+            transform: "rotate(0deg)"
+          },
+          "25%": { 
+            backgroundColor: "rgb(127 29 29 / 0.3)", 
+            borderColor: "rgb(185 28 28)",
+            transform: "rotate(3deg)"
+          },
+          "33%": { 
+            backgroundColor: "rgb(30 58 138 / 0.3)", 
+            borderColor: "rgb(37 99 235)",
+            transform: "rotate(0deg)"
+          },
+          "41%": { 
+            backgroundColor: "rgb(30 58 138 / 0.3)", 
+            borderColor: "rgb(37 99 235)",
+            transform: "rotate(-3deg)"
+          },
+          "50%": { 
+            backgroundColor: "rgb(20 83 45 / 0.3)", 
+            borderColor: "rgb(34 197 94)",
+            transform: "rotate(0deg)"
+          },
+          "58%": { 
+            backgroundColor: "rgb(20 83 45 / 0.3)", 
+            borderColor: "rgb(34 197 94)",
+            transform: "rotate(3deg)"
+          },
+          "66%": { 
+            backgroundColor: "rgb(107 33 168 / 0.3)", 
+            borderColor: "rgb(147 51 234)",
+            transform: "rotate(0deg)"
+          },
+          "75%": { 
+            backgroundColor: "rgb(107 33 168 / 0.3)", 
+            borderColor: "rgb(147 51 234)",
+            transform: "rotate(-3deg)"
+          },
+          "83%": { 
+            backgroundColor: "rgb(154 52 18 / 0.3)", 
+            borderColor: "rgb(234 88 12)",
+            transform: "rotate(0deg)"
+          },
+          "91%": { 
+            backgroundColor: "rgb(154 52 18 / 0.3)", 
+            borderColor: "rgb(234 88 12)",
+            transform: "rotate(3deg)"
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "color-flash": "color-flash 2s ease-in-out infinite",
+        "color-flash-dark": "color-flash-dark 2s ease-in-out infinite",
+        "color-flash-wiggle": "color-flash-wiggle 2s ease-in-out infinite",
+        "color-flash-wiggle-dark": "color-flash-wiggle-dark 2s ease-in-out infinite",
       },
     },
   },

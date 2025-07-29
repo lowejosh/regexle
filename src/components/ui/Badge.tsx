@@ -27,6 +27,8 @@ const badgeVariants = cva(
           "border border-expert-300 bg-expert-100 text-expert-800 hover:bg-expert-200 dark:border-expert-600 dark:bg-expert-900/30 dark:text-expert-300 dark:hover:bg-expert-900/50",
         nightmare:
           "border border-nightmare-300 bg-nightmare-100 text-nightmare-800 hover:bg-nightmare-200 dark:border-nightmare-600 dark:bg-nightmare-900/30 dark:text-nightmare-300 dark:hover:bg-nightmare-900/50",
+        completed:
+          "border border-blue-300 bg-blue-100 text-blue-800 hover:bg-blue-200 dark:border-blue-600 dark:bg-blue-900/30 dark:text-blue-300 dark:hover:bg-blue-900/50",
       },
     },
     defaultVariants: {

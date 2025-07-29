@@ -1,13 +1,16 @@
-import { useState, useMemo } from "react";
 import { Game } from "@/components/pages/Game";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
-import { puzzleLoader } from "@/data/puzzleLoader";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/Select";
 import { useGameStore } from "@/store/gameStore";
-import { useStatisticsStore } from "@/store/statisticsStore";
-import type { Puzzle } from "@/types/game";
 import {
   CheckCircle2,
   ChevronDown,
@@ -22,120 +25,42 @@ import {
 import { toTitleCase } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 import { DifficultyProgressCard, PuzzleListItem } from "./components";
-
-interface PuzzleManifestEntry {
-  id: string;
-  title: string;
-  difficulty: Puzzle["difficulty"];
-  category: string;
-  tags: string[];
-  summary: string;
-}
-
-const DIFFICULTY_COLORS = {
-  easy: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200",
-  medium:
-    "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200",
-  hard: "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200",
-  expert: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200",
-  nightmare:
-    "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200",
-};
-
-const DIFFICULTY_ORDER = [
-  "easy",
-  "medium",
-  "hard",
-  "expert",
-  "nightmare",
-] as const;
+import {
+  usePuzzleBrowsing,
+  usePuzzleProgress,
+  usePuzzleSelection,
+  type PuzzleManifestEntry,
+} from "./BrowsePractice.hooks";
+import { DIFFICULTY_COLORS } from "./BrowsePractice.consts";
 
 export function BrowsePractice() {
-  const [selectedPuzzle, setSelectedPuzzle] = useState<Puzzle | null>(null);
-  const [puzzleKey, setPuzzleKey] = useState(0);
-  const [expandedDifficulties, setExpandedDifficulties] = useState<Set<string>>(
-    new Set(["easy"])
-  );
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-
-  const { isPuzzleSolved } = useStatisticsStore();
   const { loadPuzzle } = useGameStore();
 
-  const puzzleEntries = useMemo(() => {
-    return puzzleLoader.getPuzzleManifestEntries() as PuzzleManifestEntry[];
-  }, []);
+  // Use custom hooks for state management
+  const {
+    filteredPuzzles,
+    groupedPuzzles,
+    expandedDifficulties,
+    searchQuery,
+    selectedCategory,
+    categories,
+    setSearchQuery,
+    setSelectedCategory,
+    toggleDifficulty,
+    isPuzzleSolved,
+    DIFFICULTY_ORDER,
+  } = usePuzzleBrowsing();
 
-  // Extract unique categories
-  const categories = useMemo(() => {
-    const categorySet = new Set(puzzleEntries.map((p) => p.category));
-    return Array.from(categorySet).sort();
-  }, [puzzleEntries]);
+  const { overallProgress, difficultyProgress } = usePuzzleProgress();
 
-  // Filter puzzles based on search and category
-  const filteredPuzzles = useMemo(() => {
-    return puzzleEntries.filter((puzzle) => {
-      const matchesSearch =
-        searchQuery === "" ||
-        puzzle.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        puzzle.tags.some((tag) =>
-          tag.toLowerCase().includes(searchQuery.toLowerCase())
-        );
+  const { selectedPuzzle, puzzleKey, handlePuzzleSelect, handleBackToBrowse } =
+    usePuzzleSelection();
 
-      const matchesCategory =
-        !selectedCategory || puzzle.category === selectedCategory;
-
-      return matchesSearch && matchesCategory;
-    });
-  }, [puzzleEntries, searchQuery, selectedCategory]);
-
-  const groupedPuzzles = useMemo(() => {
-    return DIFFICULTY_ORDER.reduce((acc, difficulty) => {
-      acc[difficulty] = filteredPuzzles.filter(
-        (p) => p.difficulty === difficulty
-      );
-      return acc;
-    }, {} as Record<Puzzle["difficulty"], PuzzleManifestEntry[]>);
-  }, [filteredPuzzles]);
-
-  // Calculate overall progress
-  const overallProgress = useMemo(() => {
-    const total = puzzleEntries.length;
-    const completed = puzzleEntries.filter((p) => isPuzzleSolved(p.id)).length;
-    return {
-      total,
-      completed,
-      percentage: total > 0 ? Math.round((completed / total) * 100) : 0,
-    };
-  }, [puzzleEntries, isPuzzleSolved]);
-
-  const toggleDifficulty = (difficulty: string) => {
-    setExpandedDifficulties((prev) => {
-      const newSet = new Set(prev);
-      if (newSet.has(difficulty)) {
-        newSet.delete(difficulty);
-      } else {
-        newSet.add(difficulty);
-      }
-      return newSet;
-    });
-  };
-
-  const handlePuzzleSelect = async (puzzleEntry: PuzzleManifestEntry) => {
-    try {
-      const puzzle = await puzzleLoader.loadPuzzle(puzzleEntry.id);
-      if (puzzle) {
-        setSelectedPuzzle(puzzle);
-        loadPuzzle(puzzle);
-        setPuzzleKey((prev) => prev + 1);
-      }
-    } catch (error) {
-      console.error("Failed to load puzzle:", error);
+  const handlePuzzleClick = async (puzzleEntry: PuzzleManifestEntry) => {
+    const puzzle = await handlePuzzleSelect(puzzleEntry);
+    if (puzzle) {
+      loadPuzzle(puzzle);
     }
-  };
-
-  const handleBackToBrowse = () => {
-    setSelectedPuzzle(null);
   };
 
   if (selectedPuzzle) {
@@ -176,54 +101,17 @@ export function BrowsePractice() {
 
   return (
     <div className="space-y-6 animate-in fade-in-0 duration-500">
-      {/* Overall Progress Card - Compressed */}
-      <Card className="border-border/50">
-        <CardContent className="p-6">
-          <div className="flex items-center justify-between gap-4">
-            <div className="flex items-center gap-4">
-              <Trophy className="w-6 h-6 text-primary" />
-              <div>
-                <h2 className="text-lg font-semibold">Your Progress</h2>
-                <p className="text-sm text-muted-foreground">
-                  {overallProgress.completed} of {overallProgress.total} puzzles
-                  completed
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center gap-4">
-              <div className="text-right">
-                <div className="text-2xl font-bold text-primary">
-                  {overallProgress.percentage}%
-                </div>
-                <div className="text-xs text-muted-foreground">Complete</div>
-              </div>
-              <div className="w-32">
-                <div className="w-full bg-secondary rounded-full h-2.5 overflow-hidden">
-                  <div
-                    className="bg-gradient-to-r from-primary to-primary/80 h-full rounded-full transition-all duration-700 ease-out"
-                    style={{ width: `${overallProgress.percentage}%` }}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
       {/* Difficulty Progress Grid */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
         {DIFFICULTY_ORDER.map((difficulty) => {
-          const total = groupedPuzzles[difficulty].length;
-          const completed = groupedPuzzles[difficulty].filter((p) =>
-            isPuzzleSolved(p.id)
-          ).length;
+          const progress = difficultyProgress[difficulty];
 
           return (
             <DifficultyProgressCard
               key={difficulty}
               difficulty={difficulty}
-              completed={completed}
-              total={total}
+              completed={progress.completed}
+              total={progress.total}
               color={DIFFICULTY_COLORS[difficulty]}
             />
           );
@@ -258,18 +146,24 @@ export function BrowsePractice() {
             </div>
             <div className="flex items-center gap-2">
               <Filter className="w-4 h-4 text-muted-foreground" />
-              <select
-                value={selectedCategory || ""}
-                onChange={(e) => setSelectedCategory(e.target.value || null)}
-                className="px-3 py-2 rounded-md border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+              <Select
+                value={selectedCategory || "all"}
+                onValueChange={(value) =>
+                  setSelectedCategory(value === "all" ? null : value)
+                }
               >
-                <option value="">All Categories</option>
-                {categories.map((cat) => (
-                  <option key={cat} value={cat}>
-                    {toTitleCase(cat)}
-                  </option>
-                ))}
-              </select>
+                <SelectTrigger className="w-48">
+                  <SelectValue placeholder="All Categories" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Categories</SelectItem>
+                  {categories.map((cat) => (
+                    <SelectItem key={cat} value={cat}>
+                      {toTitleCase(cat)}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
           </div>
 
@@ -345,7 +239,7 @@ export function BrowsePractice() {
                               key={puzzle.id}
                               puzzle={puzzle}
                               isCompleted={isPuzzleSolved(puzzle.id)}
-                              onClick={() => handlePuzzleSelect(puzzle)}
+                              onClick={() => handlePuzzleClick(puzzle)}
                             />
                           ))}
                         </div>

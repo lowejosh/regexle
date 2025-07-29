@@ -9,8 +9,8 @@ import { GameResults } from "../GameResults";
 import { RegexInput } from "../RegexInput";
 import { toTitleCase } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
-import { useState } from "react";
-import { PuzzleCardSolutionReveal } from "./components";
+import { useState, useEffect } from "react";
+import { PuzzleCardSolutionReveal, PuzzleCompletionStatus } from "./components";
 import {
   CardDescription,
   CardContent,
@@ -32,9 +32,12 @@ export function PuzzleCard({ puzzle: propPuzzle }: PuzzleCardProps) {
     revealedTestCases,
     attempts,
     solutionRevealed,
+    currentMode,
     updatePattern,
     testPatternWithEffects,
     setSolutionRevealed,
+    isDailyPuzzleCompleted,
+    getDailyPuzzleCompletion,
   } = useGameStore();
 
   const { partialDescription, getAvailableSpins, openSpinWheel } =
@@ -47,15 +50,45 @@ export function PuzzleCard({ puzzle: propPuzzle }: PuzzleCardProps) {
 
   const puzzle = propPuzzle || currentPuzzle;
 
+  // Get daily completion data early for the effect
+  const isDailyCompleted = currentMode === "daily" && isDailyPuzzleCompleted();
+  const dailyCompletionData =
+    currentMode === "daily" ? getDailyPuzzleCompletion() : null;
+
+  // Effect to prefill solution for completed daily puzzles
+  useEffect(() => {
+    if (
+      isDailyCompleted &&
+      dailyCompletionData?.completionUserPattern &&
+      !userPattern
+    ) {
+      updatePattern(dailyCompletionData.completionUserPattern);
+    }
+  }, [isDailyCompleted, dailyCompletionData, userPattern, updatePattern]);
+
   if (!puzzle) return null;
 
   const shouldMatchCases = puzzle.testCases.filter((tc) => tc.shouldMatch);
   const shouldNotMatchCases = puzzle.testCases.filter((tc) => !tc.shouldMatch);
-  const allTestCasesRevealed =
-    revealedTestCases >=
-    Math.max(shouldMatchCases.length, shouldNotMatchCases.length);
   const isPuzzleSolved = gameResult?.isCorrect;
   const wasPreviouslySolved = isPreviouslySolved(puzzle.id);
+
+  // For daily puzzles, disable input if completed today
+  // For other puzzles, only disable if solved in current session (allow replay of previously solved)
+  const shouldDisableInput =
+    isPuzzleSolved || (isDailyCompleted && currentMode === "daily");
+
+  // For completed daily puzzles or currently solved puzzles, show all test cases
+  // For previously solved non-daily puzzles, use normal reveal logic (allow replay)
+  const isFullyCompleted =
+    isPuzzleSolved || (isDailyCompleted && currentMode === "daily");
+  const testCasesToReveal = isFullyCompleted
+    ? Math.max(shouldMatchCases.length, shouldNotMatchCases.length)
+    : revealedTestCases;
+
+  const allTestCasesRevealed =
+    testCasesToReveal >=
+    Math.max(shouldMatchCases.length, shouldNotMatchCases.length);
 
   const handlePatternChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     updatePattern(e.target.value);
@@ -90,12 +123,12 @@ export function PuzzleCard({ puzzle: propPuzzle }: PuzzleCardProps) {
             <Badge variant={puzzle.difficulty}>
               {toTitleCase(puzzle.difficulty)}
             </Badge>
-            {wasPreviouslySolved && (
+            {wasPreviouslySolved && currentMode !== "daily" && (
               <Badge
-                variant="secondary"
-                className="text-xs bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border border-green-300 dark:border-green-600"
+                variant="completed"
+                className="text-xs"
               >
-                Completed
+                Previously Completed
               </Badge>
             )}
             <SpinWheelButton
@@ -114,16 +147,23 @@ export function PuzzleCard({ puzzle: propPuzzle }: PuzzleCardProps) {
       </CardHeader>
 
       <CardContent className="space-y-4 sm:space-y-6">
+        <PuzzleCompletionStatus
+          isDailyCompleted={isDailyCompleted}
+          gameResult={gameResult}
+          attempts={attempts}
+          solutionRevealed={solutionRevealed}
+        />
+
         <RegexInput
           userPattern={userPattern}
           onPatternChange={handlePatternChange}
           onTestPattern={handleTestPattern}
-          disabled={isPuzzleSolved || wasPreviouslySolved}
+          disabled={shouldDisableInput}
         />
         <TestCases
           testCases={puzzle.testCases}
           gameResult={gameResult}
-          revealedCount={revealedTestCases}
+          revealedCount={testCasesToReveal}
         />
         {gameResult && (
           <GameResults
@@ -133,8 +173,8 @@ export function PuzzleCard({ puzzle: propPuzzle }: PuzzleCardProps) {
           />
         )}
 
-        {/* Temporary test button - always visible when puzzle not solved */}
-        {!isPuzzleSolved && (
+        {/* Temporary test button - show for non-completed puzzles and allow replay of previously solved non-daily puzzles */}
+        {!isPuzzleSolved && !isDailyCompleted && (
           <div className="flex justify-end">
             <Button
               variant="outline"
@@ -147,18 +187,22 @@ export function PuzzleCard({ puzzle: propPuzzle }: PuzzleCardProps) {
           </div>
         )}
 
-        {allTestCasesRevealed && !isPuzzleSolved && !showSolution && (
-          <div className="flex justify-end gap-3">
-            <Button
-              variant="outline"
-              onClick={handleGiveUp}
-              className="text-muted-foreground hover:text-red-500 border-border hover:border-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all duration-300 hover:shadow-md group"
-            >
-              <span className="group-hover:animate-pulse">🏳️</span>
-              <span className="ml-2 font-medium">Surrender</span>
-            </Button>
-          </div>
-        )}
+        {/* Surrender button - only show when all test cases revealed and puzzle not completed */}
+        {allTestCasesRevealed &&
+          !isPuzzleSolved &&
+          !isDailyCompleted &&
+          !showSolution && (
+            <div className="flex justify-end gap-3">
+              <Button
+                variant="outline"
+                onClick={handleGiveUp}
+                className="text-muted-foreground hover:text-red-500 border-border hover:border-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all duration-300 hover:shadow-md group"
+              >
+                <span className="group-hover:animate-pulse">🏳️</span>
+                <span className="ml-2 font-medium">Surrender</span>
+              </Button>
+            </div>
+          )}
 
         {/* Solution Display */}
         {showSolution && puzzle.solution && (

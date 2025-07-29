@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { GameState, Puzzle } from "../types/game";
+import type { GameState, Puzzle, DailyPuzzleState } from "../types/game";
 import { RegexGameEngine } from "../engine/gameEngine";
 import { puzzleLoader } from "../data/puzzleLoader";
 import { puzzleService, type GameMode } from "../services/puzzleService";
@@ -15,6 +15,15 @@ export const setGrantSpinHandler = (callback: (() => void) | null) => {
 
 export const setResetSpinWheelHandler = (callback: (() => void) | null) => {
   resetSpinWheelCallback = callback;
+};
+
+// Helper functions for daily puzzle state
+const getTodayDateString = (): string => {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = (today.getMonth() + 1).toString().padStart(2, "0");
+  const day = today.getDate().toString().padStart(2, "0");
+  return `${year}-${month}-${day}`;
 };
 
 const resetPuzzleState = () => {
@@ -32,6 +41,10 @@ const resetPuzzleState = () => {
 };
 
 interface GameStore extends GameState {
+  // Daily puzzle state
+  dailyPuzzleState: DailyPuzzleState;
+
+  // Existing methods
   loadPuzzle: (puzzle: Puzzle) => void;
   loadRandomPuzzle: (difficulty?: Puzzle["difficulty"]) => Promise<void>;
   loadDailyPuzzle: () => Promise<void>;
@@ -50,6 +63,11 @@ interface GameStore extends GameState {
   setRevealedTestCases: (cases: number | ((prev: number) => number)) => void;
   revealMoreTestCases: () => void;
   handleTestFailure: () => void;
+
+  // Daily puzzle specific methods
+  isDailyPuzzleCompleted: () => boolean;
+  getDailyPuzzleCompletion: () => DailyPuzzleState | null;
+  clearDailyPuzzleIfNewDay: () => void;
 }
 
 export const useGameStore = create<GameStore>()(
@@ -64,168 +82,263 @@ export const useGameStore = create<GameStore>()(
       revealedTestCases: 1,
       attempts: 0,
       solutionRevealed: false,
-  loadPuzzle: (puzzle: Puzzle) => {
-    set({
-      currentPuzzle: puzzle,
-      ...resetPuzzleState(),
-    });
-  },
 
-  loadRandomPuzzle: async (difficulty?: Puzzle["difficulty"]) => {
-    try {
-      const puzzle = await puzzleLoader.getRandomPuzzle(difficulty);
-      if (puzzle) {
+      // Daily puzzle state
+      dailyPuzzleState: {
+        completedDate: null,
+        completedPuzzleId: null,
+        completionUserPattern: null,
+        completionGameResult: null,
+        completionAttempts: 0,
+        completionSolutionRevealed: false,
+      },
+      loadPuzzle: (puzzle: Puzzle) => {
         set({
           currentPuzzle: puzzle,
-          currentMode: "random",
           ...resetPuzzleState(),
         });
-      }
-    } catch (error) {
-      console.error("Failed to load random puzzle:", error);
-    }
-  },
+      },
 
-  loadDailyPuzzle: async () => {
-    try {
-      const puzzle = await puzzleLoader.getDailyPuzzle();
-      if (puzzle) {
+      loadRandomPuzzle: async (difficulty?: Puzzle["difficulty"]) => {
+        try {
+          const puzzle = await puzzleLoader.getRandomPuzzle(difficulty);
+          if (puzzle) {
+            set({
+              currentPuzzle: puzzle,
+              currentMode: "random",
+              ...resetPuzzleState(),
+            });
+          }
+        } catch (error) {
+          console.error("Failed to load random puzzle:", error);
+        }
+      },
+
+      loadDailyPuzzle: async () => {
+        try {
+          // Clear daily puzzle state if it's a new day
+          get().clearDailyPuzzleIfNewDay();
+
+          const puzzle = await puzzleLoader.getDailyPuzzle();
+          if (puzzle) {
+            const isDailyCompleted = get().isDailyPuzzleCompleted();
+            const completionData = get().getDailyPuzzleCompletion();
+
+            if (
+              isDailyCompleted &&
+              completionData &&
+              completionData.completedPuzzleId === puzzle.id
+            ) {
+              // Restore completed state
+              set({
+                currentPuzzle: puzzle,
+                currentMode: "daily",
+                userPattern: completionData.completionUserPattern || "",
+                gameResult: completionData.completionGameResult,
+                attempts: completionData.completionAttempts,
+                solutionRevealed: completionData.completionSolutionRevealed,
+                showDescription: false,
+                revealedTestCases: puzzle.testCases.length, // Show all test cases for completed puzzle
+              });
+            } else {
+              // Fresh daily puzzle
+              set({
+                currentPuzzle: puzzle,
+                currentMode: "daily",
+                ...resetPuzzleState(),
+              });
+            }
+          }
+        } catch (error) {
+          console.error("Failed to load daily puzzle:", error);
+        }
+      },
+
+      loadPuzzleByMode: async (
+        mode: GameMode,
+        difficulty?: Puzzle["difficulty"]
+      ) => {
+        try {
+          const puzzle = await puzzleService.loadPuzzle(mode, difficulty);
+          if (puzzle) {
+            set({
+              currentPuzzle: puzzle,
+              currentMode: mode,
+              ...resetPuzzleState(),
+            });
+          }
+        } catch (error) {
+          console.error(`Failed to load ${mode} puzzle:`, error);
+        }
+      },
+
+      updatePattern: (pattern: string) => {
+        set({ userPattern: pattern });
+      },
+
+      testPattern: () => {
+        const state = get();
+        if (!state.currentPuzzle || !state.userPattern.trim()) return;
+
+        const result = RegexGameEngine.testPattern(
+          state.userPattern,
+          state.currentPuzzle.testCases
+        );
         set({
-          currentPuzzle: puzzle,
-          currentMode: "daily",
-          ...resetPuzzleState(),
+          gameResult: result,
+          attempts: state.attempts + 1,
         });
-      }
-    } catch (error) {
-      console.error("Failed to load daily puzzle:", error);
-    }
-  },
+      },
 
-  loadPuzzleByMode: async (
-    mode: GameMode,
-    difficulty?: Puzzle["difficulty"]
-  ) => {
-    try {
-      const puzzle = await puzzleService.loadPuzzle(mode, difficulty);
-      if (puzzle) {
+      testPatternWithEffects: () => {
+        const state = get();
+        if (!state.currentPuzzle || !state.userPattern.trim()) return;
+
+        const result = RegexGameEngine.testPattern(
+          state.userPattern,
+          state.currentPuzzle.testCases
+        );
         set({
-          currentPuzzle: puzzle,
-          currentMode: mode,
-          ...resetPuzzleState(),
+          gameResult: result,
+          attempts: state.attempts + 1,
         });
-      }
-    } catch (error) {
-      console.error(`Failed to load ${mode} puzzle:`, error);
-    }
-  },
 
-  updatePattern: (pattern: string) => {
-    set({ userPattern: pattern });
-  },
+        if (result.isCorrect) {
+          get().completePuzzle();
+        } else {
+          get().handleTestFailure();
+        }
+      },
 
-  testPattern: () => {
-    const state = get();
-    if (!state.currentPuzzle || !state.userPattern.trim()) return;
+      completePuzzle: () => {
+        const state = get();
 
-    const result = RegexGameEngine.testPattern(
-      state.userPattern,
-      state.currentPuzzle.testCases
-    );
-    set({
-      gameResult: result,
-      attempts: state.attempts + 1,
-    });
-  },
+        if (!state.currentPuzzle || !state.gameResult?.isCorrect) return;
 
-  testPatternWithEffects: () => {
-    const state = get();
-    if (!state.currentPuzzle || !state.userPattern.trim()) return;
+        // Record in statistics
+        useStatisticsStore
+          .getState()
+          .recordSolve(
+            state.currentPuzzle.id,
+            state.currentPuzzle.difficulty,
+            state.attempts,
+            state.solutionRevealed,
+            state.currentMode
+          );
 
-    const result = RegexGameEngine.testPattern(
-      state.userPattern,
-      state.currentPuzzle.testCases
-    );
-    set({
-      gameResult: result,
-      attempts: state.attempts + 1,
-    });
+        // Save daily puzzle completion state
+        if (state.currentMode === "daily") {
+          set({
+            dailyPuzzleState: {
+              completedDate: getTodayDateString(),
+              completedPuzzleId: state.currentPuzzle!.id,
+              completionUserPattern: state.userPattern,
+              completionGameResult: state.gameResult,
+              completionAttempts: state.attempts,
+              completionSolutionRevealed: state.solutionRevealed,
+            },
+          });
+        }
+      },
 
-    if (result.isCorrect) {
-      get().completePuzzle();
-    } else {
-      get().handleTestFailure();
-    }
-  },
+      resetGame: () => {
+        set({
+          currentPuzzle: null,
+          userPattern: "",
+          gameResult: null,
+          showDescription: false,
+          revealedTestCases: 1,
+          solutionRevealed: false,
+        });
+      },
 
-  completePuzzle: () => {
-    const state = get();
+      setDifficulty: (difficulty: Puzzle["difficulty"]) => {
+        set({ currentDifficulty: difficulty });
+      },
 
-    if (!state.currentPuzzle || !state.gameResult?.isCorrect) return;
+      toggleDescription: () => {
+        const state = get();
+        set({ showDescription: !state.showDescription });
+      },
 
-    useStatisticsStore
-      .getState()
-      .recordSolve(
-        state.currentPuzzle.id,
-        state.currentPuzzle.difficulty,
-        state.attempts,
-        state.solutionRevealed,
-        state.currentMode
-      );
-  },
+      setSolutionRevealed: (revealed: boolean) => {
+        set({ solutionRevealed: revealed });
+      },
 
-  resetGame: () => {
-    set({
-      currentPuzzle: null,
-      userPattern: "",
-      gameResult: null,
-      showDescription: false,
-      revealedTestCases: 1,
-      solutionRevealed: false,
-    });
-  },
+      setRevealedTestCases: (cases) =>
+        set({
+          revealedTestCases:
+            typeof cases === "function"
+              ? cases(get().revealedTestCases)
+              : cases,
+        }),
 
-  setDifficulty: (difficulty: Puzzle["difficulty"]) => {
-    set({ currentDifficulty: difficulty });
-  },
+      revealMoreTestCases: () => {
+        const state = get();
+        if (state.currentPuzzle) {
+          const maxRevealable = Math.min(
+            state.currentPuzzle.testCases.filter((tc) => tc.shouldMatch).length,
+            state.currentPuzzle.testCases.filter((tc) => !tc.shouldMatch).length
+          );
+          set((state) => ({
+            revealedTestCases: Math.min(
+              state.revealedTestCases + 1,
+              maxRevealable
+            ),
+          }));
+        }
+      },
 
-  toggleDescription: () => {
-    const state = get();
-    set({ showDescription: !state.showDescription });
-  },
+      handleTestFailure: () => {
+        const state = get();
+        state.revealMoreTestCases();
+        if (grantSpinCallback) {
+          grantSpinCallback();
+        }
+      },
 
-  setSolutionRevealed: (revealed: boolean) => {
-    set({ solutionRevealed: revealed });
-  },
+      // Daily puzzle specific methods
+      isDailyPuzzleCompleted: () => {
+        const state = get();
+        const today = getTodayDateString();
+        return (
+          state.dailyPuzzleState.completedDate === today &&
+          state.dailyPuzzleState.completedPuzzleId !== null
+        );
+      },
 
-  setRevealedTestCases: (cases) =>
-    set({
-      revealedTestCases:
-        typeof cases === "function" ? cases(get().revealedTestCases) : cases,
+      getDailyPuzzleCompletion: () => {
+        const state = get();
+        const today = getTodayDateString();
+        if (state.dailyPuzzleState.completedDate === today) {
+          return state.dailyPuzzleState;
+        }
+        return null;
+      },
+
+      clearDailyPuzzleIfNewDay: () => {
+        const state = get();
+        const today = getTodayDateString();
+        if (
+          state.dailyPuzzleState.completedDate &&
+          state.dailyPuzzleState.completedDate !== today
+        ) {
+          set({
+            dailyPuzzleState: {
+              completedDate: null,
+              completedPuzzleId: null,
+              completionUserPattern: null,
+              completionGameResult: null,
+              completionAttempts: 0,
+              completionSolutionRevealed: false,
+            },
+          });
+        }
+      },
     }),
-
-  revealMoreTestCases: () => {
-    const state = get();
-    if (state.currentPuzzle) {
-      const maxRevealable = Math.min(
-        state.currentPuzzle.testCases.filter((tc) => tc.shouldMatch).length,
-        state.currentPuzzle.testCases.filter((tc) => !tc.shouldMatch).length
-      );
-      set((state) => ({
-        revealedTestCases: Math.min(state.revealedTestCases + 1, maxRevealable),
-      }));
+    {
+      name: "regexle-game-store",
+      version: 1,
     }
-  },
-
-  handleTestFailure: () => {
-    const state = get();
-    state.revealMoreTestCases();
-    if (grantSpinCallback) {
-      grantSpinCallback();
-    }
-  },
-}),
-{
-  name: "regexle-game-store",
-  version: 1,
-}
-));
+  )
+);

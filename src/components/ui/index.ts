@@ -17,3 +17,10 @@ export * from "./CircuitBoardBackground";
 export { Tabs, TabsContent, TabsList, TabsTrigger } from "./Tabs";
 export { PageLayout } from "./PageLayout";
 export type { PageLayoutProps } from "./PageLayout";
+export {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./Select";

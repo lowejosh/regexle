@@ -62,3 +62,12 @@ export interface GameState {
   attempts: number;
   solutionRevealed: boolean;
 }
+
+export interface DailyPuzzleState {
+  completedDate: string | null; // YYYY-MM-DD format
+  completedPuzzleId: string | null;
+  completionUserPattern: string | null;
+  completionGameResult: GameResult | null;
+  completionAttempts: number;
+  completionSolutionRevealed: boolean;
+}

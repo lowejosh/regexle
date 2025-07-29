@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/Button";
+import { Dices } from "lucide-react";
 import {
   SPIN_BUTTON_ANIMATIONS,
   SPIN_BUTTON_CONFIG,
@@ -25,15 +26,17 @@ export function SpinWheelButton({
       size="sm"
       onClick={onOpenSpinWheel}
       disabled={availableSpins === 0}
-      className={`relative transition-all ${SPIN_BUTTON_ANIMATIONS.TRANSITION_DURATION} ${
+      className={`relative transition-all ${
+        SPIN_BUTTON_ANIMATIONS.TRANSITION_DURATION
+      } ${
         shouldHighlight
           ? SPIN_BUTTON_ANIMATIONS.HIGHLIGHT_CLASSES
           : availableSpins > 0
-            ? SPIN_BUTTON_ANIMATIONS.HOVER_CLASSES
-            : SPIN_BUTTON_ANIMATIONS.DISABLED_CLASSES
+          ? SPIN_BUTTON_ANIMATIONS.HOVER_CLASSES
+          : SPIN_BUTTON_ANIMATIONS.DISABLED_CLASSES
       }`}
     >
-      {SPIN_BUTTON_CONFIG.EMOJI}
+      <Dices className="w-4 h-4" />
 
       {/* Multiple spins indicator */}
       {availableSpins > 1 && (
