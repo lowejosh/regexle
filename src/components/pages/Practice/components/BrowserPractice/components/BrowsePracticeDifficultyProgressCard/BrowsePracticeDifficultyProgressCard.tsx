@@ -21,18 +21,19 @@ export function DifficultyProgressCard({
   const hasStarted = percentage > 0;
 
   // Map difficulty to badge variant
-  const badgeVariant = difficulty.toLowerCase() as 
-    | "easy" 
-    | "medium" 
-    | "hard" 
-    | "expert" 
+  const badgeVariant = difficulty.toLowerCase() as
+    | "easy"
+    | "medium"
+    | "hard"
+    | "expert"
     | "nightmare";
 
   return (
     <Card
       className={cn(
         "transition-all duration-200 hover:shadow-md",
-        isComplete && "ring-2 ring-green-500/30 bg-green-50/30 dark:bg-green-950/30"
+        isComplete &&
+          "ring-2 ring-green-500/30 bg-green-50/30 dark:bg-green-950/30"
       )}
     >
       <CardContent className="p-6">
@@ -55,11 +56,9 @@ export function DifficultyProgressCard({
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <span className="text-2xl font-bold">{completed}</span>
-              <span className="text-sm text-muted-foreground">
-                of {total}
-              </span>
+              <span className="text-sm text-muted-foreground">of {total}</span>
             </div>
-            
+
             <Progress
               value={percentage}
               className="h-2"
@@ -68,14 +67,10 @@ export function DifficultyProgressCard({
                 isComplete && "bg-green-500"
               )}
             />
-            
+
             <div className="flex justify-between items-center">
-              <span className="text-sm text-muted-foreground">
-                Progress
-              </span>
-              <span className="text-sm font-medium">
-                {percentage}%
-              </span>
+              <span className="text-sm text-muted-foreground">Progress</span>
+              <span className="text-sm font-medium">{percentage}%</span>
             </div>
           </div>
         </div>

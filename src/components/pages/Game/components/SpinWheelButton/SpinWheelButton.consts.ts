@@ -1,5 +1,5 @@
 export const SPIN_BUTTON_ANIMATIONS = {
-  TRANSITION_DURATION: "duration-300",
+  TRANSITION_DURATION: "duration-2000",
   HIGHLIGHT_CLASSES:
     "animate-color-flash-wiggle dark:animate-color-flash-wiggle-dark",
   HOVER_CLASSES: "hover:bg-accent",

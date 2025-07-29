@@ -116,7 +116,7 @@ export function PuzzleCard({ puzzle: propPuzzle }: PuzzleCardProps) {
 
   return (
     <Card>
-      <CardHeader>
+      <CardHeader className="!pb-0">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-0">
           <CardTitle className="text-xl sm:text-2xl">{puzzle.title}</CardTitle>
           <div className="flex items-center gap-2 sm:gap-4 self-start sm:self-auto">
@@ -124,10 +124,7 @@ export function PuzzleCard({ puzzle: propPuzzle }: PuzzleCardProps) {
               {toTitleCase(puzzle.difficulty)}
             </Badge>
             {wasPreviouslySolved && currentMode !== "daily" && (
-              <Badge
-                variant="completed"
-                className="text-xs"
-              >
+              <Badge variant="completed" className="text-xs">
                 Previously Completed
               </Badge>
             )}
@@ -147,9 +144,7 @@ export function PuzzleCard({ puzzle: propPuzzle }: PuzzleCardProps) {
       </CardHeader>
 
       <CardContent className="space-y-4 sm:space-y-6">
-        <PuzzleCompletionStatus
-          isDailyCompleted={isDailyCompleted}
-        />
+        <PuzzleCompletionStatus isDailyCompleted={isDailyCompleted} />
 
         <RegexInput
           userPattern={userPattern}
