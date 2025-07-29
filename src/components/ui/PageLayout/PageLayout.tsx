@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
+import { PageTransition } from "../PageTransition";
 
 export interface PageLayoutProps {
   /** Page title */
@@ -38,7 +39,7 @@ export const PageLayout = React.forwardRef<HTMLDivElement, PageLayoutProps>(
     {
       title,
       description,
-      maxWidth = "xl",
+      maxWidth = "2xl",
       spacing = "normal",
       showHeader = true,
       children,
@@ -48,32 +49,34 @@ export const PageLayout = React.forwardRef<HTMLDivElement, PageLayoutProps>(
     ref
   ) => {
     return (
-      <div
-        ref={ref}
-        className={cn(
-          maxWidthClasses[maxWidth],
-          "mx-auto px-4 sm:px-6 py-6 sm:py-8",
-          spacingClasses[spacing],
-          className
-        )}
-        {...props}
-      >
-        {showHeader && (title || description) && (
-          <div className="text-center space-y-2 mb-6 sm:mb-8">
-            {title && (
-              <h1 className="text-2xl sm:text-3xl font-bold text-foreground">
-                {title}
-              </h1>
-            )}
-            {description && (
-              <p className="text-muted-foreground text-sm sm:text-base max-w-2xl mx-auto">
-                {description}
-              </p>
-            )}
-          </div>
-        )}
-        {children}
-      </div>
+      <PageTransition variant="fade">
+        <div
+          ref={ref}
+          className={cn(
+            maxWidthClasses[maxWidth],
+            "mx-auto px-4 sm:px-6 py-6 sm:py-8",
+            spacingClasses[spacing],
+            className
+          )}
+          {...props}
+        >
+          {showHeader && (title || description) && (
+            <div className="text-center space-y-2 mb-6 sm:mb-8">
+              {title && (
+                <h1 className="text-2xl sm:text-3xl font-bold text-foreground">
+                  {title}
+                </h1>
+              )}
+              {description && (
+                <p className="text-muted-foreground text-sm sm:text-base max-w-2xl mx-auto">
+                  {description}
+                </p>
+              )}
+            </div>
+          )}
+          {children}
+        </div>
+      </PageTransition>
     );
   }
 );

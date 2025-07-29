@@ -20,10 +20,14 @@ import {
   ArrowLeft,
   Target,
   Sparkles,
+  ChevronLeft,
+  ChevronRight as ChevronRightIcon,
+  Shuffle,
 } from "lucide-react";
 import { toTitleCase } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 import { DifficultyProgressCard, PuzzleListItem } from "./components";
+import { PageTransition } from "@/components/ui";
 import {
   usePuzzleBrowsing,
   usePuzzleProgress,
@@ -51,8 +55,16 @@ export function BrowsePractice() {
 
   const { overallProgress, difficultyProgress } = usePuzzleProgress();
 
-  const { selectedPuzzle, puzzleKey, handlePuzzleSelect, handleBackToBrowse } =
-    usePuzzleSelection();
+  const { 
+    selectedPuzzle, 
+    puzzleKey, 
+    currentPuzzleIndex,
+    previousPuzzleEntry,
+    nextPuzzleEntry,
+    handlePuzzleSelect, 
+    handleNavigateToPuzzle,
+    handleBackToBrowse 
+  } = usePuzzleSelection(filteredPuzzles);
 
   const handlePuzzleClick = async (puzzleEntry: PuzzleManifestEntry) => {
     const puzzle = await handlePuzzleSelect(puzzleEntry);
@@ -61,44 +73,100 @@ export function BrowsePractice() {
     }
   };
 
+  const handleNavigateToNext = async () => {
+    if (nextPuzzleEntry) {
+      const puzzle = await handleNavigateToPuzzle(nextPuzzleEntry);
+      if (puzzle) {
+        loadPuzzle(puzzle);
+      }
+    }
+  };
+
+  const handleNavigateToPrevious = async () => {
+    if (previousPuzzleEntry) {
+      const puzzle = await handleNavigateToPuzzle(previousPuzzleEntry);
+      if (puzzle) {
+        loadPuzzle(puzzle);
+      }
+    }
+  };
+
   if (selectedPuzzle) {
     return (
-      <div className="space-y-6 animate-in fade-in-0 slide-in-from-right-10 duration-300">
-        <Card className="border-border/50">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <Button
-                variant="ghost"
-                onClick={handleBackToBrowse}
-                className="gap-2 hover:gap-3 transition-all"
-              >
-                <ArrowLeft className="w-4 h-4" />
-                Back to Browse
-              </Button>
-              <div className="flex items-center gap-2">
-                <Badge
-                  className={cn(
-                    DIFFICULTY_COLORS[selectedPuzzle.difficulty],
-                    "px-3 py-1"
-                  )}
+      <PageTransition variant="slide">
+        <div className="space-y-6">
+          <Card className="border-border/50">
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                {/* Left: Back button */}
+                <Button
+                  variant="ghost"
+                  onClick={handleBackToBrowse}
+                  className="gap-2 hover:gap-3 transition-all"
                 >
-                  {toTitleCase(selectedPuzzle.difficulty)}
-                </Badge>
-                <span className="text-sm text-muted-foreground">
-                  {selectedPuzzle.title}
-                </span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+                  <ArrowLeft className="w-4 h-4" />
+                  Back to Browse
+                </Button>
 
-        <Game key={puzzleKey} mode="random" autoLoad={false} />
-      </div>
+                {/* Center: Navigation controls */}
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleNavigateToPrevious}
+                    disabled={!previousPuzzleEntry}
+                    className="gap-1"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                    <span className="hidden sm:inline">Previous</span>
+                  </Button>
+                  
+                  <div className="flex items-center gap-2 px-3 py-1 bg-muted rounded-md">
+                    <span className="text-sm font-medium text-muted-foreground">
+                      {currentPuzzleIndex + 1} of {filteredPuzzles.length}
+                    </span>
+                  </div>
+
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleNavigateToNext}
+                    disabled={!nextPuzzleEntry}
+                    className="gap-1"
+                  >
+                    <span className="hidden sm:inline">Next</span>
+                    <ChevronRightIcon className="w-4 h-4" />
+                  </Button>
+                </div>
+
+                {/* Right: Random puzzle button */}
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => {
+                    const randomIndex = Math.floor(Math.random() * filteredPuzzles.length);
+                    const randomPuzzle = filteredPuzzles[randomIndex];
+                    if (randomPuzzle && randomPuzzle.id !== selectedPuzzle.id) {
+                      handlePuzzleClick(randomPuzzle);
+                    }
+                  }}
+                  className="gap-2"
+                >
+                  <Shuffle className="w-4 h-4" />
+                  <span className="hidden sm:inline">Random</span>
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Game key={puzzleKey} mode="random" autoLoad={false} />
+        </div>
+      </PageTransition>
     );
   }
 
   return (
-    <div className="space-y-6 animate-in fade-in-0 duration-500">
+    <div className="space-y-6">
       {/* Difficulty Progress Grid - Hidden on mobile, compact on tablet */}
       <div className="hidden sm:grid grid-cols-2 md:grid-cols-5 gap-4">
         {DIFFICULTY_ORDER.map((difficulty) => {

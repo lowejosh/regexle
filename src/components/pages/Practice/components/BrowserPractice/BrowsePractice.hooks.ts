@@ -121,15 +121,36 @@ export function usePuzzleProgress() {
   };
 }
 
-export function usePuzzleSelection() {
+export function usePuzzleSelection(filteredPuzzles?: PuzzleManifestEntry[]) {
   const [selectedPuzzle, setSelectedPuzzle] = useState<Puzzle | null>(null);
+  const [selectedPuzzleEntry, setSelectedPuzzleEntry] = useState<PuzzleManifestEntry | null>(null);
   const [puzzleKey, setPuzzleKey] = useState(0);
+
+  const puzzleEntries = useMemo(() => {
+    return filteredPuzzles || puzzleLoader.getPuzzleManifestEntries() as PuzzleManifestEntry[];
+  }, [filteredPuzzles]);
+
+  const currentPuzzleIndex = useMemo(() => {
+    if (!selectedPuzzleEntry) return -1;
+    return puzzleEntries.findIndex(entry => entry.id === selectedPuzzleEntry.id);
+  }, [puzzleEntries, selectedPuzzleEntry]);
+
+  const previousPuzzleEntry = useMemo(() => {
+    if (currentPuzzleIndex <= 0) return null;
+    return puzzleEntries[currentPuzzleIndex - 1];
+  }, [puzzleEntries, currentPuzzleIndex]);
+
+  const nextPuzzleEntry = useMemo(() => {
+    if (currentPuzzleIndex === -1 || currentPuzzleIndex >= puzzleEntries.length - 1) return null;
+    return puzzleEntries[currentPuzzleIndex + 1];
+  }, [puzzleEntries, currentPuzzleIndex]);
 
   const handlePuzzleSelect = async (puzzleEntry: PuzzleManifestEntry) => {
     try {
       const puzzle = await puzzleLoader.loadPuzzle(puzzleEntry.id);
       if (puzzle) {
         setSelectedPuzzle(puzzle);
+        setSelectedPuzzleEntry(puzzleEntry);
         setPuzzleKey((prev) => prev + 1);
         return puzzle;
       }
@@ -139,14 +160,25 @@ export function usePuzzleSelection() {
     return null;
   };
 
+  const handleNavigateToPuzzle = async (puzzleEntry: PuzzleManifestEntry) => {
+    const puzzle = await handlePuzzleSelect(puzzleEntry);
+    return puzzle;
+  };
+
   const handleBackToBrowse = () => {
     setSelectedPuzzle(null);
+    setSelectedPuzzleEntry(null);
   };
 
   return {
     selectedPuzzle,
+    selectedPuzzleEntry,
     puzzleKey,
+    currentPuzzleIndex,
+    previousPuzzleEntry,
+    nextPuzzleEntry,
     handlePuzzleSelect,
+    handleNavigateToPuzzle,
     handleBackToBrowse,
   };
 }

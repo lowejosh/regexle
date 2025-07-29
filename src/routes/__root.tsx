@@ -16,7 +16,7 @@ function RootComponent() {
     <div className="min-h-screen w-full bg-white dark:bg-[#0f0f0f] relative text-gray-800 dark:text-white">
       <CircuitBoardBackground />
 
-      <nav className="relative z-10 border-b border-border/60 bg-card/60 backdrop-blur-md px-4 sm:px-6 py-3 sm:py-4">
+      <nav className="relative z-10 border-b border-border/60 bg-card/60 backdrop-blur-md px-4 sm:px-6 py-3 sm:py-4 transition-all duration-200">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <Link to="/" className="group">
             <RegexTitle />
@@ -26,9 +26,9 @@ function RootComponent() {
               <Button
                 variant="ghost"
                 size="sm"
-                className={`text-xs sm:text-sm px-2 sm:px-3 ${
+                className={`text-xs sm:text-sm px-2 sm:px-3 transition-all duration-200 ${
                   location.pathname === "/"
-                    ? "text-primary"
+                    ? "text-primary bg-primary/10"
                     : "hover:bg-accent hover:text-accent-foreground"
                 }`}
               >
@@ -40,9 +40,9 @@ function RootComponent() {
               <Button
                 variant="ghost"
                 size="sm"
-                className={`text-xs sm:text-sm px-2 sm:px-3 ${
+                className={`text-xs sm:text-sm px-2 sm:px-3 transition-all duration-200 ${
                   location.pathname === "/practice"
-                    ? "text-primary"
+                    ? "text-primary bg-primary/10"
                     : "hover:bg-accent hover:text-accent-foreground"
                 }`}
               >
@@ -54,9 +54,9 @@ function RootComponent() {
               <Button
                 variant="ghost"
                 size="sm"
-                className={`text-xs sm:text-sm px-2 sm:px-3 ${
+                className={`text-xs sm:text-sm px-2 sm:px-3 transition-all duration-200 ${
                   location.pathname === "/cheatsheet"
-                    ? "text-primary"
+                    ? "text-primary bg-primary/10"
                     : "hover:bg-accent hover:text-accent-foreground"
                 }`}
               >
@@ -68,9 +68,9 @@ function RootComponent() {
               <Button
                 variant="ghost"
                 size="sm"
-                className={`text-xs sm:text-sm px-2 sm:px-3 ${
+                className={`text-xs sm:text-sm px-2 sm:px-3 transition-all duration-200 ${
                   location.pathname === "/statistics"
-                    ? "text-primary"
+                    ? "text-primary bg-primary/10"
                     : "hover:bg-accent hover:text-accent-foreground"
                 }`}
               >
@@ -83,7 +83,7 @@ function RootComponent() {
         </div>
       </nav>
 
-      <main className="relative z-10">
+      <main className="relative z-10 transition-all duration-300 ease-out">
         <Outlet />
       </main>
     </div>

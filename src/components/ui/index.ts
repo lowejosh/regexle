@@ -24,3 +24,4 @@ export {
   SelectTrigger,
   SelectValue,
 } from "./Select";
+export { PageTransition, StaggeredTransition } from "./PageTransition";
