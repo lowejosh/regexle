@@ -1,12 +1,15 @@
 import { useGameStore } from "@/store/gameStore";
+import { useStatisticsStore } from "@/store/statisticsStore";
 import { Card } from "@/components/ui/Card";
-import { Trophy, Target, TrendingUp } from "lucide-react";
+import { Trophy, Zap, TrendingUp, Award } from "lucide-react";
 
 export function StatsOverview() {
   const completedPuzzles = useGameStore((state) => state.completedPuzzles);
   const getCompletionStreak = useGameStore(
     (state) => state.getCompletionStreak
   );
+  const averageAttempts = useStatisticsStore((state) => state.averageAttempts);
+  const longestStreak = useStatisticsStore((state) => state.longestStreak);
 
   const totalCompleted = completedPuzzles.size;
   const currentStreak = getCompletionStreak();
@@ -20,9 +23,9 @@ export function StatsOverview() {
       bgColor: "bg-yellow-500/10",
     },
     {
-      icon: Target,
-      label: "Different Puzzles",
-      value: totalCompleted,
+      icon: Zap,
+      label: "Avg Attempts",
+      value: averageAttempts > 0 ? averageAttempts.toFixed(1) : "0",
       color: "text-blue-500",
       bgColor: "bg-blue-500/10",
     },
@@ -33,6 +36,13 @@ export function StatsOverview() {
       color: "text-purple-500",
       bgColor: "bg-purple-500/10",
     },
+    {
+      icon: Award,
+      label: "Best Streak",
+      value: longestStreak,
+      color: "text-green-500",
+      bgColor: "bg-green-500/10",
+    },
   ];
 
   return (
@@ -41,8 +51,8 @@ export function StatsOverview() {
         const Icon = stat.icon;
         return (
           <Card key={stat.label} className="p-6">
-            <div className="flex items-center space-x-4">
-              <div className={`p-3 rounded-lg ${stat.bgColor}`}>
+            <div className="flex items-start space-x-4">
+              <div className={`p-3 rounded-lg ${stat.bgColor} flex-shrink-0`}>
                 <Icon className={`h-6 w-6 ${stat.color}`} />
               </div>
               <div>

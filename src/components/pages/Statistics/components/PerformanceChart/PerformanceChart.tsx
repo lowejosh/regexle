@@ -7,6 +7,12 @@ import { Card } from "@/components/ui/Card";
 export function PerformanceChart() {
   const svgRef = useRef<SVGSVGElement>(null);
   const { getTopPerformanceDays } = useStatisticsStore();
+  // Use persistent overall average attempts for consistency with StatsOverview
+  const averageAttemptsValue = useStatisticsStore(
+    (state) => state.averageAttempts
+  );
+  const averageAttempts =
+    averageAttemptsValue > 0 ? averageAttemptsValue.toFixed(1) : "0";
   const completedPuzzlesData = useGameStore(
     (state) => state.completedPuzzlesData
   );
@@ -35,17 +41,6 @@ export function PerformanceChart() {
       { attempts: "4", count: attemptCounts[3] },
       { attempts: "5+", count: attemptCounts[4] },
     ];
-  }, [completedPuzzlesData]);
-
-  const averageAttempts = useMemo(() => {
-    const puzzleAttempts = Array.from(completedPuzzlesData.values());
-    if (puzzleAttempts.length === 0) return "0";
-
-    const totalAttempts = puzzleAttempts.reduce(
-      (sum, puzzle) => sum + puzzle.attempts,
-      0
-    );
-    return (totalAttempts / puzzleAttempts.length).toFixed(1);
   }, [completedPuzzlesData]);
 
   useEffect(() => {

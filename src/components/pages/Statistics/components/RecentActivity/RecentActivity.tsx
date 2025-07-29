@@ -17,7 +17,7 @@ export function RecentActivity() {
       "nightmare",
     ];
     for (const diff of difficulties) {
-      if (id.includes(`-${diff}-`)) return diff;
+      if (id.startsWith(`${diff}-`)) return diff;
     }
     return "unknown";
   };

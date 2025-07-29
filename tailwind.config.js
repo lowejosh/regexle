@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+import colors from 'tailwindcss/colors';
 export default {
   darkMode: ["class"],
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
@@ -46,6 +47,12 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        // standardized difficulty color palettes
+        easy: colors.green,
+        medium: colors.yellow,
+        hard: colors.orange,
+        expert: colors.red,
+        nightmare: colors.purple,
       },
       borderRadius: {
         lg: "var(--radius)",

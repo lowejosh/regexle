@@ -1,17 +1,35 @@
 import { useGameStore } from "@/store/gameStore";
 import { Card } from "@/components/ui/Card";
-import { Award, Star, Zap, Target } from "lucide-react";
+import {
+  Award,
+  Star,
+  Zap,
+  Target,
+  Trophy,
+  Crown,
+  Flame,
+  Shield,
+  Brain,
+  Rocket,
+} from "lucide-react";
 
 export function AchievementHighlights() {
   const completedPuzzles = useGameStore((state) => state.completedPuzzles);
-  const getCompletionRateByDifficulty = useGameStore(
-    (state) => state.getCompletionRateByDifficulty
+  const completedPuzzlesData = useGameStore(
+    (state) => state.completedPuzzlesData
   );
 
-  const completionRates = getCompletionRateByDifficulty();
   const totalCompleted = completedPuzzles.size;
 
-  // Define achievements based on current progress
+  // Get completion data for analysis
+  const completionData = Array.from(completedPuzzlesData.values());
+  const oneAttemptSolves = completionData.filter(
+    (data) => data.attempts === 1
+  ).length;
+  const recentCompletions = completionData.filter(
+    (data) => Date.now() - data.timestamp < 24 * 60 * 60 * 1000 // Last 24 hours
+  ).length;
+
   const achievements = [
     {
       icon: Star,
@@ -32,18 +50,67 @@ export function AchievementHighlights() {
       title: "Expert Explorer",
       description: "Complete an expert puzzle",
       unlocked: Array.from(completedPuzzles).some((id) =>
-        id.includes("-expert-")
+        id.startsWith("expert-")
       ),
-      progress: completionRates.expert || 0,
+      progress: Array.from(completedPuzzles).some((id) =>
+        id.startsWith("expert-")
+      )
+        ? 100
+        : 0,
     },
     {
       icon: Award,
       title: "Nightmare Conqueror",
       description: "Complete a nightmare puzzle",
       unlocked: Array.from(completedPuzzles).some((id) =>
-        id.includes("-nightmare-")
+        id.startsWith("nightmare-")
       ),
-      progress: completionRates.nightmare || 0,
+      progress: Array.from(completedPuzzles).some((id) =>
+        id.startsWith("nightmare-")
+      )
+        ? 100
+        : 0,
+    },
+    {
+      icon: Trophy,
+      title: "Pattern Master",
+      description: "Complete 25 puzzles",
+      unlocked: totalCompleted >= 25,
+      progress: Math.min(100, (totalCompleted / 25) * 100),
+    },
+    {
+      icon: Crown,
+      title: "Regex Royalty",
+      description: "Complete 50 puzzles",
+      unlocked: totalCompleted >= 50,
+      progress: Math.min(100, (totalCompleted / 50) * 100),
+    },
+    {
+      icon: Flame,
+      title: "Perfect Solver",
+      description: "Solve 5 puzzles on first try",
+      unlocked: oneAttemptSolves >= 5,
+      progress: Math.min(100, (oneAttemptSolves / 5) * 100),
+    },
+    {
+      icon: Shield,
+      title: "Difficulty Conqueror",
+      description: "Complete puzzles in all difficulties",
+      unlocked: ["easy", "medium", "hard", "expert", "nightmare"].every(
+        (diff) =>
+          Array.from(completedPuzzles).some((id) => id.startsWith(`${diff}-`))
+      ),
+      progress:
+        ["easy", "medium", "hard", "expert", "nightmare"].filter((diff) =>
+          Array.from(completedPuzzles).some((id) => id.startsWith(`${diff}-`))
+        ).length * 20,
+    },
+    {
+      icon: Brain,
+      title: "Daily Grinder",
+      description: "Complete 3 puzzles in one day",
+      unlocked: recentCompletions >= 3,
+      progress: Math.min(100, (recentCompletions / 3) * 100),
     },
   ];
 
@@ -58,36 +125,36 @@ export function AchievementHighlights() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
         {achievements.map((achievement) => {
           const Icon = achievement.icon;
           return (
             <div
               key={achievement.title}
-              className={`p-4 rounded-lg border transition-all ${
+              className={`p-3 rounded-lg border transition-all flex flex-col h-full ${
                 achievement.unlocked
                   ? "bg-primary/5 border-primary/20"
                   : "bg-muted/30 border-border opacity-60"
               }`}
             >
-              <div className="flex items-center space-x-3 mb-2">
+              <div className="flex items-center space-x-2 mb-2">
                 <div
-                  className={`p-2 rounded-lg ${
+                  className={`p-1.5 rounded-lg ${
                     achievement.unlocked
                       ? "bg-primary/10 text-primary"
                       : "bg-muted text-muted-foreground"
                   }`}
                 >
-                  <Icon className="h-5 w-5" />
+                  <Icon className="h-4 w-4" />
                 </div>
-                <h3 className="font-medium text-sm">{achievement.title}</h3>
+                <h3 className="font-medium text-xs">{achievement.title}</h3>
               </div>
-              <p className="text-xs text-muted-foreground mb-2">
+              <p className="text-xs text-muted-foreground mb-2 flex-grow">
                 {achievement.description}
               </p>
-              <div className="w-full bg-muted rounded-full h-1.5">
+              <div className="w-full bg-muted rounded-full h-1 mt-auto">
                 <div
-                  className={`h-1.5 rounded-full transition-all ${
+                  className={`h-1 rounded-full transition-all ${
                     achievement.unlocked
                       ? "bg-primary"
                       : "bg-muted-foreground/30"

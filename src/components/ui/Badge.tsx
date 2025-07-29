@@ -19,14 +19,14 @@ const badgeVariants = cva(
           "border-transparent bg-green-500 text-white hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700",
         incorrect:
           "border-transparent bg-red-500 text-white hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700",
-        easy: "border border-green-300 bg-green-100 text-green-800 hover:bg-green-200 dark:border-green-600 dark:bg-green-900/30 dark:text-green-300 dark:hover:bg-green-900/50",
+        easy: "border border-easy-300 bg-easy-100 text-easy-800 hover:bg-easy-200 dark:border-easy-600 dark:bg-easy-900/30 dark:text-easy-300 dark:hover:bg-easy-900/50",
         medium:
-          "border border-yellow-300 bg-yellow-100 text-yellow-800 hover:bg-yellow-200 dark:border-yellow-600 dark:bg-yellow-900/30 dark:text-yellow-300 dark:hover:bg-yellow-900/50",
-        hard: "border border-orange-300 bg-orange-100 text-orange-800 hover:bg-orange-200 dark:border-orange-600 dark:bg-orange-900/30 dark:text-orange-300 dark:hover:bg-orange-900/50",
+          "border border-medium-300 bg-medium-100 text-medium-800 hover:bg-medium-200 dark:border-medium-600 dark:bg-medium-900/30 dark:text-medium-300 dark:hover:bg-medium-900/50",
+        hard: "border border-hard-300 bg-hard-100 text-hard-800 hover:bg-hard-200 dark:border-hard-600 dark:bg-hard-900/30 dark:text-hard-300 dark:hover:bg-hard-900/50",
         expert:
-          "border border-red-300 bg-red-100 text-red-800 hover:bg-red-200 dark:border-red-600 dark:bg-red-900/30 dark:text-red-300 dark:hover:bg-red-900/50",
+          "border border-expert-300 bg-expert-100 text-expert-800 hover:bg-expert-200 dark:border-expert-600 dark:bg-expert-900/30 dark:text-expert-300 dark:hover:bg-expert-900/50",
         nightmare:
-          "border border-purple-300 bg-purple-100 text-purple-800 hover:bg-purple-200 dark:border-purple-600 dark:bg-purple-900/30 dark:text-purple-300 dark:hover:bg-purple-900/50",
+          "border border-nightmare-300 bg-nightmare-100 text-nightmare-800 hover:bg-nightmare-200 dark:border-nightmare-600 dark:bg-nightmare-900/30 dark:text-nightmare-300 dark:hover:bg-nightmare-900/50",
       },
     },
     defaultVariants: {

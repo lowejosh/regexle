@@ -3,11 +3,11 @@ import { Card } from "@/components/ui/Card";
 import { Progress } from "@/components/ui/Progress";
 
 const difficultyConfig = {
-  easy: { label: "Easy", color: "bg-green-500" },
-  medium: { label: "Medium", color: "bg-yellow-500" },
-  hard: { label: "Hard", color: "bg-orange-500" },
-  expert: { label: "Expert", color: "bg-red-500" },
-  nightmare: { label: "Nightmare", color: "bg-purple-500" },
+  easy: { label: "Easy", color: "bg-easy-500" },
+  medium: { label: "Medium", color: "bg-medium-500" },
+  hard: { label: "Hard", color: "bg-hard-500" },
+  expert: { label: "Expert", color: "bg-expert-500" },
+  nightmare: { label: "Nightmare", color: "bg-nightmare-500" },
 };
 
 export function DifficultyBreakdown() {
@@ -24,8 +24,9 @@ export function DifficultyBreakdown() {
 
   const difficultyData = Object.entries(difficultyConfig).map(
     ([key, config]) => {
+      // Fix the pattern matching for puzzle IDs (they start with difficulty prefix)
       const completed = Array.from(completedPuzzles).filter((id) =>
-        id.includes(`-${key}-`)
+        id.startsWith(`${key}-`)
       ).length;
       const total = totalByDifficulty[key] || 0;
       const percentage = completionRates[key] || 0;
