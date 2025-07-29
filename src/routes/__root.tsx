@@ -2,7 +2,6 @@ import {
   createRootRoute,
   Link,
   Outlet,
-  useLocation,
 } from "@tanstack/react-router";
 import { Button } from "@/components/ui/Button";
 import { RegexTitle } from "@/components/ui/RegexTitle";
@@ -10,8 +9,6 @@ import { CircuitBoardBackground } from "@/components/ui/CircuitBoardBackground";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 function RootComponent() {
-  const location = useLocation();
-
   return (
     <div className="min-h-screen w-full bg-white dark:bg-[#0f0f0f] relative text-gray-800 dark:text-white">
       <CircuitBoardBackground />
@@ -23,60 +20,68 @@ function RootComponent() {
           </Link>
           <div className="flex items-center space-x-2 sm:space-x-4">
             <Link to="/">
-              <Button
-                variant="ghost"
-                size="sm"
-                className={`text-xs sm:text-sm px-2 sm:px-3 transition-all duration-200 ${
-                  location.pathname === "/"
-                    ? "text-primary bg-primary/10"
-                    : "hover:bg-accent hover:text-accent-foreground"
-                }`}
-              >
-                <span className="hidden sm:inline">Daily Puzzle</span>
-                <span className="sm:hidden">Daily</span>
-              </Button>
+              {({ isActive }) => (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className={`text-xs sm:text-sm px-2 sm:px-3 transition-all duration-200 ${
+                    isActive
+                      ? "text-primary bg-primary/10"
+                      : "hover:bg-accent hover:text-accent-foreground"
+                  }`}
+                >
+                  <span className="hidden sm:inline">Daily Puzzle</span>
+                  <span className="sm:hidden">Daily</span>
+                </Button>
+              )}
             </Link>
             <Link to="/practice">
-              <Button
-                variant="ghost"
-                size="sm"
-                className={`text-xs sm:text-sm px-2 sm:px-3 transition-all duration-200 ${
-                  location.pathname === "/practice"
-                    ? "text-primary bg-primary/10"
-                    : "hover:bg-accent hover:text-accent-foreground"
-                }`}
-              >
-                <span className="hidden sm:inline">Practice</span>
-                <span className="sm:hidden">Practice</span>
-              </Button>
+              {({ isActive }) => (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className={`text-xs sm:text-sm px-2 sm:px-3 transition-all duration-200 ${
+                    isActive
+                      ? "text-primary bg-primary/10"
+                      : "hover:bg-accent hover:text-accent-foreground"
+                  }`}
+                >
+                  <span className="hidden sm:inline">Practice</span>
+                  <span className="sm:hidden">Practice</span>
+                </Button>
+              )}
             </Link>
             <Link to="/cheatsheet">
-              <Button
-                variant="ghost"
-                size="sm"
-                className={`text-xs sm:text-sm px-2 sm:px-3 transition-all duration-200 ${
-                  location.pathname === "/cheatsheet"
-                    ? "text-primary bg-primary/10"
-                    : "hover:bg-accent hover:text-accent-foreground"
-                }`}
-              >
-                <span className="hidden sm:inline">Cheat Sheet</span>
-                <span className="sm:hidden">Cheat</span>
-              </Button>
+              {({ isActive }) => (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className={`text-xs sm:text-sm px-2 sm:px-3 transition-all duration-200 ${
+                    isActive
+                      ? "text-primary bg-primary/10"
+                      : "hover:bg-accent hover:text-accent-foreground"
+                  }`}
+                >
+                  <span className="hidden sm:inline">Cheat Sheet</span>
+                  <span className="sm:hidden">Cheat</span>
+                </Button>
+              )}
             </Link>
             <Link to="/statistics">
-              <Button
-                variant="ghost"
-                size="sm"
-                className={`text-xs sm:text-sm px-2 sm:px-3 transition-all duration-200 ${
-                  location.pathname === "/statistics"
-                    ? "text-primary bg-primary/10"
-                    : "hover:bg-accent hover:text-accent-foreground"
-                }`}
-              >
-                <span className="hidden sm:inline">Statistics</span>
-                <span className="sm:hidden">Stats</span>
-              </Button>
+              {({ isActive }) => (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className={`text-xs sm:text-sm px-2 sm:px-3 transition-all duration-200 ${
+                    isActive
+                      ? "text-primary bg-primary/10"
+                      : "hover:bg-accent hover:text-accent-foreground"
+                  }`}
+                >
+                  <span className="hidden sm:inline">Statistics</span>
+                  <span className="sm:hidden">Stats</span>
+                </Button>
+              )}
             </Link>
             <ThemeToggle />
           </div>
