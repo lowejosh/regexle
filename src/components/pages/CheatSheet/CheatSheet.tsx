@@ -11,10 +11,7 @@ import { CHEAT_SHEET_DATA } from "./CheatSheet.consts";
 
 export function CheatSheet() {
   return (
-    <PageLayout
-      title="Regex Cheat Sheet"
-      description="Quick reference for regular expression patterns and syntax"
-    >
+    <PageLayout showHeader={false}>
       <div className="grid gap-4 sm:gap-6 md:grid-cols-2">
         {CHEAT_SHEET_DATA.map((section, index) => (
           <Card key={index} className="h-full">

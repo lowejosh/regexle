@@ -3,8 +3,9 @@ import { persist } from "zustand/middleware";
 import type { GameState, Puzzle, DailyPuzzleState } from "../types/game";
 import { RegexGameEngine } from "../engine/gameEngine";
 import { puzzleLoader } from "../data/puzzleLoader";
-import { puzzleService, type GameMode } from "../services/puzzleService";
 import { useStatisticsStore } from "./statisticsStore";
+
+export type GameMode = "daily" | "practice";
 
 let grantSpinCallback: (() => void) | null = null;
 let resetSpinWheelCallback: (() => void) | null = null;
@@ -48,10 +49,6 @@ interface GameStore extends GameState {
   loadPuzzle: (puzzle: Puzzle) => void;
   loadRandomPuzzle: (difficulty?: Puzzle["difficulty"]) => Promise<void>;
   loadDailyPuzzle: () => Promise<void>;
-  loadPuzzleByMode: (
-    mode: GameMode,
-    difficulty?: Puzzle["difficulty"]
-  ) => Promise<void>;
   updatePattern: (pattern: string) => void;
   testPattern: () => void;
   testPatternWithEffects: () => void;
@@ -77,7 +74,7 @@ export const useGameStore = create<GameStore>()(
       userPattern: "",
       gameResult: null,
       currentDifficulty: "easy",
-      currentMode: "random",
+      currentMode: "practice",
       showDescription: false,
       revealedTestCases: 1,
       attempts: 0,
@@ -95,6 +92,7 @@ export const useGameStore = create<GameStore>()(
       loadPuzzle: (puzzle: Puzzle) => {
         set({
           currentPuzzle: puzzle,
+          currentMode: "practice",
           ...resetPuzzleState(),
         });
       },
@@ -105,7 +103,7 @@ export const useGameStore = create<GameStore>()(
           if (puzzle) {
             set({
               currentPuzzle: puzzle,
-              currentMode: "random",
+              currentMode: "practice",
               ...resetPuzzleState(),
             });
           }
@@ -151,24 +149,6 @@ export const useGameStore = create<GameStore>()(
           }
         } catch (error) {
           console.error("Failed to load daily puzzle:", error);
-        }
-      },
-
-      loadPuzzleByMode: async (
-        mode: GameMode,
-        difficulty?: Puzzle["difficulty"]
-      ) => {
-        try {
-          const puzzle = await puzzleService.loadPuzzle(mode, difficulty);
-          if (puzzle) {
-            set({
-              currentPuzzle: puzzle,
-              currentMode: mode,
-              ...resetPuzzleState(),
-            });
-          }
-        } catch (error) {
-          console.error(`Failed to load ${mode} puzzle:`, error);
         }
       },
 

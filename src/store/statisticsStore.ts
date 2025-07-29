@@ -28,7 +28,7 @@ export interface StatisticsActions {
     difficulty: Puzzle["difficulty"],
     attempts: number,
     solutionRevealed: boolean,
-    mode: "daily" | "random"
+    mode: "daily" | "practice"
   ) => void;
   isPuzzleSolved: (puzzleId: string) => boolean;
   getDifficultyStats: (difficulty?: Puzzle["difficulty"]) => DifficultyStats;

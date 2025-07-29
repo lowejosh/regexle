@@ -28,12 +28,12 @@ const variants = {
   },
 };
 
-export function StaggeredTransition({ 
-  children, 
+export function StaggeredTransition({
+  children,
   className,
   delay = 100,
   staggerDelay = 100,
-  variant = "slideUp"
+  variant = "slideUp",
 }: StaggeredTransitionProps) {
   const [isVisible, setIsVisible] = useState(false);
 

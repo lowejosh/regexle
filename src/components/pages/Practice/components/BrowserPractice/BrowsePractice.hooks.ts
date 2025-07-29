@@ -123,16 +123,22 @@ export function usePuzzleProgress() {
 
 export function usePuzzleSelection(filteredPuzzles?: PuzzleManifestEntry[]) {
   const [selectedPuzzle, setSelectedPuzzle] = useState<Puzzle | null>(null);
-  const [selectedPuzzleEntry, setSelectedPuzzleEntry] = useState<PuzzleManifestEntry | null>(null);
+  const [selectedPuzzleEntry, setSelectedPuzzleEntry] =
+    useState<PuzzleManifestEntry | null>(null);
   const [puzzleKey, setPuzzleKey] = useState(0);
 
   const puzzleEntries = useMemo(() => {
-    return filteredPuzzles || puzzleLoader.getPuzzleManifestEntries() as PuzzleManifestEntry[];
+    return (
+      filteredPuzzles ||
+      (puzzleLoader.getPuzzleManifestEntries() as PuzzleManifestEntry[])
+    );
   }, [filteredPuzzles]);
 
   const currentPuzzleIndex = useMemo(() => {
     if (!selectedPuzzleEntry) return -1;
-    return puzzleEntries.findIndex(entry => entry.id === selectedPuzzleEntry.id);
+    return puzzleEntries.findIndex(
+      (entry) => entry.id === selectedPuzzleEntry.id
+    );
   }, [puzzleEntries, selectedPuzzleEntry]);
 
   const previousPuzzleEntry = useMemo(() => {
@@ -141,7 +147,11 @@ export function usePuzzleSelection(filteredPuzzles?: PuzzleManifestEntry[]) {
   }, [puzzleEntries, currentPuzzleIndex]);
 
   const nextPuzzleEntry = useMemo(() => {
-    if (currentPuzzleIndex === -1 || currentPuzzleIndex >= puzzleEntries.length - 1) return null;
+    if (
+      currentPuzzleIndex === -1 ||
+      currentPuzzleIndex >= puzzleEntries.length - 1
+    )
+      return null;
     return puzzleEntries[currentPuzzleIndex + 1];
   }, [puzzleEntries, currentPuzzleIndex]);
 

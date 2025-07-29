@@ -29,12 +29,12 @@ const variants = {
   },
 };
 
-export function PageTransition({ 
-  children, 
+export function PageTransition({
+  children,
   className,
   variant = "slideUp",
   delay = 50,
-  duration = 500
+  duration = 500,
 }: PageTransitionProps) {
   const [isVisible, setIsVisible] = useState(false);
   const location = useLocation();
@@ -42,7 +42,7 @@ export function PageTransition({
   useEffect(() => {
     // Reset visibility on route change
     setIsVisible(false);
-    
+
     // Small delay to ensure clean transition
     const timer = setTimeout(() => {
       setIsVisible(true);

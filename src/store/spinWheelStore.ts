@@ -13,8 +13,8 @@ import { processSpinResult } from "../components/pages/Game/utils/spinResultHand
 interface SpinWheelState {
   isSpinWheelOpen: boolean;
   dailySpins: number;
-  randomSpins: number;
-  currentMode: "daily" | "random";
+  practiceSpins: number;
+  currentMode: "daily" | "practice";
   partialDescription: string | null;
   showEncouragementCallback: (() => void) | null;
   isRubberDuckActive: boolean;
@@ -23,7 +23,7 @@ interface SpinWheelState {
 interface SpinWheelActions {
   openSpinWheel: () => void;
   closeSpinWheel: () => void;
-  setCurrentMode: (mode: "daily" | "random") => void;
+  setCurrentMode: (mode: "daily" | "practice") => void;
   getAvailableSpins: () => number;
   setAvailableSpins: (spins: number | ((prev: number) => number)) => void;
   consumeSpin: () => void;
@@ -44,7 +44,7 @@ type SpinWheelStore = SpinWheelState & SpinWheelActions;
 export const useSpinWheelStore = create<SpinWheelStore>((set, get) => ({
   isSpinWheelOpen: false,
   dailySpins: 1,
-  randomSpins: 1,
+  practiceSpins: 1,
   currentMode: "daily",
   partialDescription: null,
   showEncouragementCallback: null,
@@ -57,28 +57,28 @@ export const useSpinWheelStore = create<SpinWheelStore>((set, get) => ({
 
   getAvailableSpins: () => {
     const state = get();
-    return state.currentMode === "daily" ? state.dailySpins : state.randomSpins;
+    return state.currentMode === "daily" ? state.dailySpins : state.practiceSpins;
   },
   setAvailableSpins: (spins) => {
     const state = get();
     const currentSpins =
-      state.currentMode === "daily" ? state.dailySpins : state.randomSpins;
+      state.currentMode === "daily" ? state.dailySpins : state.practiceSpins;
     const newSpins = typeof spins === "function" ? spins(currentSpins) : spins;
-    const key = state.currentMode === "daily" ? "dailySpins" : "randomSpins";
+    const key = state.currentMode === "daily" ? "dailySpins" : "practiceSpins";
     set({ [key]: newSpins });
   },
   consumeSpin: () => {
     const state = get();
-    const key = state.currentMode === "daily" ? "dailySpins" : "randomSpins";
+    const key = state.currentMode === "daily" ? "dailySpins" : "practiceSpins";
     const currentValue =
-      state.currentMode === "daily" ? state.dailySpins : state.randomSpins;
+      state.currentMode === "daily" ? state.dailySpins : state.practiceSpins;
     set({ [key]: Math.max(0, currentValue - 1) });
   },
   grantSpin: () => {
     const state = get();
-    const key = state.currentMode === "daily" ? "dailySpins" : "randomSpins";
+    const key = state.currentMode === "daily" ? "dailySpins" : "practiceSpins";
     const currentValue =
-      state.currentMode === "daily" ? state.dailySpins : state.randomSpins;
+      state.currentMode === "daily" ? state.dailySpins : state.practiceSpins;
     set({ [key]: currentValue + 1 });
   },
 
@@ -146,7 +146,7 @@ export const useSpinWheelStore = create<SpinWheelStore>((set, get) => ({
       });
     } else {
       set({
-        randomSpins: 1,
+        practiceSpins: 1,
         partialDescription: null,
         isRubberDuckActive: false,
       });
@@ -157,7 +157,7 @@ export const useSpinWheelStore = create<SpinWheelStore>((set, get) => ({
     set({
       isSpinWheelOpen: false,
       dailySpins: 1,
-      randomSpins: 1,
+      practiceSpins: 1,
       currentMode: "daily",
       partialDescription: null,
       showEncouragementCallback: null,

@@ -48,7 +48,7 @@ export interface PuzzleSolveRecord {
   attempts: number;
   solutionRevealed: boolean;
   solvedAt: number; // Unix timestamp for consistency
-  mode: "daily" | "random";
+  mode: "daily" | "practice";
 }
 
 export interface GameState {
@@ -56,7 +56,7 @@ export interface GameState {
   userPattern: string;
   gameResult: GameResult | null;
   currentDifficulty: Puzzle["difficulty"];
-  currentMode: "daily" | "random";
+  currentMode: "daily" | "practice";
   showDescription: boolean;
   revealedTestCases: number;
   attempts: number;

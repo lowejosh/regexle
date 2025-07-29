@@ -28,7 +28,7 @@ export function RandomPractice() {
         onLoadPuzzle={handleLoadNew}
       />
 
-      <Game key={puzzleKey} mode="random" difficulty={difficulty} />
+      <Game key={puzzleKey} mode="practice" difficulty={difficulty} />
     </div>
   );
 }

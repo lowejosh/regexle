@@ -5,7 +5,7 @@ import { RubberDuck } from "./components/RubberDuck/RubberDuck";
 import { SpinWheel } from "./components/SpinWheel/SpinWheel";
 import { useGameStore } from "../../../store/gameStore";
 import { useSpinWheelStore } from "../../../store/spinWheelStore";
-import type { GameMode } from "../../../services/puzzleService";
+import type { GameMode } from "../../../store/gameStore";
 import type { Puzzle } from "../../../types/game";
 
 interface GameProps {
@@ -15,16 +15,18 @@ interface GameProps {
 }
 
 export function Game({ mode, difficulty, autoLoad = true }: GameProps) {
-  const { loadPuzzleByMode } = useGameStore();
+  const { loadDailyPuzzle } = useGameStore();
   const { setCurrentMode } = useSpinWheelStore();
 
   useEffect(() => {
-    setCurrentMode(mode === "daily" ? "daily" : "random");
+    setCurrentMode(mode === "daily" ? "daily" : "practice");
 
     if (autoLoad) {
-      loadPuzzleByMode(mode, difficulty);
+      if (mode === "daily") {
+        loadDailyPuzzle();
+      }
     }
-  }, [mode, difficulty, loadPuzzleByMode, autoLoad, setCurrentMode]);
+  }, [mode, difficulty, loadDailyPuzzle, autoLoad, setCurrentMode]);
 
   return (
     <div className="space-y-6">

@@ -144,7 +144,9 @@ export function PuzzleCard({ puzzle: propPuzzle }: PuzzleCardProps) {
       </CardHeader>
 
       <CardContent className="space-y-4 sm:space-y-6">
-        <PuzzleCompletionStatus isDailyCompleted={isDailyCompleted} />
+        {currentMode === "daily" && (
+          <PuzzleCompletionStatus isDailyCompleted={isDailyCompleted} />
+        )}
 
         <RegexInput
           userPattern={userPattern}

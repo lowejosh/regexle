@@ -55,15 +55,15 @@ export function BrowsePractice() {
 
   const { overallProgress, difficultyProgress } = usePuzzleProgress();
 
-  const { 
-    selectedPuzzle, 
-    puzzleKey, 
+  const {
+    selectedPuzzle,
+    puzzleKey,
     currentPuzzleIndex,
     previousPuzzleEntry,
     nextPuzzleEntry,
-    handlePuzzleSelect, 
+    handlePuzzleSelect,
     handleNavigateToPuzzle,
-    handleBackToBrowse 
+    handleBackToBrowse,
   } = usePuzzleSelection(filteredPuzzles);
 
   const handlePuzzleClick = async (puzzleEntry: PuzzleManifestEntry) => {
@@ -120,7 +120,7 @@ export function BrowsePractice() {
                     <ChevronLeft className="w-4 h-4" />
                     <span className="hidden sm:inline">Previous</span>
                   </Button>
-                  
+
                   <div className="flex items-center gap-2 px-3 py-1 bg-muted rounded-md">
                     <span className="text-sm font-medium text-muted-foreground">
                       {currentPuzzleIndex + 1} of {filteredPuzzles.length}
@@ -144,7 +144,9 @@ export function BrowsePractice() {
                   variant="secondary"
                   size="sm"
                   onClick={() => {
-                    const randomIndex = Math.floor(Math.random() * filteredPuzzles.length);
+                    const randomIndex = Math.floor(
+                      Math.random() * filteredPuzzles.length
+                    );
                     const randomPuzzle = filteredPuzzles[randomIndex];
                     if (randomPuzzle && randomPuzzle.id !== selectedPuzzle.id) {
                       handlePuzzleClick(randomPuzzle);
@@ -159,7 +161,7 @@ export function BrowsePractice() {
             </CardContent>
           </Card>
 
-          <Game key={puzzleKey} mode="random" autoLoad={false} />
+          <Game key={puzzleKey} mode="practice" autoLoad={false} />
         </div>
       </PageTransition>
     );
