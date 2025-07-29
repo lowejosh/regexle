@@ -18,7 +18,6 @@ import {
   Search,
   Filter,
   ArrowLeft,
-  Trophy,
   Target,
   Sparkles,
 } from "lucide-react";
@@ -29,14 +28,13 @@ import {
   usePuzzleBrowsing,
   usePuzzleProgress,
   usePuzzleSelection,
-  type PuzzleManifestEntry,
 } from "./BrowsePractice.hooks";
 import { DIFFICULTY_COLORS } from "./BrowsePractice.consts";
+import type { PuzzleManifestEntry } from "@/types/game";
 
 export function BrowsePractice() {
   const { loadPuzzle } = useGameStore();
 
-  // Use custom hooks for state management
   const {
     filteredPuzzles,
     groupedPuzzles,
@@ -101,8 +99,8 @@ export function BrowsePractice() {
 
   return (
     <div className="space-y-6 animate-in fade-in-0 duration-500">
-      {/* Difficulty Progress Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+      {/* Difficulty Progress Grid - Hidden on mobile, compact on tablet */}
+      <div className="hidden sm:grid grid-cols-2 md:grid-cols-5 gap-4">
         {DIFFICULTY_ORDER.map((difficulty) => {
           const progress = difficultyProgress[difficulty];
 
@@ -112,11 +110,36 @@ export function BrowsePractice() {
               difficulty={difficulty}
               completed={progress.completed}
               total={progress.total}
-              color={DIFFICULTY_COLORS[difficulty]}
             />
           );
         })}
       </div>
+
+      {/* Mobile Progress Summary - Compact overview for mobile only */}
+      <Card className="sm:hidden border-border/50">
+        <CardContent className="p-4">
+          <div className="flex items-center justify-between">
+            <span className="text-sm font-medium text-muted-foreground">
+              Overall Progress
+            </span>
+            <Badge variant="secondary" className="text-xs">
+              {overallProgress.completed}/{overallProgress.total} completed
+            </Badge>
+          </div>
+          <div className="mt-2 w-full bg-secondary rounded-full h-2 overflow-hidden">
+            <div
+              className="bg-primary h-full rounded-full transition-all duration-700"
+              style={{
+                width: `${
+                  overallProgress.total > 0
+                    ? (overallProgress.completed / overallProgress.total) * 100
+                    : 0
+                }%`,
+              }}
+            />
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Search and Filter Section */}
       <Card className="border-border/50">
@@ -138,7 +161,7 @@ export function BrowsePractice() {
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <Input
-                placeholder="Search puzzles by title or tags..."
+                placeholder="Search puzzles..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-10 border-input"
@@ -152,7 +175,7 @@ export function BrowsePractice() {
                   setSelectedCategory(value === "all" ? null : value)
                 }
               >
-                <SelectTrigger className="w-48">
+                <SelectTrigger className="w-full sm:w-48">
                   <SelectValue placeholder="All Categories" />
                 </SelectTrigger>
                 <SelectContent>
@@ -186,10 +209,10 @@ export function BrowsePractice() {
                   {/* Difficulty Header */}
                   <button
                     onClick={() => toggleDifficulty(difficulty)}
-                    className="w-full p-4 flex items-center justify-between"
+                    className="w-full p-4 flex items-center justify-between hover:bg-accent/50 transition-colors"
                   >
-                    <div className="flex items-center gap-3">
-                      <div className="transition-transform duration-200">
+                    <div className="flex items-center gap-3 min-w-0 flex-1">
+                      <div className="transition-transform duration-200 flex-shrink-0">
                         {isExpanded ? (
                           <ChevronDown className="w-5 h-5 text-muted-foreground" />
                         ) : (
@@ -199,24 +222,37 @@ export function BrowsePractice() {
                       <Badge
                         className={cn(
                           DIFFICULTY_COLORS[difficulty],
-                          "text-xs font-semibold px-3 py-1"
+                          "text-xs font-semibold px-3 py-1 flex-shrink-0"
                         )}
                       >
                         {toTitleCase(difficulty)}
                       </Badge>
-                      <span className="text-sm font-medium">
-                        {puzzles.length} puzzles
-                      </span>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <CheckCircle2 className="w-4 h-4" />
-                        {completedCount} completed
+
+                      {/* Desktop: Show full info */}
+                      <div className="hidden sm:flex items-center gap-4 text-sm">
+                        <span className="font-medium">
+                          {puzzles.length} puzzles
+                        </span>
+                        <div className="flex items-center gap-2 text-muted-foreground">
+                          <CheckCircle2 className="w-4 h-4" />
+                          {completedCount} completed
+                        </div>
+                      </div>
+
+                      {/* Mobile: Show condensed info */}
+                      <div className="sm:hidden flex items-center gap-2 text-sm text-muted-foreground min-w-0">
+                        <span className="truncate">
+                          {completedCount}/{puzzles.length}
+                        </span>
+                        <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
                       </div>
                     </div>
-                    <div className="flex items-center gap-3">
+
+                    <div className="flex items-center gap-3 flex-shrink-0">
                       <div className="text-sm font-semibold">
                         {Math.round((completedCount / puzzles.length) * 100)}%
                       </div>
-                      <div className="w-24 bg-secondary rounded-full h-2 overflow-hidden">
+                      <div className="w-16 sm:w-24 bg-secondary rounded-full h-2 overflow-hidden">
                         <div
                           className="bg-primary h-full rounded-full transition-all duration-300"
                           style={{
@@ -232,7 +268,7 @@ export function BrowsePractice() {
                   {/* Puzzle List */}
                   {isExpanded && (
                     <CardContent className="!p-0 border-t border-border/50">
-                      <div className="max-h-96 overflow-y-auto">
+                      <div className="max-h-64 sm:max-h-96 overflow-y-auto">
                         <div className="divide-y divide-border/50">
                           {puzzles.map((puzzle) => (
                             <PuzzleListItem

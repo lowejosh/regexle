@@ -1,17 +1,8 @@
 import { useState, useMemo } from "react";
 import { puzzleLoader } from "@/data/puzzleLoader";
 import { useStatisticsStore } from "@/store/statisticsStore";
-import type { Puzzle } from "@/types/game";
+import type { Puzzle, PuzzleManifestEntry } from "@/types/game";
 import { DIFFICULTY_ORDER } from "./BrowsePractice.consts";
-
-export interface PuzzleManifestEntry {
-  id: string;
-  title: string;
-  difficulty: Puzzle["difficulty"];
-  category: string;
-  tags: string[];
-  summary: string;
-}
 
 export function usePuzzleBrowsing() {
   const [expandedDifficulties, setExpandedDifficulties] = useState<Set<string>>(
@@ -108,13 +99,13 @@ export function usePuzzleProgress() {
   // Difficulty-based progress using statistics store
   const difficultyProgress = useMemo(() => {
     const totalsByDifficulty = getTotalPuzzlesByDifficulty();
-    
+
     return DIFFICULTY_ORDER.reduce((acc, difficulty) => {
       const total = totalsByDifficulty[difficulty] || 0;
       const completed = puzzleEntries
         .filter((p) => p.difficulty === difficulty)
         .filter((p) => isPuzzleSolved(p.id)).length;
-      
+
       acc[difficulty] = {
         total,
         completed,
