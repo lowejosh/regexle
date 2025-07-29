@@ -11,7 +11,9 @@
     "test": "vitest",
     "test:run": "vitest run",
     "test:puzzles": "vitest run src/tests/puzzle-validation.test.ts",
-    "validate:puzzles": "vitest run src/tests/validation-report.test.ts"
+    "validate:puzzles": "vitest run src/tests/validation-report.test.ts",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@radix-ui/react-select": "^2.2.5",
@@ -39,6 +41,7 @@
     "eslint": "^9.30.1",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
+    "gh-pages": "^6.3.0",
     "globals": "^16.3.0",
     "postcss": "^8.5.6",
     "tailwindcss": "^3.4.17",
