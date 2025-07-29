@@ -47,12 +47,12 @@ export function DailyCountdown({ onNewDay }: DailyCountdownProps) {
 
   return (
     <Card>
-      <CardHeader className="text-center pb-3">
+      <CardHeader className="text-center">
         <CardTitle className="text-sm font-medium text-muted-foreground">
           Next puzzle in:
         </CardTitle>
       </CardHeader>
-      <CardContent className="pt-0">
+      <CardContent className="!pt-0">
         <div className="flex justify-center items-center space-x-2 text-2xl font-mono font-bold text-primary">
           <div className="bg-background rounded px-2 py-1 shadow-sm min-w-[3rem] border border-border">
             {formatTime(timeLeft.hours)}

@@ -1,4 +1,4 @@
-import { useGameStore } from "@/store/gameStore";
+import { useStatisticsStore } from "@/store/statisticsStore";
 import { Card } from "@/components/ui/Card";
 import { Progress } from "@/components/ui/Progress";
 
@@ -11,13 +11,13 @@ const difficultyConfig = {
 };
 
 export function DifficultyBreakdown() {
-  const getCompletionRateByDifficulty = useGameStore(
+  const getCompletionRateByDifficulty = useStatisticsStore(
     (state) => state.getCompletionRateByDifficulty
   );
-  const getTotalPuzzlesByDifficulty = useGameStore(
+  const getTotalPuzzlesByDifficulty = useStatisticsStore(
     (state) => state.getTotalPuzzlesByDifficulty
   );
-  const completedPuzzles = useGameStore((state) => state.completedPuzzles);
+  const solvedPuzzleIds = useStatisticsStore((state) => state.solvedPuzzleIds);
 
   const completionRates = getCompletionRateByDifficulty();
   const totalByDifficulty = getTotalPuzzlesByDifficulty();
@@ -25,7 +25,7 @@ export function DifficultyBreakdown() {
   const difficultyData = Object.entries(difficultyConfig).map(
     ([key, config]) => {
       // Fix the pattern matching for puzzle IDs (they start with difficulty prefix)
-      const completed = Array.from(completedPuzzles).filter((id) =>
+      const completed = Array.from(solvedPuzzleIds).filter((id) =>
         id.startsWith(`${key}-`)
       ).length;
       const total = totalByDifficulty[key] || 0;

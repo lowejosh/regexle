@@ -1,10 +1,12 @@
 import { useSpinWheelStore } from "../../../../../store/spinWheelStore";
 import { getTotalPuzzleCount } from "../../../../../data/puzzleLoader";
 import { useGameStore } from "../../../../../store/gameStore";
+import { useStatisticsStore } from "../../../../../store/statisticsStore";
 import { Button } from "@/components/ui/Button";
 
 export function GameHeader() {
-  const { completedPuzzles, currentPuzzle, loadRandomPuzzle } = useGameStore();
+  const { currentPuzzle, loadRandomPuzzle } = useGameStore();
+  const solvedPuzzleIds = useStatisticsStore((state) => state.solvedPuzzleIds);
   const { resetForNewPuzzle } = useSpinWheelStore();
 
   const handleLoadRandomPuzzle = async () => {
@@ -15,7 +17,7 @@ export function GameHeader() {
   return (
     <div className="text-center space-y-4">
       <p className="text-muted-foreground">
-        {getTotalPuzzleCount()} | Completed: {completedPuzzles.size}
+        {getTotalPuzzleCount()} | Completed: {solvedPuzzleIds.size}
       </p>
 
       <Button onClick={handleLoadRandomPuzzle} size="lg">

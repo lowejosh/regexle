@@ -1,21 +1,17 @@
 import { useEffect, useRef, useMemo } from "react";
 import * as d3 from "d3";
 import { useStatisticsStore } from "../../../../../store/statisticsStore";
-import { useGameStore } from "@/store/gameStore";
 import { Card } from "@/components/ui/Card";
 
 export function PerformanceChart() {
   const svgRef = useRef<SVGSVGElement>(null);
   const { getTopPerformanceDays } = useStatisticsStore();
-  // Use persistent overall average attempts for consistency with StatsOverview
   const averageAttemptsValue = useStatisticsStore(
     (state) => state.averageAttempts
   );
   const averageAttempts =
     averageAttemptsValue > 0 ? averageAttemptsValue.toFixed(1) : "0";
-  const completedPuzzlesData = useGameStore(
-    (state) => state.completedPuzzlesData
-  );
+  const solveHistory = useStatisticsStore((state) => state.solveHistory);
 
   const topDays = useMemo(
     () => getTopPerformanceDays().slice(0, 5),
@@ -23,7 +19,7 @@ export function PerformanceChart() {
   );
 
   const performanceData = useMemo(() => {
-    const puzzleAttempts = Array.from(completedPuzzlesData.values());
+    const puzzleAttempts = solveHistory;
     const attemptCounts = [0, 0, 0, 0, 0]; // 1, 2, 3, 4, 5+ attempts
 
     puzzleAttempts.forEach((puzzle) => {
@@ -31,7 +27,7 @@ export function PerformanceChart() {
       else if (puzzle.attempts === 2) attemptCounts[1]++;
       else if (puzzle.attempts === 3) attemptCounts[2]++;
       else if (puzzle.attempts === 4) attemptCounts[3]++;
-      else attemptCounts[4]++; // 5+ attempts
+      else attemptCounts[4]++;
     });
 
     return [
@@ -41,7 +37,7 @@ export function PerformanceChart() {
       { attempts: "4", count: attemptCounts[3] },
       { attempts: "5+", count: attemptCounts[4] },
     ];
-  }, [completedPuzzlesData]);
+  }, [solveHistory]);
 
   useEffect(() => {
     if (!svgRef.current) return;

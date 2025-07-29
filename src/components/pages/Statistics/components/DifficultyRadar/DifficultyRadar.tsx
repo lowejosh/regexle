@@ -1,12 +1,12 @@
 import { useEffect, useRef } from "react";
 import * as d3 from "d3";
-import { useGameStore } from "@/store/gameStore";
+import { useStatisticsStore } from "@/store/statisticsStore";
 import { Card } from "@/components/ui/Card";
 import { Radar } from "lucide-react";
 
 export function DifficultyRadar() {
   const svgRef = useRef<SVGSVGElement>(null);
-  const getCompletionRateByDifficulty = useGameStore(
+  const getCompletionRateByDifficulty = useStatisticsStore(
     (state) => state.getCompletionRateByDifficulty
   );
 

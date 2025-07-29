@@ -1,11 +1,10 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { GameState, Puzzle, CompletedPuzzle } from "../types/game";
+import type { GameState, Puzzle } from "../types/game";
 import { RegexGameEngine } from "../engine/gameEngine";
 import { puzzleLoader } from "../data/puzzleLoader";
 import { puzzleService, type GameMode } from "../services/puzzleService";
 import { useStatisticsStore } from "./statisticsStore";
-import manifestData from "../data/puzzles/manifest.json";
 
 let grantSpinCallback: (() => void) | null = null;
 let resetSpinWheelCallback: (() => void) | null = null;
@@ -51,13 +50,6 @@ interface GameStore extends GameState {
   setRevealedTestCases: (cases: number | ((prev: number) => number)) => void;
   revealMoreTestCases: () => void;
   handleTestFailure: () => void;
-
-  // New computed statistics methods
-  getCompletionRateByDifficulty: () => Record<string, number>;
-  getTotalPuzzlesByDifficulty: () => Record<string, number>;
-  getRecentCompletions: (limit?: number) => CompletedPuzzle[];
-  getCompletionStreak: () => number;
-  addTestCompletions: () => void;
 }
 
 export const useGameStore = create<GameStore>()(
@@ -66,8 +58,6 @@ export const useGameStore = create<GameStore>()(
       currentPuzzle: null,
       userPattern: "",
       gameResult: null,
-      completedPuzzles: new Set(),
-      completedPuzzlesData: new Map(),
       currentDifficulty: "easy",
       currentMode: "random",
       showDescription: false,
@@ -172,16 +162,6 @@ export const useGameStore = create<GameStore>()(
 
     if (!state.currentPuzzle || !state.gameResult?.isCorrect) return;
 
-    const newCompleted = new Set(state.completedPuzzles);
-    newCompleted.add(state.currentPuzzle.id);
-
-    const newCompletedData = new Map(state.completedPuzzlesData);
-    newCompletedData.set(state.currentPuzzle.id, {
-      id: state.currentPuzzle.id,
-      timestamp: Date.now(),
-      attempts: state.attempts,
-    });
-
     useStatisticsStore
       .getState()
       .recordSolve(
@@ -191,11 +171,6 @@ export const useGameStore = create<GameStore>()(
         state.solutionRevealed,
         state.currentMode
       );
-
-    set({
-      completedPuzzles: newCompleted,
-      completedPuzzlesData: newCompletedData,
-    });
   },
 
   resetGame: () => {
@@ -248,143 +223,9 @@ export const useGameStore = create<GameStore>()(
       grantSpinCallback();
     }
   },
-
-  // New statistics methods
-  getCompletionRateByDifficulty: () => {
-    const state = get();
-    const completionRates: Record<string, number> = {};
-    const difficulties = ["easy", "medium", "hard", "expert", "nightmare"];
-
-    difficulties.forEach((difficulty) => {
-      const totalInDifficulty =
-        state.getTotalPuzzlesByDifficulty()[difficulty] || 0;
-      // Fix the pattern matching for puzzle IDs
-      const completedInDifficulty = Array.from(state.completedPuzzles).filter(
-        (id) => id.startsWith(`${difficulty}-`)
-      ).length;
-
-      completionRates[difficulty] =
-        totalInDifficulty > 0
-          ? (completedInDifficulty / totalInDifficulty) * 100
-          : 0;
-    });
-
-    return completionRates;
-  },
-
-  getTotalPuzzlesByDifficulty: () => {
-    // Use the actual manifest data to count puzzles by difficulty
-    const counts = manifestData.puzzles.reduce((acc, puzzle) => {
-      acc[puzzle.difficulty] = (acc[puzzle.difficulty] || 0) + 1;
-      return acc;
-    }, {} as Record<string, number>);
-    
-    return counts;
-  },
-
-  getRecentCompletions: (limit = 10) => {
-    const state = get();
-    const completedData = Array.from(state.completedPuzzlesData.values());
-
-    return completedData
-      .sort(
-        (a: CompletedPuzzle, b: CompletedPuzzle) => b.timestamp - a.timestamp
-      )
-      .slice(0, limit);
-  },
-
-  getCompletionStreak: () => {
-    // Calculate current completion streak
-    // This would need timestamp tracking for accurate implementation
-    return 0;
-  },
-
-  // Debug/Test function to add sample data
-  addTestCompletions: () => {
-    const testCompletions = [
-      "easy-001",
-      "easy-002", 
-      "easy-003",
-      "medium-001",
-      "medium-002",
-      "hard-001",
-      "expert-001",
-      "nightmare-001"
-    ];
-    
-    const newCompleted = new Set([...get().completedPuzzles, ...testCompletions]);
-    const newCompletedData = new Map(get().completedPuzzlesData);
-    
-    testCompletions.forEach((id, index) => {
-      if (!newCompletedData.has(id)) {
-        // Vary the attempts to test different achievements
-        let attempts;
-        if (index < 3) attempts = 1; // First 3 are perfect solves
-        else if (index < 5) attempts = 2; // Next 2 are 2 attempts
-        else attempts = Math.floor(Math.random() * 4) + 1; // Random for the rest
-        
-        newCompletedData.set(id, {
-          id,
-          timestamp: Date.now() - (index * 3600000), // Spread over hours (recent)
-          attempts,
-        });
-      }
-    });
-
-    set({
-      completedPuzzles: newCompleted,
-      completedPuzzlesData: newCompletedData,
-    });
-  },
 }),
 {
   name: "regexle-game-store",
   version: 1,
-  storage: {
-    getItem: (name) => {
-      const str = localStorage.getItem(name);
-      if (!str) return null;
-      try {
-        const parsed = JSON.parse(str);
-        console.log('Raw localStorage data:', parsed); // Debug log
-        return parsed;
-      } catch (error) {
-        console.error('Error parsing stored state:', error);
-        return null;
-      }
-    },
-    setItem: (name, newValue) => {
-      try {
-        // Transform Set/Map to serializable format before storing
-        const transformedValue = {
-          ...newValue,
-          state: {
-            ...newValue.state,
-            completedPuzzles: Array.from(newValue.state.completedPuzzles || []),
-            completedPuzzlesData: newValue.state.completedPuzzlesData 
-              ? Object.fromEntries(newValue.state.completedPuzzlesData)
-              : {},
-          }
-        };
-        console.log('Saving to localStorage:', transformedValue); // Debug log
-        localStorage.setItem(name, JSON.stringify(transformedValue));
-      } catch (error) {
-        console.error('Error storing state:', error);
-      }
-    },
-    removeItem: (name) => localStorage.removeItem(name),
-  },
-  onRehydrateStorage: () => (state) => {
-    if (state) {
-      // Transform arrays/objects back to Set/Map after loading
-      if (Array.isArray(state.completedPuzzles)) {
-        state.completedPuzzles = new Set(state.completedPuzzles);
-      }
-      if (state.completedPuzzlesData && typeof state.completedPuzzlesData === 'object' && !state.completedPuzzlesData.has) {
-        state.completedPuzzlesData = new Map(Object.entries(state.completedPuzzlesData));
-      }
-      console.log('Rehydration finished, final state:', state); // Debug log
-    }
-  },
 }
 ));

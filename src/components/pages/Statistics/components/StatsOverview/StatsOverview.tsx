@@ -1,18 +1,14 @@
-import { useGameStore } from "@/store/gameStore";
 import { useStatisticsStore } from "@/store/statisticsStore";
 import { Card } from "@/components/ui/Card";
 import { Trophy, Zap, TrendingUp, Award } from "lucide-react";
 
 export function StatsOverview() {
-  const completedPuzzles = useGameStore((state) => state.completedPuzzles);
-  const getCompletionStreak = useGameStore(
-    (state) => state.getCompletionStreak
-  );
+  const solvedPuzzleIds = useStatisticsStore((state) => state.solvedPuzzleIds);
+  const currentStreak = useStatisticsStore((state) => state.currentStreak);
   const averageAttempts = useStatisticsStore((state) => state.averageAttempts);
   const longestStreak = useStatisticsStore((state) => state.longestStreak);
 
-  const totalCompleted = completedPuzzles.size;
-  const currentStreak = getCompletionStreak();
+  const totalCompleted = solvedPuzzleIds.size;
 
   const stats = [
     {

@@ -25,8 +25,10 @@ export function DifficultySelector({
 
   return (
     <Card>
-      <CardHeader className="text-center pb-4">
-        <CardTitle className="text-lg sm:text-xl">Choose Your Challenge</CardTitle>
+      <CardHeader className="text-center !pb-2">
+        <CardTitle className="text-lg sm:text-xl">
+          Choose Your Challenge
+        </CardTitle>
         <CardDescription className="text-sm sm:text-base">
           Select a difficulty level to match your regex expertise
         </CardDescription>

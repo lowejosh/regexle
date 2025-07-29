@@ -7,15 +7,6 @@ export function PracticePage() {
 
   return (
     <div className="max-w-5xl mx-auto p-4 sm:p-6 space-y-6 sm:space-y-8">
-      <div className="text-center mb-6 sm:mb-8">
-        <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-2">
-          Practice
-        </h1>
-        <p className="text-muted-foreground text-base sm:text-lg">
-          Sharpen your regex skills with random challenges or browse specific puzzles
-        </p>
-      </div>
-
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="grid w-full grid-cols-2 mb-6">
           <TabsTrigger value="random" className="text-sm sm:text-base">

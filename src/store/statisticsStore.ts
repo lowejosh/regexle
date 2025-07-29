@@ -1,15 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { Puzzle } from "../types/game";
-
-export interface PuzzleSolveRecord {
-  puzzleId: string;
-  difficulty: Puzzle["difficulty"];
-  attempts: number;
-  solutionRevealed: boolean;
-  solvedAt: string; // ISO date string
-  mode: "daily" | "random";
-}
+import type { Puzzle, PuzzleSolveRecord } from "../types/game";
+import manifestData from "../data/puzzles/manifest.json";
 
 export interface DifficultyStats {
   totalSolved: number;
@@ -21,13 +13,13 @@ export interface DifficultyStats {
 
 export interface StatisticsState {
   solveHistory: PuzzleSolveRecord[];
-  solvedPuzzleIds: Set<string>; // Track unique puzzles solved
+  solvedPuzzleIds: Set<string>;
   totalPuzzlesSolved: number;
   totalAttempts: number;
   averageAttempts: number;
   currentStreak: number;
   longestStreak: number;
-  lastSolveDate: string | null;
+  lastSolveDate: number | null;
 }
 
 export interface StatisticsActions {
@@ -51,6 +43,9 @@ export interface StatisticsActions {
     solveCount: number;
     averageAttempts: number;
   }>;
+  getCompletionRateByDifficulty: () => Record<string, number>;
+  getTotalPuzzlesByDifficulty: () => Record<string, number>;
+  getRecentCompletions: (limit?: number) => PuzzleSolveRecord[];
   resetStatistics: () => void;
 }
 
@@ -81,7 +76,7 @@ export const useStatisticsStore = create<StatisticsStore>()(
           return;
         }
 
-        const now = new Date().toISOString();
+        const now = Date.now();
         const newRecord: PuzzleSolveRecord = {
           puzzleId,
           difficulty,
@@ -152,8 +147,10 @@ export const useStatisticsStore = create<StatisticsStore>()(
       getStatsForDateRange: (startDate, endDate) => {
         const { solveHistory } = get();
         return solveHistory.filter((solve) => {
-          const solveDate = new Date(solve.solvedAt);
-          return solveDate >= startDate && solveDate <= endDate;
+          const solveDate = solve.solvedAt;
+          return (
+            solveDate >= startDate.getTime() && solveDate <= endDate.getTime()
+          );
         });
       },
 
@@ -177,7 +174,6 @@ export const useStatisticsStore = create<StatisticsStore>()(
 
       calculateStreak: () => {
         const { solveHistory } = get();
-        // Only count daily puzzles for streaks
         const dailyPuzzleSolves = solveHistory.filter(
           (solve) => solve.mode === "daily"
         );
@@ -185,15 +181,13 @@ export const useStatisticsStore = create<StatisticsStore>()(
         if (dailyPuzzleSolves.length === 0) return 0;
 
         const sortedSolves = [...dailyPuzzleSolves].sort(
-          (a, b) =>
-            new Date(b.solvedAt).getTime() - new Date(a.solvedAt).getTime()
+          (a, b) => b.solvedAt - a.solvedAt
         );
 
         let streak = 0;
         const currentDate = new Date();
         currentDate.setHours(0, 0, 0, 0);
 
-        // Check if we solved anything today or yesterday
         const latestSolve = new Date(sortedSolves[0].solvedAt);
         latestSolve.setHours(0, 0, 0, 0);
 
@@ -203,10 +197,9 @@ export const useStatisticsStore = create<StatisticsStore>()(
         );
 
         if (daysDiff > 1) {
-          return 0; // Streak broken
+          return 0;
         }
 
-        // Count consecutive days with daily puzzle solves
         const dailySolves = new Map<string, boolean>();
         sortedSolves.forEach((solve) => {
           const date = new Date(solve.solvedAt);
@@ -216,7 +209,6 @@ export const useStatisticsStore = create<StatisticsStore>()(
 
         const checkDate = new Date(currentDate);
         if (daysDiff === 1) {
-          // If no solve today, start from yesterday
           checkDate.setDate(checkDate.getDate() - 1);
         }
 
@@ -260,6 +252,42 @@ export const useStatisticsStore = create<StatisticsStore>()(
           }))
           .sort((a, b) => b.solveCount - a.solveCount)
           .slice(0, 10);
+      },
+
+      getCompletionRateByDifficulty: () => {
+        const state = get();
+        const completionRates: Record<string, number> = {};
+        const difficulties = ["easy", "medium", "hard", "expert", "nightmare"];
+
+        difficulties.forEach((difficulty) => {
+          const totalInDifficulty =
+            state.getTotalPuzzlesByDifficulty()[difficulty] || 0;
+          const completedInDifficulty = Array.from(
+            state.solvedPuzzleIds
+          ).filter((id) => id.startsWith(`${difficulty}-`)).length;
+
+          completionRates[difficulty] =
+            totalInDifficulty > 0
+              ? (completedInDifficulty / totalInDifficulty) * 100
+              : 0;
+        });
+
+        return completionRates;
+      },
+
+      getTotalPuzzlesByDifficulty: () => {
+        return manifestData.puzzles.reduce((acc, puzzle) => {
+          acc[puzzle.difficulty] = (acc[puzzle.difficulty] || 0) + 1;
+          return acc;
+        }, {} as Record<string, number>);
+      },
+
+      getRecentCompletions: (limit = 10) => {
+        const { solveHistory } = get();
+        console.log(solveHistory);
+        return [...solveHistory]
+          .sort((a, b) => b.solvedAt - a.solvedAt)
+          .slice(0, limit);
       },
 
       resetStatistics: () => set(initialState),

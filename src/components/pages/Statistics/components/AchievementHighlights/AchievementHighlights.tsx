@@ -1,4 +1,4 @@
-import { useGameStore } from "@/store/gameStore";
+import { useStatisticsStore } from "@/store/statisticsStore";
 import { Card } from "@/components/ui/Card";
 import {
   Award,
@@ -10,25 +10,25 @@ import {
   Flame,
   Shield,
   Brain,
-  Rocket,
 } from "lucide-react";
 
 export function AchievementHighlights() {
-  const completedPuzzles = useGameStore((state) => state.completedPuzzles);
-  const completedPuzzlesData = useGameStore(
-    (state) => state.completedPuzzlesData
-  );
+  const solvedPuzzleIds = useStatisticsStore((state) => state.solvedPuzzleIds);
+  const solveHistory = useStatisticsStore((state) => state.solveHistory);
 
-  const totalCompleted = completedPuzzles.size;
+  const totalCompleted = solvedPuzzleIds.size;
 
   // Get completion data for analysis
-  const completionData = Array.from(completedPuzzlesData.values());
-  const oneAttemptSolves = completionData.filter(
+  const completionData = solveHistory;
+  const perfectSolves = completionData.filter(
     (data) => data.attempts === 1
   ).length;
-  const recentCompletions = completionData.filter(
-    (data) => Date.now() - data.timestamp < 24 * 60 * 60 * 1000 // Last 24 hours
+  const recentActivity = completionData.filter(
+    (data) => Date.now() - data.solvedAt < 24 * 60 * 60 * 1000 // Last 24 hours
   ).length;
+
+  const oneAttemptSolves = perfectSolves;
+  const recentCompletions = recentActivity;
 
   const achievements = [
     {
@@ -49,10 +49,10 @@ export function AchievementHighlights() {
       icon: Target,
       title: "Expert Explorer",
       description: "Complete an expert puzzle",
-      unlocked: Array.from(completedPuzzles).some((id) =>
+      unlocked: Array.from(solvedPuzzleIds).some((id) =>
         id.startsWith("expert-")
       ),
-      progress: Array.from(completedPuzzles).some((id) =>
+      progress: Array.from(solvedPuzzleIds).some((id) =>
         id.startsWith("expert-")
       )
         ? 100
@@ -62,10 +62,10 @@ export function AchievementHighlights() {
       icon: Award,
       title: "Nightmare Conqueror",
       description: "Complete a nightmare puzzle",
-      unlocked: Array.from(completedPuzzles).some((id) =>
+      unlocked: Array.from(solvedPuzzleIds).some((id) =>
         id.startsWith("nightmare-")
       ),
-      progress: Array.from(completedPuzzles).some((id) =>
+      progress: Array.from(solvedPuzzleIds).some((id) =>
         id.startsWith("nightmare-")
       )
         ? 100
@@ -98,11 +98,11 @@ export function AchievementHighlights() {
       description: "Complete puzzles in all difficulties",
       unlocked: ["easy", "medium", "hard", "expert", "nightmare"].every(
         (diff) =>
-          Array.from(completedPuzzles).some((id) => id.startsWith(`${diff}-`))
+          Array.from(solvedPuzzleIds).some((id) => id.startsWith(`${diff}-`))
       ),
       progress:
         ["easy", "medium", "hard", "expert", "nightmare"].filter((diff) =>
-          Array.from(completedPuzzles).some((id) => id.startsWith(`${diff}-`))
+          Array.from(solvedPuzzleIds).some((id) => id.startsWith(`${diff}-`))
         ).length * 20,
     },
     {

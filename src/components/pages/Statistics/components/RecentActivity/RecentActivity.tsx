@@ -1,9 +1,10 @@
-import { useGameStore } from "@/store/gameStore";
+import { useStatisticsStore } from "@/store/statisticsStore";
 import { Card } from "@/components/ui/Card";
 import { Clock, CheckCircle } from "lucide-react";
+import { formatRelativeTime } from "@/lib/timeUtils";
 
 export function RecentActivity() {
-  const getRecentCompletions = useGameStore(
+  const getRecentCompletions = useStatisticsStore(
     (state) => state.getRecentCompletions
   );
   const recentPuzzles = getRecentCompletions(5);
@@ -44,17 +45,17 @@ export function RecentActivity() {
         </p>
       ) : (
         <div className="space-y-3">
-          {recentPuzzles.reverse().map((puzzle, index) => {
-            const difficulty = getDifficultyFromId(puzzle.id);
+          {recentPuzzles.map((puzzle) => {
+            const difficulty = getDifficultyFromId(puzzle.puzzleId);
             return (
               <div
-                key={puzzle.id}
+                key={puzzle.puzzleId}
                 className="flex items-center space-x-3 p-3 rounded-lg bg-muted/50"
               >
                 <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0" />
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium truncate">
-                    {puzzle.id
+                    {puzzle.puzzleId
                       .replace(/-/g, " ")
                       .replace(/\b\w/g, (l: string) => l.toUpperCase())}
                   </p>
@@ -65,7 +66,7 @@ export function RecentActivity() {
                   </p>
                 </div>
                 <span className="text-xs text-muted-foreground">
-                  #{recentPuzzles.length - index}
+                  {formatRelativeTime(puzzle.solvedAt)}
                 </span>
               </div>
             );
