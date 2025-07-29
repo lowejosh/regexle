@@ -65,6 +65,7 @@ interface GameStore extends GameState {
   isDailyPuzzleCompleted: () => boolean;
   getDailyPuzzleCompletion: () => DailyPuzzleState | null;
   clearDailyPuzzleIfNewDay: () => void;
+  forceRefreshDailyPuzzle: () => Promise<void>;
 }
 
 export const useGameStore = create<GameStore>()(
@@ -313,6 +314,34 @@ export const useGameStore = create<GameStore>()(
               completionSolutionRevealed: false,
             },
           });
+        }
+      },
+
+      forceRefreshDailyPuzzle: async () => {
+        // Force clear daily puzzle state regardless of date
+        set({
+          dailyPuzzleState: {
+            completedDate: null,
+            completedPuzzleId: null,
+            completionUserPattern: null,
+            completionGameResult: null,
+            completionAttempts: 0,
+            completionSolutionRevealed: false,
+          },
+        });
+
+        // Load the new daily puzzle
+        try {
+          const puzzle = await puzzleLoader.getDailyPuzzle();
+          if (puzzle) {
+            set({
+              currentPuzzle: puzzle,
+              currentMode: "daily",
+              ...resetPuzzleState(),
+            });
+          }
+        } catch (error) {
+          console.error("Failed to force refresh daily puzzle:", error);
         }
       },
     }),

@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 
 interface DailyCountdownProps {
-  onNewDay?: () => void;
+  onNewDay?: () => void | Promise<void>;
 }
 
 export function DailyCountdown({ onNewDay }: DailyCountdownProps) {
@@ -12,36 +12,52 @@ export function DailyCountdown({ onNewDay }: DailyCountdownProps) {
     seconds: number;
   }>({ hours: 0, minutes: 0, seconds: 0 });
 
+  const calculateTimeLeft = useCallback(() => {
+    const now = new Date();
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    tomorrow.setHours(0, 0, 0, 0); // Set to midnight
+
+    const difference = tomorrow.getTime() - now.getTime();
+
+    if (difference > 0) {
+      const hours = Math.floor(difference / (1000 * 60 * 60));
+      const minutes = Math.floor(
+        (difference % (1000 * 60 * 60)) / (1000 * 60)
+      );
+      const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+      setTimeLeft({ hours, minutes, seconds });
+      return false; // Not midnight yet
+    } else {
+      setTimeLeft({ hours: 0, minutes: 0, seconds: 0 });
+      return true; // It's midnight (or past)
+    }
+  }, []);
+
   useEffect(() => {
-    const calculateTimeLeft = () => {
-      const now = new Date();
-      const tomorrow = new Date();
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      tomorrow.setHours(0, 0, 0, 0); // Set to midnight
+    let hasTriggeredNewDay = false;
 
-      const difference = tomorrow.getTime() - now.getTime();
-
-      if (difference > 0) {
-        const hours = Math.floor(difference / (1000 * 60 * 60));
-        const minutes = Math.floor(
-          (difference % (1000 * 60 * 60)) / (1000 * 60)
-        );
-        const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-
-        setTimeLeft({ hours, minutes, seconds });
-      } else {
-        setTimeLeft({ hours: 0, minutes: 0, seconds: 0 });
-        if (onNewDay) {
-          onNewDay();
-        }
+    const timer = setInterval(async () => {
+      const isMidnight = calculateTimeLeft();
+      
+      // Trigger onNewDay only once when we hit midnight
+      if (isMidnight && !hasTriggeredNewDay && onNewDay) {
+        hasTriggeredNewDay = true;
+        await onNewDay();
       }
-    };
+      
+      // Reset the flag after a few seconds to allow for next day detection
+      if (!isMidnight && hasTriggeredNewDay) {
+        hasTriggeredNewDay = false;
+      }
+    }, 1000);
 
+    // Calculate initial time
     calculateTimeLeft();
-    const timer = setInterval(calculateTimeLeft, 1000);
 
     return () => clearInterval(timer);
-  }, [onNewDay]);
+  }, [onNewDay, calculateTimeLeft]);
 
   const formatTime = (value: number) => value.toString().padStart(2, "0");
 
