@@ -149,9 +149,6 @@ export function PuzzleCard({ puzzle: propPuzzle }: PuzzleCardProps) {
       <CardContent className="space-y-4 sm:space-y-6">
         <PuzzleCompletionStatus
           isDailyCompleted={isDailyCompleted}
-          gameResult={gameResult}
-          attempts={attempts}
-          solutionRevealed={solutionRevealed}
         />
 
         <RegexInput

@@ -284,7 +284,6 @@ export const useStatisticsStore = create<StatisticsStore>()(
 
       getRecentCompletions: (limit = 10) => {
         const { solveHistory } = get();
-        console.log(solveHistory);
         return [...solveHistory]
           .sort((a, b) => b.solvedAt - a.solvedAt)
           .slice(0, limit);
