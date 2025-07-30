@@ -1,0 +1,42 @@
+{
+  "id": "nightmare-004",
+  "title": "Lookahead Paradox Resolver",
+  "description": "Advanced pattern matching requires identifying strings where every character is followed by a different character, creating complex lookahead chains. The string must contain only letters, and no two adjacent characters can be the same, demonstrating advanced lookahead mastery.",
+  "difficulty": "nightmare",
+  "testCases": [
+    {
+      "input": "abc",
+      "shouldMatch": true
+    },
+    {
+      "input": "abcd",
+      "shouldMatch": true
+    },
+    {
+      "input": "xyz",
+      "shouldMatch": true
+    },
+    {
+      "input": "abcdef",
+      "shouldMatch": true
+    },
+    {
+      "input": "aa",
+      "shouldMatch": false
+    },
+    {
+      "input": "abb",
+      "shouldMatch": false
+    },
+    {
+      "input": "abcc",
+      "shouldMatch": false
+    },
+    {
+      "input": "aabb",
+      "shouldMatch": false
+    }
+  ],
+  "solution": "^(?:([a-zA-Z])(?!\\1))*[a-zA-Z]?$",
+  "solutionSummary": "Uses non-capturing group (?:), capturing group for each character ([a-zA-Z]), negative lookahead (?!\\1) to ensure next character differs from current, with quantifier and optional final character. Demonstrates advanced lookahead techniques and backreference constraints."
+}

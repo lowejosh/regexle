@@ -757,16 +757,16 @@
     },
     {
       "id": "nightmare-004",
-      "title": "Perfect Square Detector",
+      "title": "Lookahead Paradox Resolver",
       "difficulty": "nightmare",
-      "category": "mathematics",
+      "category": "meta",
       "tags": [
-        "perfect-square",
-        "enumeration",
-        "mathematical"
+        "lookahead",
+        "backreference",
+        "advanced"
       ],
-      "file": "nightmare/perfect-square-detector.json",
-      "summary": "Detect perfect square numbers using explicit pattern enumeration"
+      "file": "nightmare/lookahead-paradox-resolver.json",
+      "summary": "Advanced lookahead patterns ensuring no adjacent duplicate characters"
     }
   ],
   "categories": [

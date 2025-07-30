@@ -87,6 +87,18 @@ function validatePuzzle(manifestEntry: PuzzleManifestEntry): ValidationIssue[] {
       });
     }
 
+    // Check equal matching and non-matching test cases
+    if (matchingCases.length !== nonMatchingCases.length) {
+      issues.push({
+        puzzleId: puzzle.id,
+        title: puzzle.title,
+        file: manifestEntry.file,
+        type: "test_count",
+        details: `Unbalanced test cases: ${matchingCases.length} matching, ${nonMatchingCases.length} non-matching (must be equal)`,
+        severity: "error",
+      });
+    }
+
     // Check regex validity and solution correctness
     if (!puzzle.solution) {
       issues.push({
