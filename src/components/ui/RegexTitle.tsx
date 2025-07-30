@@ -3,7 +3,7 @@ import { GlitchText } from "./GlitchText";
 
 const REGEX_PATTERNS = [
   "/^Regexle$/",
-  "/Reg[ex]+le/i",
+  "/Reg[ex]+le/i", 
   "/R.*e/g",
   "/(Regex|le)+/",
 ] as const;
@@ -78,14 +78,14 @@ export function RegexTitle({ className = "" }: RegexTitleProps) {
 
   return (
     <div className={`relative ${className}`}>
-      <h1 className="text-xl sm:text-2xl font-bold font-mono tracking-wide text-primary group-hover:text-primary/80 transition-colors">
+      <h1 className="text-base sm:text-xl lg:text-2xl font-bold font-mono tracking-wide text-primary group-hover:text-primary/80 transition-colors">
         <span className="relative">
           {isGlitching ? (
             <GlitchText speed={50} className="text-primary/80">
               Regexle
             </GlitchText>
           ) : showPattern ? (
-            <span className="text-primary/80">{currentPattern}</span>
+            <span className="text-primary/80 text-sm sm:text-lg">{currentPattern}</span>
           ) : (
             <span className="text-primary">Regexle</span>
           )}
