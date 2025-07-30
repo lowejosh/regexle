@@ -8,6 +8,7 @@ export { GameResults } from "./GameResults";
 export { SpinWheelButton } from "./SpinWheelButton";
 export { EncouragementToast } from "./EncouragementToast";
 export { RubberDuck } from "./RubberDuck";
+export { TarotReading } from "./TarotReading";
 
 // Re-export services for convenience
 export * from "../utils";

@@ -18,6 +18,7 @@ interface SpinWheelState {
   partialDescription: string | null;
   showEncouragementCallback: (() => void) | null;
   isRubberDuckActive: boolean;
+  isTarotReadingActive: boolean;
 }
 
 interface SpinWheelActions {
@@ -34,6 +35,8 @@ interface SpinWheelActions {
   showEncouragement: () => void;
   activateRubberDuck: () => void;
   deactivateRubberDuck: () => void;
+  activateTarotReading: () => void;
+  deactivateTarotReading: () => void;
   handleSpinResult: (option: WheelOption) => void;
   resetForNewPuzzle: () => void;
   resetAll: () => void;
@@ -49,6 +52,7 @@ export const useSpinWheelStore = create<SpinWheelStore>((set, get) => ({
   partialDescription: null,
   showEncouragementCallback: null,
   isRubberDuckActive: false,
+  isTarotReadingActive: false,
 
   openSpinWheel: () => set({ isSpinWheelOpen: true }),
   closeSpinWheel: () => set({ isSpinWheelOpen: false }),
@@ -100,6 +104,11 @@ export const useSpinWheelStore = create<SpinWheelStore>((set, get) => ({
   },
   deactivateRubberDuck: () => set({ isRubberDuckActive: false }),
 
+  activateTarotReading: () => {
+    set({ isTarotReadingActive: true });
+  },
+  deactivateTarotReading: () => set({ isTarotReadingActive: false }),
+
   handleSpinResult: (option: WheelOption) => {
     const state = get();
     state.consumeSpin();
@@ -118,6 +127,8 @@ export const useSpinWheelStore = create<SpinWheelStore>((set, get) => ({
       showEncouragement: state.showEncouragement,
       activateRubberDuck: state.activateRubberDuck,
       deactivateRubberDuck: state.deactivateRubberDuck,
+      activateTarotReading: state.activateTarotReading,
+      deactivateTarotReading: state.deactivateTarotReading,
       revealMoreTestCases: gameState.revealMoreTestCases,
       revealAllTestCases: () => {
         if (gameState.currentPuzzle) {
@@ -143,12 +154,14 @@ export const useSpinWheelStore = create<SpinWheelStore>((set, get) => ({
         dailySpins: 1,
         partialDescription: null,
         isRubberDuckActive: false,
+        isTarotReadingActive: false,
       });
     } else {
       set({
         practiceSpins: 1,
         partialDescription: null,
         isRubberDuckActive: false,
+        isTarotReadingActive: false,
       });
     }
   },
@@ -162,6 +175,7 @@ export const useSpinWheelStore = create<SpinWheelStore>((set, get) => ({
       partialDescription: null,
       showEncouragementCallback: null,
       isRubberDuckActive: false,
+      isTarotReadingActive: false,
     }),
 }));
 

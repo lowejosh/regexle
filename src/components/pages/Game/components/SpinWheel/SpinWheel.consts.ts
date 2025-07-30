@@ -8,7 +8,8 @@ export type WheelOptionId =
   | "viking-mode"
   | "upside-down-mode"
   | "free-test-case"
-  | "reveal-all-test-cases";
+  | "reveal-all-test-cases"
+  | "tarot-reading";
 
 export interface WheelOption {
   id: WheelOptionId;
@@ -66,6 +67,11 @@ export const WHEEL_OPTIONS: WheelOption[] = [
     id: "reveal-all-test-cases",
     label: "All Test Cases",
     color: "#E67E22",
+  },
+  {
+    id: "tarot-reading",
+    label: "Tarot Reading",
+    color: "#9B59B6",
   },
 ];
 

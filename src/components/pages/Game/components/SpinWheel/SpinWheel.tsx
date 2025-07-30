@@ -1,4 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
+import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 
 import { useSpinWheel, calculateWheelSegmentData } from "./SpinWheel.hooks";
@@ -66,16 +67,17 @@ export function SpinWheel() {
     );
   };
 
-  return (
+  if (!isSpinWheelOpen) return null;
+
+  return createPortal(
     <AnimatePresence>
-      {isSpinWheelOpen && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black/50 dark:bg-black/70 flex items-center justify-center z-50 !m-0"
-          onClick={closeSpinWheel}
-        >
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="fixed inset-0 bg-black/50 dark:bg-black/70 flex items-center justify-center z-50 !m-0"
+        onClick={closeSpinWheel}
+      >
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
@@ -168,7 +170,7 @@ export function SpinWheel() {
             </div>
           </motion.div>
         </motion.div>
-      )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 }

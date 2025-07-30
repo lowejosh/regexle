@@ -15,6 +15,8 @@ export interface SpinResultActions {
   showEncouragement: () => void;
   activateRubberDuck: () => void;
   deactivateRubberDuck: () => void;
+  activateTarotReading: () => void;
+  deactivateTarotReading: () => void;
   revealMoreTestCases: () => void;
   revealAllTestCases: () => void;
 }
@@ -82,6 +84,15 @@ const spinHandlers = {
     actions: SpinResultActions
   ) => {
     actions.revealAllTestCases();
+  },
+
+  "tarot-reading": (_context: SpinResultContext, actions: SpinResultActions) => {
+    actions.activateTarotReading();
+    
+    // Auto-dismiss after 45 seconds (longer than rubber duck)
+    setTimeout(() => {
+      actions.deactivateTarotReading();
+    }, 45000);
   },
 } as const;
 
