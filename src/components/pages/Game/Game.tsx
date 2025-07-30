@@ -4,6 +4,7 @@ import { PuzzleCard } from "./components/PuzzleCard/PuzzleCard";
 import { RubberDuck } from "./components/RubberDuck/RubberDuck";
 import { TarotReading } from "./components/TarotReading/TarotReading";
 import { SpinWheel } from "./components/SpinWheel/SpinWheel";
+import { RegexExplosion } from "./components/RegexExplosion";
 import { useGameStore } from "../../../store/gameStore";
 import { useSpinWheelStore } from "../../../store/spinWheelStore";
 import type { GameMode } from "../../../store/gameStore";
@@ -36,6 +37,7 @@ export function Game({ mode, difficulty, autoLoad = true }: GameProps) {
       <SpinWheel />
       <RubberDuck />
       <TarotReading />
+      <RegexExplosion />
     </div>
   );
 }

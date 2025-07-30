@@ -38,6 +38,7 @@ const resetPuzzleState = () => {
     revealedTestCases: 1,
     attempts: 0,
     solutionRevealed: false,
+    showRegexExplosion: false,
   };
 };
 
@@ -60,6 +61,7 @@ interface GameStore extends GameState {
   setRevealedTestCases: (cases: number | ((prev: number) => number)) => void;
   revealMoreTestCases: () => void;
   handleTestFailure: () => void;
+  clearRegexExplosion: () => void;
 
   // Daily puzzle specific methods
   isDailyPuzzleCompleted: () => boolean;
@@ -80,6 +82,7 @@ export const useGameStore = create<GameStore>()(
       revealedTestCases: 1,
       attempts: 0,
       solutionRevealed: false,
+      showRegexExplosion: false,
 
       // Daily puzzle state
       dailyPuzzleState: {
@@ -230,6 +233,7 @@ export const useGameStore = create<GameStore>()(
           showDescription: false,
           revealedTestCases: 1,
           solutionRevealed: false,
+          showRegexExplosion: false,
         });
       },
 
@@ -272,10 +276,20 @@ export const useGameStore = create<GameStore>()(
 
       handleTestFailure: () => {
         const state = get();
+
+        // Check if user has reached 10 attempts without solving
+        if (state.attempts === 10) {
+          set({ showRegexExplosion: true });
+        }
+
         state.revealMoreTestCases();
         if (grantSpinCallback) {
           grantSpinCallback();
         }
+      },
+
+      clearRegexExplosion: () => {
+        set({ showRegexExplosion: false });
       },
 
       // Daily puzzle specific methods

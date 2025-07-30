@@ -61,6 +61,7 @@ export interface GameState {
   revealedTestCases: number;
   attempts: number;
   solutionRevealed: boolean;
+  showRegexExplosion: boolean;
 }
 
 export interface DailyPuzzleState {
