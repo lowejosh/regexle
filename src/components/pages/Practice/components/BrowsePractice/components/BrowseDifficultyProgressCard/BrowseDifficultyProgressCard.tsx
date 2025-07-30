@@ -5,17 +5,17 @@ import { toTitleCase } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 import { Trophy, Lock, Target } from "lucide-react";
 
-interface DifficultyProgressCardProps {
+interface BrowseDifficultyProgressCardProps {
   difficulty: string;
   completed: number;
   total: number;
 }
 
-export function DifficultyProgressCard({
+export function BrowseDifficultyProgressCard({
   difficulty,
   completed,
   total,
-}: DifficultyProgressCardProps) {
+}: BrowseDifficultyProgressCardProps) {
   const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
   const isComplete = percentage === 100;
   const hasStarted = percentage > 0;

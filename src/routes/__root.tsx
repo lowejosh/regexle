@@ -1,8 +1,4 @@
-import {
-  createRootRoute,
-  Link,
-  Outlet,
-} from "@tanstack/react-router";
+import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
 import { Button } from "@/components/ui/Button";
 import { RegexTitle } from "@/components/ui/RegexTitle";
 import { CircuitBoardBackground } from "@/components/ui/CircuitBoardBackground";

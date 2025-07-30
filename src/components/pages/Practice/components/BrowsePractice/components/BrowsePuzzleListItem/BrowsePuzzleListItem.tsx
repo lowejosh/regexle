@@ -9,7 +9,7 @@ interface PuzzleListItemProps {
   onClick: () => void;
 }
 
-export function PuzzleListItem({
+export function BrowsePuzzleListItem({
   puzzle,
   isCompleted,
   onClick,

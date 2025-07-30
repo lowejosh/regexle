@@ -50,12 +50,11 @@ export function PuzzleCard({ puzzle: propPuzzle }: PuzzleCardProps) {
 
   const puzzle = propPuzzle || currentPuzzle;
 
-  // Get daily completion data early for the effect
   const isDailyCompleted = currentMode === "daily" && isDailyPuzzleCompleted();
   const dailyCompletionData =
     currentMode === "daily" ? getDailyPuzzleCompletion() : null;
 
-  // Effect to prefill solution for completed daily puzzles
+  // prefill solution for completed daily puzzles
   useEffect(() => {
     if (
       isDailyCompleted &&
@@ -101,17 +100,6 @@ export function PuzzleCard({ puzzle: propPuzzle }: PuzzleCardProps) {
   const handleGiveUp = () => {
     setShowSolution(true);
     setSolutionRevealed(true);
-  };
-
-  const handleInstantSolve = () => {
-    // Set the correct pattern and test it
-    if (puzzle.solution) {
-      updatePattern(puzzle.solution);
-      // Use setTimeout to ensure the pattern is updated before testing
-      setTimeout(() => {
-        testPatternWithEffects();
-      }, 0);
-    }
   };
 
   return (
@@ -167,21 +155,7 @@ export function PuzzleCard({ puzzle: propPuzzle }: PuzzleCardProps) {
           />
         )}
 
-        {/* Temporary test button - show for non-completed puzzles and allow replay of previously solved non-daily puzzles */}
-        {!isPuzzleSolved && !isDailyCompleted && (
-          <div className="flex justify-end">
-            <Button
-              variant="outline"
-              onClick={handleInstantSolve}
-              className="text-muted-foreground hover:text-green-500 border-border hover:border-green-400 hover:bg-green-50 dark:hover:bg-green-900/20 transition-all duration-300 hover:shadow-md group"
-            >
-              <span className="group-hover:animate-pulse">⚡</span>
-              <span className="ml-2 font-medium">Instant Solve (Test)</span>
-            </Button>
-          </div>
-        )}
-
-        {/* Surrender button - only show when all test cases revealed and puzzle not completed */}
+        {/* Surrender button */}
         {allTestCasesRevealed &&
           !isPuzzleSolved &&
           !isDailyCompleted &&
@@ -198,7 +172,6 @@ export function PuzzleCard({ puzzle: propPuzzle }: PuzzleCardProps) {
             </div>
           )}
 
-        {/* Solution Display */}
         {showSolution && puzzle.solution && (
           <PuzzleCardSolutionReveal puzzle={puzzle} />
         )}

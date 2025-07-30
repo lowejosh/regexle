@@ -24,8 +24,24 @@ export function RegexTitle({ className = "" }: RegexTitleProps) {
   const [isGlitching, setIsGlitching] = useState(false);
   const [showPattern, setShowPattern] = useState(false);
   const [currentPattern, setCurrentPattern] = useState("");
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check if mobile on mount and window resize
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 640); // sm breakpoint
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
+    // Don't run glitch effects on mobile
+    if (isMobile) return;
+
     const timeoutIds: NodeJS.Timeout[] = [];
 
     const getRandomPattern = () => {
@@ -74,7 +90,7 @@ export function RegexTitle({ className = "" }: RegexTitleProps) {
     return () => {
       timeoutIds.forEach(clearTimeout);
     };
-  }, []);
+  }, [isMobile]);
 
   return (
     <div className={`relative ${className}`}>
