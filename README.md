@@ -6,10 +6,6 @@ A regex puzzle game where you solve challenges by writing regular expression pat
 
 ---
 
-Practice regex patterns through puzzles across five difficulty levels: Easy → Medium → Hard → Expert → Nightmare.
-
----
-
 ### Quick Start
 
 ```bash
