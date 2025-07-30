@@ -1,0 +1,42 @@
+{
+  "id": "easy-014",
+  "title": "Coordinate Point Finder",
+  "description": "Scientists need to identify coordinate points in research data. These points are written as two numbers separated by a comma, enclosed in parentheses. Help them find valid coordinate pairs like (12, 34) in their datasets.",
+  "difficulty": "easy",
+  "testCases": [
+    {
+      "input": "(5, 10)",
+      "shouldMatch": true
+    },
+    {
+      "input": "(123, 456)",
+      "shouldMatch": true
+    },
+    {
+      "input": "(0, 0)",
+      "shouldMatch": true
+    },
+    {
+      "input": "(99, 1)",
+      "shouldMatch": true
+    },
+    {
+      "input": "(5,10)",
+      "shouldMatch": false
+    },
+    {
+      "input": "5, 10",
+      "shouldMatch": false
+    },
+    {
+      "input": "(5, )",
+      "shouldMatch": false
+    },
+    {
+      "input": "(a, 10)",
+      "shouldMatch": false
+    }
+  ],
+  "solution": "\\(\\d+, \\d+\\)",
+  "solutionSummary": "Uses escaped parentheses \\( \\) to match literal parentheses, \\d+ for one or more digits, and literal comma with space. Demonstrates escaping special characters and basic quantifiers."
+}

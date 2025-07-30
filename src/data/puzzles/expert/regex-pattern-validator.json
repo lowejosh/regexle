@@ -1,0 +1,42 @@
+{
+  "id": "expert-011",
+  "title": "Regex Pattern Validator",
+  "description": "Development tools need to validate basic regex patterns for syntax highlighting. These patterns can contain literal characters, character classes in square brackets, quantifiers (+, *, ?), and escaped special characters. Validate well-formed simple regex expressions.",
+  "difficulty": "expert",
+  "testCases": [
+    {
+      "input": "[a-z]+",
+      "shouldMatch": true
+    },
+    {
+      "input": "\\d*",
+      "shouldMatch": true
+    },
+    {
+      "input": "[A-Z0-9]?",
+      "shouldMatch": true
+    },
+    {
+      "input": "test\\.",
+      "shouldMatch": true
+    },
+    {
+      "input": "[a-z",
+      "shouldMatch": false
+    },
+    {
+      "input": "test[",
+      "shouldMatch": false
+    },
+    {
+      "input": "]a-z[",
+      "shouldMatch": false
+    },
+    {
+      "input": "\\",
+      "shouldMatch": false
+    }
+  ],
+  "solution": "^([a-zA-Z0-9]|\\\\.|\\[[a-zA-Z0-9-]+\\])+[+*?]?$",
+  "solutionSummary": "Uses alternation to match literal chars/escapes OR character classes \\[[a-zA-Z0-9-]+\\], with optional quantifiers [+*?]?. Demonstrates meta-pattern validation and recursive structure matching."
+}

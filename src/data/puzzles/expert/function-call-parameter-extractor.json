@@ -1,0 +1,42 @@
+{
+  "id": "expert-012",
+  "title": "Function Call Parameter Extractor",
+  "description": "Code analysis tools need to parse function calls with parameters. These calls have a function name (letters/underscores), followed by parentheses containing comma-separated parameters. Parameters can be numbers, quoted strings, or identifiers. Parse valid function invocations.",
+  "difficulty": "expert",
+  "testCases": [
+    {
+      "input": "func(123, \"hello\", var_name)",
+      "shouldMatch": true
+    },
+    {
+      "input": "calculate(42)",
+      "shouldMatch": true
+    },
+    {
+      "input": "process(\"string\", 456, identifier)",
+      "shouldMatch": true
+    },
+    {
+      "input": "simple_func()",
+      "shouldMatch": true
+    },
+    {
+      "input": "func(123,)",
+      "shouldMatch": false
+    },
+    {
+      "input": "func(,123)",
+      "shouldMatch": false
+    },
+    {
+      "input": "123(param)",
+      "shouldMatch": false
+    },
+    {
+      "input": "func[123]",
+      "shouldMatch": false
+    }
+  ],
+  "solution": "^[a-zA-Z_][a-zA-Z0-9_]*\\(((\\d+|\"[^\"]*\"|[a-zA-Z_][a-zA-Z0-9_]*)(, ?(\\d+|\"[^\"]*\"|[a-zA-Z_][a-zA-Z0-9_]*))*)?\\)$",
+  "solutionSummary": "Uses function name pattern, parameter alternation (\\d+|\"[^\"]*\"|[a-zA-Z_][a-zA-Z0-9_]*), and repetition for comma-separated params. Demonstrates complex alternation and repetition for parsing structured syntax."
+}

@@ -1,0 +1,42 @@
+{
+  "id": "hard-015",
+  "title": "Database Connection String Parser",
+  "description": "Database applications need to validate connection strings. These strings start with 'mongodb://', followed by optional username:password@, then hostname:port format. Parse these complex connection patterns for database connectivity.",
+  "difficulty": "hard",
+  "testCases": [
+    {
+      "input": "mongodb://localhost:27017",
+      "shouldMatch": true
+    },
+    {
+      "input": "mongodb://user:pass@localhost:27017",
+      "shouldMatch": true
+    },
+    {
+      "input": "mongodb://admin:secret@db.example.com:27017",
+      "shouldMatch": true
+    },
+    {
+      "input": "mongodb://myuser:mypass@192.168.1.100:27017",
+      "shouldMatch": true
+    },
+    {
+      "input": "http://localhost:27017",
+      "shouldMatch": false
+    },
+    {
+      "input": "mongodb://localhost",
+      "shouldMatch": false
+    },
+    {
+      "input": "mongodb://user@localhost:27017",
+      "shouldMatch": false
+    },
+    {
+      "input": "mongodb://:pass@localhost:27017",
+      "shouldMatch": false
+    }
+  ],
+  "solution": "^mongodb://([a-zA-Z0-9]+:[a-zA-Z0-9]+@)?[a-zA-Z0-9.-]+:\\d+$",
+  "solutionSummary": "Uses protocol prefix, optional credentials group ([a-zA-Z0-9]+:[a-zA-Z0-9]+@)?, hostname with dots/hyphens, and required port. Demonstrates complex optional groups and URL parsing patterns."
+}

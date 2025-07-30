@@ -2,7 +2,7 @@
 
 A regex puzzle game where you solve challenges by writing regular expression patterns.
 
-**[🎮 Play Now](https://lowejosh.github.io/regexle/)** | [View Source](https://github.com/lowejosh/regexle)
+**[🎮 Play Now](https://lowejosh.github.io/regexle/)**
 
 ---
 

@@ -585,6 +585,188 @@
       ],
       "file": "hard/log-timestamp-extractor.json",
       "summary": "Extract and validate server log timestamps with precise date and time ranges."
+    },
+    {
+      "id": "easy-014",
+      "title": "Coordinate Point Finder",
+      "difficulty": "easy",
+      "category": "mathematics",
+      "tags": [
+        "coordinates",
+        "format",
+        "parentheses"
+      ],
+      "file": "easy/coordinate-point-finder.json",
+      "summary": "Match coordinate points in (x, y) format with escaped parentheses"
+    },
+    {
+      "id": "easy-015",
+      "title": "Currency Symbol Detective",
+      "difficulty": "easy",
+      "category": "finance",
+      "tags": [
+        "currency",
+        "decimal",
+        "optional"
+      ],
+      "file": "easy/currency-symbol-detective.json",
+      "summary": "Match dollar amounts with optional decimal places"
+    },
+    {
+      "id": "easy-016",
+      "title": "Programming Comment Hunter",
+      "difficulty": "easy",
+      "category": "structure",
+      "tags": [
+        "comments",
+        "anchor",
+        "programming"
+      ],
+      "file": "easy/programming-comment-hunter.json",
+      "summary": "Identify single-line programming comments starting with //"
+    },
+    {
+      "id": "medium-013",
+      "title": "Social Security Masker",
+      "difficulty": "medium",
+      "category": "security",
+      "tags": [
+        "privacy",
+        "format",
+        "quantifier"
+      ],
+      "file": "medium/social-security-masker.json",
+      "summary": "Validate Social Security Numbers with exact digit formatting"
+    },
+    {
+      "id": "medium-014",
+      "title": "SQL Query Detector",
+      "difficulty": "medium",
+      "category": "data",
+      "tags": [
+        "sql",
+        "case-insensitive",
+        "security"
+      ],
+      "file": "medium/sql-query-detector.json",
+      "summary": "Detect SELECT statements in SQL queries with case-insensitive matching"
+    },
+    {
+      "id": "medium-015",
+      "title": "Library Book Code Scanner",
+      "difficulty": "medium",
+      "category": "identity",
+      "tags": [
+        "format",
+        "structure",
+        "library"
+      ],
+      "file": "medium/library-book-code-scanner.json",
+      "summary": "Validate library book codes with letter-number-letter pattern"
+    },
+    {
+      "id": "medium-016",
+      "title": "Package Version Tracker",
+      "difficulty": "medium",
+      "category": "versioning",
+      "tags": [
+        "semantic",
+        "optional",
+        "software"
+      ],
+      "file": "medium/package-version-tracker.json",
+      "summary": "Match software version numbers with optional patch versions"
+    },
+    {
+      "id": "hard-014",
+      "title": "API Token Validator",
+      "difficulty": "hard",
+      "category": "security",
+      "tags": [
+        "authentication",
+        "hex",
+        "format"
+      ],
+      "file": "hard/api-token-validator.json",
+      "summary": "Validate API tokens with exact hexadecimal formatting"
+    },
+    {
+      "id": "hard-015",
+      "title": "Database Connection String Parser",
+      "difficulty": "hard",
+      "category": "networking",
+      "tags": [
+        "database",
+        "url",
+        "credentials"
+      ],
+      "file": "hard/database-connection-string-parser.json",
+      "summary": "Parse MongoDB connection strings with optional authentication"
+    },
+    {
+      "id": "hard-016",
+      "title": "Scientific Notation Decoder",
+      "difficulty": "hard",
+      "category": "mathematics",
+      "tags": [
+        "scientific",
+        "notation",
+        "exponent"
+      ],
+      "file": "hard/scientific-notation-decoder.json",
+      "summary": "Parse scientific notation numbers with exponents"
+    },
+    {
+      "id": "hard-017",
+      "title": "JWT Token Structure Validator",
+      "difficulty": "hard",
+      "category": "security",
+      "tags": [
+        "jwt",
+        "base64",
+        "authentication"
+      ],
+      "file": "hard/jwt-token-structure-validator.json",
+      "summary": "Validate JWT token three-part structure with base64url encoding"
+    },
+    {
+      "id": "expert-011",
+      "title": "Regex Pattern Validator",
+      "difficulty": "expert",
+      "category": "meta",
+      "tags": [
+        "regex",
+        "validation",
+        "meta-pattern"
+      ],
+      "file": "expert/regex-pattern-validator.json",
+      "summary": "Validate basic regex pattern syntax with character classes and quantifiers"
+    },
+    {
+      "id": "expert-012",
+      "title": "Function Call Parameter Extractor",
+      "difficulty": "expert",
+      "category": "structure",
+      "tags": [
+        "parsing",
+        "function",
+        "parameters"
+      ],
+      "file": "expert/function-call-parameter-extractor.json",
+      "summary": "Parse function calls with complex parameter alternation patterns"
+    },
+    {
+      "id": "nightmare-004",
+      "title": "Perfect Square Detector",
+      "difficulty": "nightmare",
+      "category": "mathematics",
+      "tags": [
+        "perfect-square",
+        "enumeration",
+        "mathematical"
+      ],
+      "file": "nightmare/perfect-square-detector.json",
+      "summary": "Detect perfect square numbers using explicit pattern enumeration"
     }
   ],
   "categories": [

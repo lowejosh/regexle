@@ -1,0 +1,42 @@
+{
+  "id": "easy-015",
+  "title": "Currency Symbol Detective",
+  "description": "Financial applications need to identify currency amounts. These amounts start with a dollar sign followed by digits and may include two decimal places. Find valid currency formats in transaction logs.",
+  "difficulty": "easy",
+  "testCases": [
+    {
+      "input": "$25",
+      "shouldMatch": true
+    },
+    {
+      "input": "$100.50",
+      "shouldMatch": true
+    },
+    {
+      "input": "$0.99",
+      "shouldMatch": true
+    },
+    {
+      "input": "$1234.00",
+      "shouldMatch": true
+    },
+    {
+      "input": "25",
+      "shouldMatch": false
+    },
+    {
+      "input": "$25.5",
+      "shouldMatch": false
+    },
+    {
+      "input": "$25.123",
+      "shouldMatch": false
+    },
+    {
+      "input": "$.99",
+      "shouldMatch": false
+    }
+  ],
+  "solution": "^\\$\\d+(\\.\\d{2})?$",
+  "solutionSummary": "Uses escaped dollar sign \\$, \\d+ for required digits, and optional group (\\.\\d{2})? for exactly two decimal places. Demonstrates escaping special characters and optional groups."
+}

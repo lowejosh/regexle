@@ -1,0 +1,42 @@
+{
+  "id": "easy-016",
+  "title": "Programming Comment Hunter",
+  "description": "Code editors need to identify single-line comments in programming languages. These comments start with two forward slashes and continue to the end of the line. Help identify these comment patterns.",
+  "difficulty": "easy",
+  "testCases": [
+    {
+      "input": "// This is a comment",
+      "shouldMatch": true
+    },
+    {
+      "input": "//Another comment",
+      "shouldMatch": true
+    },
+    {
+      "input": "// ",
+      "shouldMatch": true
+    },
+    {
+      "input": "//",
+      "shouldMatch": true
+    },
+    {
+      "input": "/ This is not a comment",
+      "shouldMatch": false
+    },
+    {
+      "input": "/* This is a different comment */",
+      "shouldMatch": false
+    },
+    {
+      "input": "# This is a Python comment",
+      "shouldMatch": false
+    },
+    {
+      "input": "code // inline comment",
+      "shouldMatch": false
+    }
+  ],
+  "solution": "^//.*",
+  "solutionSummary": "Uses start anchor ^ to match beginning of line, literal // for double slashes, and .* to match any remaining characters. Demonstrates anchors and wildcard matching."
+}

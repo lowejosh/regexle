@@ -1,0 +1,50 @@
+{
+  "id": "nightmare-004",
+  "title": "Perfect Square Detector",
+  "description": "Mathematical analysis requires detecting perfect squares using only regex pattern matching. The challenge is to identify numbers that are perfect squares (1, 4, 9, 16, 25, 36, 49, 64, 81, 100, etc.) without using mathematical operations, relying purely on pattern recognition.",
+  "difficulty": "nightmare",
+  "testCases": [
+    {
+      "input": "1",
+      "shouldMatch": true
+    },
+    {
+      "input": "4",
+      "shouldMatch": true
+    },
+    {
+      "input": "9",
+      "shouldMatch": true
+    },
+    {
+      "input": "16",
+      "shouldMatch": true
+    },
+    {
+      "input": "25",
+      "shouldMatch": true
+    },
+    {
+      "input": "36",
+      "shouldMatch": true
+    },
+    {
+      "input": "2",
+      "shouldMatch": false
+    },
+    {
+      "input": "3",
+      "shouldMatch": false
+    },
+    {
+      "input": "5",
+      "shouldMatch": false
+    },
+    {
+      "input": "15",
+      "shouldMatch": false
+    }
+  ],
+  "solution": "^(1|4|9|16|25|36|49|64|81|100)$",
+  "solutionSummary": "Uses explicit alternation to match known perfect squares up to 100. Demonstrates the theoretical limitation of regex for mathematical computations - sometimes brute force enumeration is the only viable approach within regex constraints."
+}

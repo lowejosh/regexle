@@ -1,0 +1,42 @@
+{
+  "id": "hard-017",
+  "title": "JWT Token Structure Validator",
+  "description": "Authentication systems need to validate JWT token structure. These tokens have three parts separated by dots: header.payload.signature. Each part contains base64url-encoded data (letters, numbers, hyphens, underscores). Validate the basic JWT structure.",
+  "difficulty": "hard",
+  "testCases": [
+    {
+      "input": "eyJhbGciOiJIUzI1NiI.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIn0.Gir8R7CSg89nm0G9Ps0p7aL7HgfSGMsD8VpdxdTdCro",
+      "shouldMatch": true
+    },
+    {
+      "input": "abc123.def456.ghi789",
+      "shouldMatch": true
+    },
+    {
+      "input": "A-_1.B-_2.C-_3",
+      "shouldMatch": true
+    },
+    {
+      "input": "header123.payload456.signature789",
+      "shouldMatch": true
+    },
+    {
+      "input": "part1.part2",
+      "shouldMatch": false
+    },
+    {
+      "input": "part1.part2.part3.part4",
+      "shouldMatch": false
+    },
+    {
+      "input": "part1..part3",
+      "shouldMatch": false
+    },
+    {
+      "input": ".part2.part3",
+      "shouldMatch": false
+    }
+  ],
+  "solution": "^[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+$",
+  "solutionSummary": "Uses base64url character class [A-Za-z0-9_-]+ for each part, escaped dots \\. as separators, and anchors for exact three-part structure. Demonstrates structured token validation with specific character sets."
+}

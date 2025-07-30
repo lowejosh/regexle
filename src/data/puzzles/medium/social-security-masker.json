@@ -1,0 +1,42 @@
+{
+  "id": "medium-013",
+  "title": "Social Security Masker",
+  "description": "Privacy systems need to identify Social Security Numbers for masking in documents. These numbers follow the format XXX-XX-XXXX where X represents a digit. Find these sensitive identifiers for protection.",
+  "difficulty": "medium",
+  "testCases": [
+    {
+      "input": "123-45-6789",
+      "shouldMatch": true
+    },
+    {
+      "input": "987-65-4321",
+      "shouldMatch": true
+    },
+    {
+      "input": "000-12-3456",
+      "shouldMatch": true
+    },
+    {
+      "input": "555-00-1234",
+      "shouldMatch": true
+    },
+    {
+      "input": "12-45-6789",
+      "shouldMatch": false
+    },
+    {
+      "input": "123-4-6789",
+      "shouldMatch": false
+    },
+    {
+      "input": "123-45-67890",
+      "shouldMatch": false
+    },
+    {
+      "input": "123456789",
+      "shouldMatch": false
+    }
+  ],
+  "solution": "^\\d{3}-\\d{2}-\\d{4}$",
+  "solutionSummary": "Uses exact quantifiers {3}, {2}, {4} with \\d for digits and literal hyphens. Demonstrates precise quantifier usage and formatting validation."
+}

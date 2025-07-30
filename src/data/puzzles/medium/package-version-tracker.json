@@ -1,0 +1,42 @@
+{
+  "id": "medium-016",
+  "title": "Package Version Tracker",
+  "description": "Package managers need to validate dependency versions. These versions have major and minor numbers separated by a dot, optionally followed by a patch number. Match valid version numbers like 1.2 or 1.2.3 but not incomplete versions.",
+  "difficulty": "medium",
+  "testCases": [
+    {
+      "input": "1.2",
+      "shouldMatch": true
+    },
+    {
+      "input": "1.2.3",
+      "shouldMatch": true
+    },
+    {
+      "input": "10.25",
+      "shouldMatch": true
+    },
+    {
+      "input": "3.14.159",
+      "shouldMatch": true
+    },
+    {
+      "input": "1",
+      "shouldMatch": false
+    },
+    {
+      "input": "1.",
+      "shouldMatch": false
+    },
+    {
+      "input": ".2",
+      "shouldMatch": false
+    },
+    {
+      "input": "1.2.3.4",
+      "shouldMatch": false
+    }
+  ],
+  "solution": "^\\d+\\.\\d+(\\.\\d+)?$",
+  "solutionSummary": "Uses anchors ^ and $ for complete match, \\d+ for major.minor versions, escaped dot \\., and optional patch group (\\.\\d+)?. Demonstrates optional groups and complete string matching."
+}

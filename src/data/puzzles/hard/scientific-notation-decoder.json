@@ -1,0 +1,42 @@
+{
+  "id": "hard-016",
+  "title": "Scientific Notation Decoder",
+  "description": "Scientific calculators need to parse numbers in scientific notation. These numbers have a base number (with optional decimal), followed by 'e' or 'E', then an optional sign, and finally the exponent digits. Decode these precise scientific formats.",
+  "difficulty": "hard",
+  "testCases": [
+    {
+      "input": "1.23e10",
+      "shouldMatch": true
+    },
+    {
+      "input": "5E-3",
+      "shouldMatch": true
+    },
+    {
+      "input": "2.5e+8",
+      "shouldMatch": true
+    },
+    {
+      "input": "42e0",
+      "shouldMatch": true
+    },
+    {
+      "input": "1.23",
+      "shouldMatch": false
+    },
+    {
+      "input": "e10",
+      "shouldMatch": false
+    },
+    {
+      "input": "1.23e",
+      "shouldMatch": false
+    },
+    {
+      "input": "1.23e+",
+      "shouldMatch": false
+    }
+  ],
+  "solution": "^\\d+(\\.\\d+)?[eE][+-]?\\d+$",
+  "solutionSummary": "Uses integer part \\d+, optional decimal (\\.\\d+)?, case-insensitive exponent [eE], optional sign [+-]?, and required exponent digits. Demonstrates scientific notation parsing with optional components."
+}

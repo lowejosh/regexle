@@ -1,0 +1,42 @@
+{
+  "id": "hard-014",
+  "title": "API Token Validator",
+  "description": "Security systems need to validate API tokens with strict formatting. Valid tokens start with 'tok_', followed by exactly 32 hexadecimal characters (0-9, a-f). These tokens are used for secure API authentication.",
+  "difficulty": "hard",
+  "testCases": [
+    {
+      "input": "tok_1a2b3c4d5e6f7890abcdef1234567890",
+      "shouldMatch": true
+    },
+    {
+      "input": "tok_ffffffffffffffffffffffffffffffff",
+      "shouldMatch": true
+    },
+    {
+      "input": "tok_0000000000000000000000000000000a",
+      "shouldMatch": true
+    },
+    {
+      "input": "tok_abcdef1234567890abcdef1234567890",
+      "shouldMatch": true
+    },
+    {
+      "input": "tok_1a2b3c4d5e6f7890abcdef123456789",
+      "shouldMatch": false
+    },
+    {
+      "input": "tok_1a2b3c4d5e6f7890abcdef1234567890x",
+      "shouldMatch": false
+    },
+    {
+      "input": "tok_1A2B3C4D5E6F7890ABCDEF1234567890",
+      "shouldMatch": false
+    },
+    {
+      "input": "token_1a2b3c4d5e6f7890abcdef1234567890",
+      "shouldMatch": false
+    }
+  ],
+  "solution": "^tok_[0-9a-f]{32}$",
+  "solutionSummary": "Uses anchors for exact match, literal prefix 'tok_', character class [0-9a-f] for lowercase hex, and exact quantifier {32}. Demonstrates precise format validation with hex character validation."
+}

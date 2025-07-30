@@ -1,0 +1,42 @@
+{
+  "id": "medium-014",
+  "title": "SQL Query Detector",
+  "description": "Database security tools need to identify SELECT statements in SQL queries. These queries start with SELECT (case-insensitive) followed by a space and then field names or asterisk. Help identify potential data retrieval operations.",
+  "difficulty": "medium",
+  "testCases": [
+    {
+      "input": "SELECT * FROM users",
+      "shouldMatch": true
+    },
+    {
+      "input": "select name from products",
+      "shouldMatch": true
+    },
+    {
+      "input": "Select id, email FROM customers",
+      "shouldMatch": true
+    },
+    {
+      "input": "SELECT COUNT(*) FROM orders",
+      "shouldMatch": true
+    },
+    {
+      "input": "INSERT INTO users VALUES",
+      "shouldMatch": false
+    },
+    {
+      "input": "UPDATE users SET",
+      "shouldMatch": false
+    },
+    {
+      "input": "SELECTED data",
+      "shouldMatch": false
+    },
+    {
+      "input": "SELECTALL FROM table",
+      "shouldMatch": false
+    }
+  ],
+  "solution": "^[Ss][Ee][Ll][Ee][Cc][Tt]\\s+.*",
+  "solutionSummary": "Uses character alternatives [Ss][Ee][Ll][Ee][Cc][Tt] for case-insensitive SELECT, start anchor ^, \\s+ for required whitespace, and .* for remaining query. Demonstrates case-insensitive matching without flags."
+}

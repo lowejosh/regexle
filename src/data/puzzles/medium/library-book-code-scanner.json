@@ -1,0 +1,42 @@
+{
+  "id": "medium-015",
+  "title": "Library Book Code Scanner",
+  "description": "Library systems use book codes with specific formats: two uppercase letters followed by a hyphen, then exactly four digits, then another hyphen and two more uppercase letters. Find valid library book codes in the catalog system.",
+  "difficulty": "medium",
+  "testCases": [
+    {
+      "input": "AB-1234-CD",
+      "shouldMatch": true
+    },
+    {
+      "input": "XY-9876-ZW",
+      "shouldMatch": true
+    },
+    {
+      "input": "QR-0001-ST",
+      "shouldMatch": true
+    },
+    {
+      "input": "MN-5555-PQ",
+      "shouldMatch": true
+    },
+    {
+      "input": "ab-1234-cd",
+      "shouldMatch": false
+    },
+    {
+      "input": "AB-123-CD",
+      "shouldMatch": false
+    },
+    {
+      "input": "AB-12345-CD",
+      "shouldMatch": false
+    },
+    {
+      "input": "A-1234-CD",
+      "shouldMatch": false
+    }
+  ],
+  "solution": "[A-Z]{2}-\\d{4}-[A-Z]{2}",
+  "solutionSummary": "Uses character class [A-Z] with exact quantifiers {2} and {4}, literal hyphens, and \\d for digits. Demonstrates character classes with precise quantifiers for structured format validation."
+}
