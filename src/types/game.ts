@@ -71,4 +71,21 @@ export interface DailyPuzzleState {
   completionGameResult: GameResult | null;
   completionAttempts: number;
   completionSolutionRevealed: boolean;
+  completionRevealedTestCases: number;
+  completionShowDescription: boolean;
+}
+
+export interface PracticePuzzleState {
+  puzzleId: string;
+  userPattern: string;
+  gameResult: GameResult | null;
+  attempts: number;
+  solutionRevealed: boolean;
+  revealedTestCases: number;
+  showDescription: boolean;
+  lastPlayedAt: number; // Unix timestamp
+}
+
+export interface PracticePuzzleStates {
+  [puzzleId: string]: PracticePuzzleState;
 }

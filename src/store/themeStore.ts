@@ -12,7 +12,7 @@ interface ThemeActions {
 type ThemeStore = ThemeState & ThemeActions;
 
 export const useThemeStore = create<ThemeStore>((set, get) => ({
-  isDarkMode: false,
+  isDarkMode: true,
 
   toggleTheme: () => {
     const { isDarkMode } = get();
@@ -64,9 +64,6 @@ if (typeof window !== "undefined") {
   if (savedTheme !== null) {
     useThemeStore.getState().setTheme(savedTheme);
   } else {
-    const prefersDark = window.matchMedia(
-      "(prefers-color-scheme: dark)"
-    ).matches;
-    useThemeStore.getState().setTheme(prefersDark);
+    useThemeStore.getState().setTheme(true);
   }
 }

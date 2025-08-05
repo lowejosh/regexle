@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { GameState, Puzzle, DailyPuzzleState } from "../types/game";
+import type { GameState, Puzzle, DailyPuzzleState, PracticePuzzleStates } from "../types/game";
 import { RegexGameEngine } from "../engine/gameEngine";
 import { puzzleLoader } from "../data/puzzleLoader";
 import { useStatisticsStore } from "./statisticsStore";
@@ -45,6 +45,9 @@ const resetPuzzleState = () => {
 interface GameStore extends GameState {
   // Daily puzzle state
   dailyPuzzleState: DailyPuzzleState;
+  
+  // Practice puzzle states
+  practicePuzzleStates: PracticePuzzleStates;
 
   // Existing methods
   loadPuzzle: (puzzle: Puzzle) => void;
@@ -68,6 +71,15 @@ interface GameStore extends GameState {
   getDailyPuzzleCompletion: () => DailyPuzzleState | null;
   clearDailyPuzzleIfNewDay: () => void;
   forceRefreshDailyPuzzle: () => Promise<void>;
+  saveDailyPuzzleState: () => void;
+  
+  // Practice puzzle state methods
+  savePracticePuzzleState: () => void;
+  loadPracticePuzzleState: (puzzleId: string) => void;
+  clearPracticePuzzleState: (puzzleId: string) => void;
+  
+  // Anti-cheat methods
+  getCurrentDailyPuzzleId: () => string;
 }
 
 export const useGameStore = create<GameStore>()(
@@ -92,13 +104,49 @@ export const useGameStore = create<GameStore>()(
         completionGameResult: null,
         completionAttempts: 0,
         completionSolutionRevealed: false,
+        completionRevealedTestCases: 1,
+        completionShowDescription: false,
       },
+      
+      // Practice puzzle states
+      practicePuzzleStates: {},
       loadPuzzle: (puzzle: Puzzle) => {
-        set({
-          currentPuzzle: puzzle,
-          currentMode: "practice",
-          ...resetPuzzleState(),
-        });
+        // Save current practice state if we're switching puzzles
+        const currentState = get();
+        if (currentState.currentPuzzle && currentState.currentMode === "practice") {
+          get().savePracticePuzzleState();
+        }
+        
+        // Check if we have saved state for this puzzle
+        const savedState = currentState.practicePuzzleStates[puzzle.id];
+        
+        // Set the new puzzle with either saved state or reset state
+        if (savedState) {
+          // Load with saved state
+          set({
+            currentPuzzle: puzzle,
+            currentMode: "practice",
+            userPattern: savedState.userPattern,
+            gameResult: savedState.gameResult,
+            showDescription: savedState.showDescription,
+            revealedTestCases: savedState.revealedTestCases,
+            attempts: savedState.attempts,
+            solutionRevealed: savedState.solutionRevealed,
+            showRegexExplosion: false,
+          });
+        } else {
+          // Load with fresh state
+          set({
+            currentPuzzle: puzzle,
+            currentMode: "practice",
+            ...resetPuzzleState(),
+          });
+        }
+        
+        // Reset spin wheel for new puzzle
+        if (resetSpinWheelCallback) {
+          resetSpinWheelCallback();
+        }
       },
 
       loadRandomPuzzle: async (difficulty?: Puzzle["difficulty"]) => {
@@ -123,24 +171,26 @@ export const useGameStore = create<GameStore>()(
 
           const puzzle = await puzzleLoader.getDailyPuzzle();
           if (puzzle) {
+            const dailyState = get().dailyPuzzleState;
             const isDailyCompleted = get().isDailyPuzzleCompleted();
-            const completionData = get().getDailyPuzzleCompletion();
-
-            if (
-              isDailyCompleted &&
-              completionData &&
-              completionData.completedPuzzleId === puzzle.id
-            ) {
-              // Restore completed state
+            
+            // Check if we have saved state for today's puzzle (completed or in-progress)
+            if (dailyState && dailyState.completedPuzzleId === puzzle.id) {
+              // Restore saved state (whether completed or in-progress)
+              const revealedTestCases = isDailyCompleted 
+                ? puzzle.testCases.length 
+                : (dailyState.completionRevealedTestCases || 1);
+                
               set({
                 currentPuzzle: puzzle,
                 currentMode: "daily",
-                userPattern: completionData.completionUserPattern || "",
-                gameResult: completionData.completionGameResult,
-                attempts: completionData.completionAttempts,
-                solutionRevealed: completionData.completionSolutionRevealed,
-                showDescription: false,
-                revealedTestCases: puzzle.testCases.length, // Show all test cases for completed puzzle
+                userPattern: dailyState.completionUserPattern || "",
+                gameResult: dailyState.completionGameResult,
+                attempts: dailyState.completionAttempts,
+                solutionRevealed: dailyState.completionSolutionRevealed,
+                showDescription: dailyState.completionShowDescription || false,
+                revealedTestCases,
+                showRegexExplosion: false,
               });
             } else {
               // Fresh daily puzzle
@@ -158,6 +208,14 @@ export const useGameStore = create<GameStore>()(
 
       updatePattern: (pattern: string) => {
         set({ userPattern: pattern });
+        
+        // Auto-save state for both modes
+        const state = get();
+        if (state.currentMode === "practice") {
+          get().savePracticePuzzleState();
+        } else if (state.currentMode === "daily") {
+          get().saveDailyPuzzleState();
+        }
       },
 
       testPattern: () => {
@@ -192,6 +250,13 @@ export const useGameStore = create<GameStore>()(
         } else {
           get().handleTestFailure();
         }
+        
+        // Auto-save state after test for both modes
+        if (state.currentMode === "practice") {
+          get().savePracticePuzzleState();
+        } else if (state.currentMode === "daily") {
+          get().saveDailyPuzzleState();
+        }
       },
 
       completePuzzle: () => {
@@ -220,6 +285,8 @@ export const useGameStore = create<GameStore>()(
               completionGameResult: state.gameResult,
               completionAttempts: state.attempts,
               completionSolutionRevealed: state.solutionRevealed,
+              completionRevealedTestCases: state.revealedTestCases,
+              completionShowDescription: state.showDescription,
             },
           });
         }
@@ -244,10 +311,25 @@ export const useGameStore = create<GameStore>()(
       toggleDescription: () => {
         const state = get();
         set({ showDescription: !state.showDescription });
+        
+        // Auto-save state for both modes
+        if (state.currentMode === "practice") {
+          get().savePracticePuzzleState();
+        } else if (state.currentMode === "daily") {
+          get().saveDailyPuzzleState();
+        }
       },
 
       setSolutionRevealed: (revealed: boolean) => {
         set({ solutionRevealed: revealed });
+        
+        // Auto-save state for both modes
+        const state = get();
+        if (state.currentMode === "practice") {
+          get().savePracticePuzzleState();
+        } else if (state.currentMode === "daily") {
+          get().saveDailyPuzzleState();
+        }
       },
 
       setRevealedTestCases: (cases) =>
@@ -326,6 +408,8 @@ export const useGameStore = create<GameStore>()(
               completionGameResult: null,
               completionAttempts: 0,
               completionSolutionRevealed: false,
+              completionRevealedTestCases: 1,
+              completionShowDescription: false,
             },
           });
         }
@@ -341,6 +425,8 @@ export const useGameStore = create<GameStore>()(
             completionGameResult: null,
             completionAttempts: 0,
             completionSolutionRevealed: false,
+            completionRevealedTestCases: 1,
+            completionShowDescription: false,
           },
         });
 
@@ -358,10 +444,84 @@ export const useGameStore = create<GameStore>()(
           console.error("Failed to force refresh daily puzzle:", error);
         }
       },
+      
+      saveDailyPuzzleState: () => {
+        const state = get();
+        if (!state.currentPuzzle || state.currentMode !== "daily") return;
+        
+        // Save current progress (even if not completed)
+        set({
+          dailyPuzzleState: {
+            completedDate: state.gameResult?.isCorrect ? getTodayDateString() : null,
+            completedPuzzleId: state.currentPuzzle.id,
+            completionUserPattern: state.userPattern,
+            completionGameResult: state.gameResult,
+            completionAttempts: state.attempts,
+            completionSolutionRevealed: state.solutionRevealed,
+            completionRevealedTestCases: state.revealedTestCases,
+            completionShowDescription: state.showDescription,
+          },
+        });
+      },
+      
+      // Practice puzzle state methods
+      savePracticePuzzleState: () => {
+        const state = get();
+        if (!state.currentPuzzle || state.currentMode !== "practice") return;
+        
+        const practiceState = {
+          puzzleId: state.currentPuzzle.id,
+          userPattern: state.userPattern,
+          gameResult: state.gameResult,
+          attempts: state.attempts,
+          solutionRevealed: state.solutionRevealed,
+          revealedTestCases: state.revealedTestCases,
+          showDescription: state.showDescription,
+          lastPlayedAt: Date.now(),
+        };
+        
+        set(prevState => ({
+          practicePuzzleStates: {
+            ...prevState.practicePuzzleStates,
+            [state.currentPuzzle!.id]: practiceState,
+          },
+        }));
+      },
+      
+      loadPracticePuzzleState: (puzzleId: string) => {
+        const state = get();
+        const savedState = state.practicePuzzleStates[puzzleId];
+        
+        if (savedState) {
+          set({
+            userPattern: savedState.userPattern,
+            gameResult: savedState.gameResult,
+            attempts: savedState.attempts,
+            solutionRevealed: savedState.solutionRevealed,
+            revealedTestCases: savedState.revealedTestCases,
+            showDescription: savedState.showDescription,
+          });
+        }
+      },
+      
+      clearPracticePuzzleState: (puzzleId: string) => {
+        const state = get();
+        const newStates = { ...state.practicePuzzleStates };
+        delete newStates[puzzleId];
+        
+        set({
+          practicePuzzleStates: newStates,
+        });
+      },
+      
+      // Anti-cheat methods
+      getCurrentDailyPuzzleId: () => {
+        return puzzleLoader.getCurrentDailyPuzzleId();
+      },
     }),
     {
       name: "regexle-game-store",
-      version: 1,
+      version: 2, // Increment version to handle migration of new practice puzzle states
     }
   )
 );

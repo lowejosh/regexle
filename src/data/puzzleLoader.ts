@@ -128,9 +128,9 @@ class PuzzleLoader {
   }
 
   /**
-   * Get puzzle for a specific day (deterministic)
+   * Get the current daily puzzle ID without loading the full puzzle
    */
-  async getDailyPuzzle(date?: Date): Promise<Puzzle | null> {
+  getCurrentDailyPuzzleId(date?: Date): string {
     const targetDate = date || new Date();
 
     // Create a seed based on the LOCAL date (YYYY-MM-DD format in local timezone)
@@ -170,7 +170,16 @@ class PuzzleLoader {
     const puzzleIndex = daysSinceEpoch % shuffledPuzzles.length;
     const selectedPuzzle = shuffledPuzzles[puzzleIndex];
 
-    return this.loadPuzzle(selectedPuzzle.id);
+    return selectedPuzzle.id;
+  }
+
+  /**
+   * Get puzzle for a specific day (deterministic)
+   */
+  async getDailyPuzzle(date?: Date): Promise<Puzzle | null> {
+    const targetDate = date || new Date();
+    const dailyPuzzleId = this.getCurrentDailyPuzzleId(targetDate);
+    return this.loadPuzzle(dailyPuzzleId);
   }
 }
 
@@ -180,3 +189,4 @@ export const getAllPuzzleEntries = () =>
   puzzleLoader.getPuzzleManifestEntries();
 export const getTotalPuzzleCount = () => puzzleLoader.getTotalPuzzleCount();
 export const getCategories = () => puzzleLoader.getCategories();
+export const getCurrentDailyPuzzleId = () => puzzleLoader.getCurrentDailyPuzzleId();

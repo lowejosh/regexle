@@ -13,6 +13,7 @@ vi.mock("../../data/puzzleLoader", () => ({
   puzzleLoader: {
     getRandomPuzzle: vi.fn(),
     getDailyPuzzle: vi.fn(),
+    getCurrentDailyPuzzleId: vi.fn(() => "daily-puzzle-id"),
   },
 }));
 
@@ -64,7 +65,10 @@ describe("gameStore", () => {
         completionGameResult: null,
         completionAttempts: 0,
         completionSolutionRevealed: false,
+        completionRevealedTestCases: 1,
+        completionShowDescription: false,
       },
+      practicePuzzleStates: {},
     });
   });
 
@@ -392,6 +396,8 @@ describe("gameStore", () => {
           completionGameResult: mockGameResult,
           completionAttempts: 3,
           completionSolutionRevealed: false,
+          completionRevealedTestCases: 1,
+          completionShowDescription: false,
         },
       });
       
@@ -407,6 +413,8 @@ describe("gameStore", () => {
         completionGameResult: mockGameResult,
         completionAttempts: 2,
         completionSolutionRevealed: false,
+        completionRevealedTestCases: 1,
+        completionShowDescription: false,
       };
       
       useGameStore.setState({ dailyPuzzleState: completionData });
@@ -427,6 +435,8 @@ describe("gameStore", () => {
         completionGameResult: mockGameResult,
         completionAttempts: 2,
         completionSolutionRevealed: false,
+        completionRevealedTestCases: 1,
+        completionShowDescription: false,
       };
       
       useGameStore.setState({ dailyPuzzleState: completionData });
@@ -438,6 +448,142 @@ describe("gameStore", () => {
     it("should return null when no daily puzzle completion", () => {
       const { getDailyPuzzleCompletion } = useGameStore.getState();
       expect(getDailyPuzzleCompletion()).toBe(null);
+    });
+  });
+
+  describe("practice puzzle state persistence", () => {
+    it("should save practice puzzle state", () => {
+      useGameStore.setState({
+        currentPuzzle: mockPuzzle,
+        currentMode: "practice",
+        userPattern: "test.*",
+        gameResult: mockGameResult,
+        attempts: 3,
+        solutionRevealed: true,
+        revealedTestCases: 2,
+        showDescription: true,
+      });
+
+      const { savePracticePuzzleState } = useGameStore.getState();
+      savePracticePuzzleState();
+
+      const state = useGameStore.getState();
+      const savedState = state.practicePuzzleStates[mockPuzzle.id];
+
+      expect(savedState).toBeDefined();
+      expect(savedState.puzzleId).toBe(mockPuzzle.id);
+      expect(savedState.userPattern).toBe("test.*");
+      expect(savedState.gameResult).toEqual(mockGameResult);
+      expect(savedState.attempts).toBe(3);
+      expect(savedState.solutionRevealed).toBe(true);
+      expect(savedState.revealedTestCases).toBe(2);
+      expect(savedState.showDescription).toBe(true);
+      expect(savedState.lastPlayedAt).toBeTypeOf("number");
+    });
+
+    it("should load practice puzzle state", () => {
+      const savedState = {
+        puzzleId: mockPuzzle.id,
+        userPattern: "saved.*pattern",
+        gameResult: mockGameResult,
+        attempts: 5,
+        solutionRevealed: true,
+        revealedTestCases: 3,
+        showDescription: true,
+        lastPlayedAt: Date.now(),
+      };
+
+      useGameStore.setState({
+        practicePuzzleStates: {
+          [mockPuzzle.id]: savedState,
+        },
+      });
+
+      const { loadPracticePuzzleState } = useGameStore.getState();
+      loadPracticePuzzleState(mockPuzzle.id);
+
+      const state = useGameStore.getState();
+      expect(state.userPattern).toBe("saved.*pattern");
+      expect(state.gameResult).toEqual(mockGameResult);
+      expect(state.attempts).toBe(5);
+      expect(state.solutionRevealed).toBe(true);
+      expect(state.revealedTestCases).toBe(3);
+      expect(state.showDescription).toBe(true);
+    });
+
+    it("should clear practice puzzle state", () => {
+      const savedState = {
+        puzzleId: mockPuzzle.id,
+        userPattern: "test.*",
+        gameResult: null,
+        attempts: 2,
+        solutionRevealed: false,
+        revealedTestCases: 1,
+        showDescription: false,
+        lastPlayedAt: Date.now(),
+      };
+
+      useGameStore.setState({
+        practicePuzzleStates: {
+          [mockPuzzle.id]: savedState,
+          "other-puzzle": savedState,
+        },
+      });
+
+      const { clearPracticePuzzleState } = useGameStore.getState();
+      clearPracticePuzzleState(mockPuzzle.id);
+
+      const state = useGameStore.getState();
+      expect(state.practicePuzzleStates[mockPuzzle.id]).toBeUndefined();
+      expect(state.practicePuzzleStates["other-puzzle"]).toBeDefined();
+    });
+
+    it("should auto-save practice state when updating pattern", () => {
+      useGameStore.setState({
+        currentPuzzle: mockPuzzle,
+        currentMode: "practice",
+      });
+
+      const { updatePattern } = useGameStore.getState();
+      updatePattern("new.*pattern");
+
+      const state = useGameStore.getState();
+      expect(state.userPattern).toBe("new.*pattern");
+      expect(state.practicePuzzleStates[mockPuzzle.id]).toBeDefined();
+      expect(state.practicePuzzleStates[mockPuzzle.id].userPattern).toBe("new.*pattern");
+    });
+
+    it("should load existing practice state when loading puzzle", () => {
+      const existingState = {
+        puzzleId: mockPuzzle.id,
+        userPattern: "existing.*pattern",
+        gameResult: null,
+        attempts: 1,
+        solutionRevealed: false,
+        revealedTestCases: 1,
+        showDescription: false,
+        lastPlayedAt: Date.now(),
+      };
+
+      useGameStore.setState({
+        practicePuzzleStates: {
+          [mockPuzzle.id]: existingState,
+        },
+      });
+
+      const { loadPuzzle } = useGameStore.getState();
+      loadPuzzle(mockPuzzle);
+
+      const state = useGameStore.getState();
+      expect(state.userPattern).toBe("existing.*pattern");
+      expect(state.attempts).toBe(1);
+    });
+  });
+
+  describe("anti-cheat methods", () => {
+    it("should get current daily puzzle ID", () => {
+      const { getCurrentDailyPuzzleId } = useGameStore.getState();
+      expect(getCurrentDailyPuzzleId()).toBe("daily-puzzle-id");
     });
   });
 });

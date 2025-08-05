@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import { puzzleLoader } from "@/data/puzzleLoader";
 import { useStatisticsStore } from "@/store/statisticsStore";
+import { useGameStore } from "@/store/gameStore";
 import type { Puzzle, PuzzleManifestEntry } from "@/types/game";
 import { DIFFICULTY_ORDER } from "./BrowsePractice.consts";
 
@@ -12,11 +13,16 @@ export function usePuzzleBrowsing() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
   const { isPuzzleSolved } = useStatisticsStore();
+  const { getCurrentDailyPuzzleId } = useGameStore();
 
-  // Get all puzzle entries from manifest
+  // Get current daily puzzle ID for filtering
+  const currentDailyPuzzleId = getCurrentDailyPuzzleId();
+
+  // Get all puzzle entries from manifest, excluding current daily puzzle
   const puzzleEntries = useMemo(() => {
-    return puzzleLoader.getPuzzleManifestEntries() as PuzzleManifestEntry[];
-  }, []);
+    const allEntries = puzzleLoader.getPuzzleManifestEntries() as PuzzleManifestEntry[];
+    return allEntries.filter(entry => entry.id !== currentDailyPuzzleId);
+  }, [currentDailyPuzzleId]);
 
   // Extract unique categories
   const categories = useMemo(() => {
@@ -81,9 +87,15 @@ export function usePuzzleBrowsing() {
 
 export function usePuzzleProgress() {
   const { isPuzzleSolved, getTotalPuzzlesByDifficulty } = useStatisticsStore();
+  const { getCurrentDailyPuzzleId } = useGameStore();
+  
+  // Get current daily puzzle ID for filtering
+  const currentDailyPuzzleId = getCurrentDailyPuzzleId();
+  
   const puzzleEntries = useMemo(() => {
-    return puzzleLoader.getPuzzleManifestEntries() as PuzzleManifestEntry[];
-  }, []);
+    const allEntries = puzzleLoader.getPuzzleManifestEntries() as PuzzleManifestEntry[];
+    return allEntries.filter(entry => entry.id !== currentDailyPuzzleId);
+  }, [currentDailyPuzzleId]);
 
   // Overall progress calculation
   const overallProgress = useMemo(() => {
