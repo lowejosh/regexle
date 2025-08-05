@@ -1,14 +1,13 @@
-import { useGameStore } from "@/store/gameStore";
-import { BrowseDifficultyProgressCard, BrowseGameView, BrowseOverallProgressCard, BrowseSearchAndPuzzleList } from "./components";
+import { useNavigate } from "@tanstack/react-router";
+import { BrowseDifficultyProgressCard, BrowseOverallProgressCard, BrowseSearchAndPuzzleList } from "./components";
 import {
   usePuzzleBrowsing,
   usePuzzleProgress,
-  usePuzzleSelection,
 } from "./BrowsePractice.hooks";
 import type { PuzzleManifestEntry } from "@/types/game";
 
 export function BrowsePractice() {
-  const { loadPuzzle } = useGameStore();
+  const navigate = useNavigate();
 
   const {
     filteredPuzzles,
@@ -22,65 +21,12 @@ export function BrowsePractice() {
 
   const { overallProgress, difficultyProgress } = usePuzzleProgress();
 
-  const {
-    selectedPuzzle,
-    puzzleKey,
-    currentPuzzleIndex,
-    previousPuzzleEntry,
-    nextPuzzleEntry,
-    handlePuzzleSelect,
-    handleNavigateToPuzzle,
-    handleBackToBrowse,
-  } = usePuzzleSelection(filteredPuzzles);
-
-  const handlePuzzleClick = async (puzzleEntry: PuzzleManifestEntry) => {
-    const puzzle = await handlePuzzleSelect(puzzleEntry);
-    if (puzzle) {
-      loadPuzzle(puzzle);
-    }
+  const handlePuzzleClick = (puzzleEntry: PuzzleManifestEntry) => {
+    navigate({
+      to: "/practice/$puzzleId",
+      params: { puzzleId: puzzleEntry.id },
+    });
   };
-
-  const handleNavigateToNext = async () => {
-    if (nextPuzzleEntry) {
-      const puzzle = await handleNavigateToPuzzle(nextPuzzleEntry);
-      if (puzzle) {
-        loadPuzzle(puzzle);
-      }
-    }
-  };
-
-  const handleNavigateToPrevious = async () => {
-    if (previousPuzzleEntry) {
-      const puzzle = await handleNavigateToPuzzle(previousPuzzleEntry);
-      if (puzzle) {
-        loadPuzzle(puzzle);
-      }
-    }
-  };
-
-  const handleRandomPuzzle = () => {
-    const randomIndex = Math.floor(Math.random() * filteredPuzzles.length);
-    const randomPuzzle = filteredPuzzles[randomIndex];
-    if (randomPuzzle && randomPuzzle.id !== selectedPuzzle?.id) {
-      handlePuzzleClick(randomPuzzle);
-    }
-  };
-
-  if (selectedPuzzle) {
-    return (
-      <BrowseGameView
-        puzzleKey={puzzleKey}
-        currentPuzzleIndex={currentPuzzleIndex}
-        filteredPuzzles={filteredPuzzles}
-        previousPuzzleEntry={previousPuzzleEntry}
-        nextPuzzleEntry={nextPuzzleEntry}
-        onBackToBrowse={handleBackToBrowse}
-        onNavigateToPrevious={handleNavigateToPrevious}
-        onNavigateToNext={handleNavigateToNext}
-        onRandomPuzzle={handleRandomPuzzle}
-      />
-    );
-  }
 
   return (
     <div className="space-y-6">

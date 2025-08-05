@@ -13,6 +13,7 @@ import { Route as StatisticsRouteImport } from './routes/statistics'
 import { Route as PracticeRouteImport } from './routes/practice'
 import { Route as CheatsheetRouteImport } from './routes/cheatsheet'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PracticePuzzleIdRouteImport } from './routes/practice/$puzzleId'
 
 const StatisticsRoute = StatisticsRouteImport.update({
   id: '/statistics',
@@ -34,38 +35,57 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PracticePuzzleIdRoute = PracticePuzzleIdRouteImport.update({
+  id: '/$puzzleId',
+  path: '/$puzzleId',
+  getParentRoute: () => PracticeRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/cheatsheet': typeof CheatsheetRoute
-  '/practice': typeof PracticeRoute
+  '/practice': typeof PracticeRouteWithChildren
   '/statistics': typeof StatisticsRoute
+  '/practice/$puzzleId': typeof PracticePuzzleIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/cheatsheet': typeof CheatsheetRoute
-  '/practice': typeof PracticeRoute
+  '/practice': typeof PracticeRouteWithChildren
   '/statistics': typeof StatisticsRoute
+  '/practice/$puzzleId': typeof PracticePuzzleIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/cheatsheet': typeof CheatsheetRoute
-  '/practice': typeof PracticeRoute
+  '/practice': typeof PracticeRouteWithChildren
   '/statistics': typeof StatisticsRoute
+  '/practice/$puzzleId': typeof PracticePuzzleIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/cheatsheet' | '/practice' | '/statistics'
+  fullPaths:
+    | '/'
+    | '/cheatsheet'
+    | '/practice'
+    | '/statistics'
+    | '/practice/$puzzleId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/cheatsheet' | '/practice' | '/statistics'
-  id: '__root__' | '/' | '/cheatsheet' | '/practice' | '/statistics'
+  to: '/' | '/cheatsheet' | '/practice' | '/statistics' | '/practice/$puzzleId'
+  id:
+    | '__root__'
+    | '/'
+    | '/cheatsheet'
+    | '/practice'
+    | '/statistics'
+    | '/practice/$puzzleId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CheatsheetRoute: typeof CheatsheetRoute
-  PracticeRoute: typeof PracticeRoute
+  PracticeRoute: typeof PracticeRouteWithChildren
   StatisticsRoute: typeof StatisticsRoute
 }
 
@@ -99,13 +119,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/practice/$puzzleId': {
+      id: '/practice/$puzzleId'
+      path: '/$puzzleId'
+      fullPath: '/practice/$puzzleId'
+      preLoaderRoute: typeof PracticePuzzleIdRouteImport
+      parentRoute: typeof PracticeRoute
+    }
   }
 }
+
+interface PracticeRouteChildren {
+  PracticePuzzleIdRoute: typeof PracticePuzzleIdRoute
+}
+
+const PracticeRouteChildren: PracticeRouteChildren = {
+  PracticePuzzleIdRoute: PracticePuzzleIdRoute,
+}
+
+const PracticeRouteWithChildren = PracticeRoute._addFileChildren(
+  PracticeRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CheatsheetRoute: CheatsheetRoute,
-  PracticeRoute: PracticeRoute,
+  PracticeRoute: PracticeRouteWithChildren,
   StatisticsRoute: StatisticsRoute,
 }
 export const routeTree = rootRouteImport

@@ -20,8 +20,9 @@ export function usePuzzleBrowsing() {
 
   // Get all puzzle entries from manifest, excluding current daily puzzle
   const puzzleEntries = useMemo(() => {
-    const allEntries = puzzleLoader.getPuzzleManifestEntries() as PuzzleManifestEntry[];
-    return allEntries.filter(entry => entry.id !== currentDailyPuzzleId);
+    const allEntries =
+      puzzleLoader.getPuzzleManifestEntries() as PuzzleManifestEntry[];
+    return allEntries.filter((entry) => entry.id !== currentDailyPuzzleId);
   }, [currentDailyPuzzleId]);
 
   // Extract unique categories
@@ -88,13 +89,14 @@ export function usePuzzleBrowsing() {
 export function usePuzzleProgress() {
   const { isPuzzleSolved, getTotalPuzzlesByDifficulty } = useStatisticsStore();
   const { getCurrentDailyPuzzleId } = useGameStore();
-  
+
   // Get current daily puzzle ID for filtering
   const currentDailyPuzzleId = getCurrentDailyPuzzleId();
-  
+
   const puzzleEntries = useMemo(() => {
-    const allEntries = puzzleLoader.getPuzzleManifestEntries() as PuzzleManifestEntry[];
-    return allEntries.filter(entry => entry.id !== currentDailyPuzzleId);
+    const allEntries =
+      puzzleLoader.getPuzzleManifestEntries() as PuzzleManifestEntry[];
+    return allEntries.filter((entry) => entry.id !== currentDailyPuzzleId);
   }, [currentDailyPuzzleId]);
 
   // Overall progress calculation

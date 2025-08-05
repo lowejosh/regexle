@@ -1,6 +1,11 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { GameState, Puzzle, DailyPuzzleState, PracticePuzzleStates } from "../types/game";
+import type {
+  GameState,
+  Puzzle,
+  DailyPuzzleState,
+  PracticePuzzleStates,
+} from "../types/game";
 import { RegexGameEngine } from "../engine/gameEngine";
 import { puzzleLoader } from "../data/puzzleLoader";
 import { useStatisticsStore } from "./statisticsStore";
@@ -45,7 +50,7 @@ const resetPuzzleState = () => {
 interface GameStore extends GameState {
   // Daily puzzle state
   dailyPuzzleState: DailyPuzzleState;
-  
+
   // Practice puzzle states
   practicePuzzleStates: PracticePuzzleStates;
 
@@ -72,12 +77,12 @@ interface GameStore extends GameState {
   clearDailyPuzzleIfNewDay: () => void;
   forceRefreshDailyPuzzle: () => Promise<void>;
   saveDailyPuzzleState: () => void;
-  
+
   // Practice puzzle state methods
   savePracticePuzzleState: () => void;
   loadPracticePuzzleState: (puzzleId: string) => void;
   clearPracticePuzzleState: (puzzleId: string) => void;
-  
+
   // Anti-cheat methods
   getCurrentDailyPuzzleId: () => string;
 }
@@ -107,19 +112,22 @@ export const useGameStore = create<GameStore>()(
         completionRevealedTestCases: 1,
         completionShowDescription: false,
       },
-      
+
       // Practice puzzle states
       practicePuzzleStates: {},
       loadPuzzle: (puzzle: Puzzle) => {
         // Save current practice state if we're switching puzzles
         const currentState = get();
-        if (currentState.currentPuzzle && currentState.currentMode === "practice") {
+        if (
+          currentState.currentPuzzle &&
+          currentState.currentMode === "practice"
+        ) {
           get().savePracticePuzzleState();
         }
-        
+
         // Check if we have saved state for this puzzle
         const savedState = currentState.practicePuzzleStates[puzzle.id];
-        
+
         // Set the new puzzle with either saved state or reset state
         if (savedState) {
           // Load with saved state
@@ -142,7 +150,7 @@ export const useGameStore = create<GameStore>()(
             ...resetPuzzleState(),
           });
         }
-        
+
         // Reset spin wheel for new puzzle
         if (resetSpinWheelCallback) {
           resetSpinWheelCallback();
@@ -173,14 +181,14 @@ export const useGameStore = create<GameStore>()(
           if (puzzle) {
             const dailyState = get().dailyPuzzleState;
             const isDailyCompleted = get().isDailyPuzzleCompleted();
-            
+
             // Check if we have saved state for today's puzzle (completed or in-progress)
             if (dailyState && dailyState.completedPuzzleId === puzzle.id) {
               // Restore saved state (whether completed or in-progress)
-              const revealedTestCases = isDailyCompleted 
-                ? puzzle.testCases.length 
-                : (dailyState.completionRevealedTestCases || 1);
-                
+              const revealedTestCases = isDailyCompleted
+                ? puzzle.testCases.length
+                : dailyState.completionRevealedTestCases || 1;
+
               set({
                 currentPuzzle: puzzle,
                 currentMode: "daily",
@@ -208,7 +216,7 @@ export const useGameStore = create<GameStore>()(
 
       updatePattern: (pattern: string) => {
         set({ userPattern: pattern });
-        
+
         // Auto-save state for both modes
         const state = get();
         if (state.currentMode === "practice") {
@@ -250,7 +258,7 @@ export const useGameStore = create<GameStore>()(
         } else {
           get().handleTestFailure();
         }
-        
+
         // Auto-save state after test for both modes
         if (state.currentMode === "practice") {
           get().savePracticePuzzleState();
@@ -311,7 +319,7 @@ export const useGameStore = create<GameStore>()(
       toggleDescription: () => {
         const state = get();
         set({ showDescription: !state.showDescription });
-        
+
         // Auto-save state for both modes
         if (state.currentMode === "practice") {
           get().savePracticePuzzleState();
@@ -322,7 +330,7 @@ export const useGameStore = create<GameStore>()(
 
       setSolutionRevealed: (revealed: boolean) => {
         set({ solutionRevealed: revealed });
-        
+
         // Auto-save state for both modes
         const state = get();
         if (state.currentMode === "practice") {
@@ -444,15 +452,17 @@ export const useGameStore = create<GameStore>()(
           console.error("Failed to force refresh daily puzzle:", error);
         }
       },
-      
+
       saveDailyPuzzleState: () => {
         const state = get();
         if (!state.currentPuzzle || state.currentMode !== "daily") return;
-        
+
         // Save current progress (even if not completed)
         set({
           dailyPuzzleState: {
-            completedDate: state.gameResult?.isCorrect ? getTodayDateString() : null,
+            completedDate: state.gameResult?.isCorrect
+              ? getTodayDateString()
+              : null,
             completedPuzzleId: state.currentPuzzle.id,
             completionUserPattern: state.userPattern,
             completionGameResult: state.gameResult,
@@ -463,12 +473,12 @@ export const useGameStore = create<GameStore>()(
           },
         });
       },
-      
+
       // Practice puzzle state methods
       savePracticePuzzleState: () => {
         const state = get();
         if (!state.currentPuzzle || state.currentMode !== "practice") return;
-        
+
         const practiceState = {
           puzzleId: state.currentPuzzle.id,
           userPattern: state.userPattern,
@@ -479,19 +489,19 @@ export const useGameStore = create<GameStore>()(
           showDescription: state.showDescription,
           lastPlayedAt: Date.now(),
         };
-        
-        set(prevState => ({
+
+        set((prevState) => ({
           practicePuzzleStates: {
             ...prevState.practicePuzzleStates,
             [state.currentPuzzle!.id]: practiceState,
           },
         }));
       },
-      
+
       loadPracticePuzzleState: (puzzleId: string) => {
         const state = get();
         const savedState = state.practicePuzzleStates[puzzleId];
-        
+
         if (savedState) {
           set({
             userPattern: savedState.userPattern,
@@ -503,17 +513,17 @@ export const useGameStore = create<GameStore>()(
           });
         }
       },
-      
+
       clearPracticePuzzleState: (puzzleId: string) => {
         const state = get();
         const newStates = { ...state.practicePuzzleStates };
         delete newStates[puzzleId];
-        
+
         set({
           practicePuzzleStates: newStates,
         });
       },
-      
+
       // Anti-cheat methods
       getCurrentDailyPuzzleId: () => {
         return puzzleLoader.getCurrentDailyPuzzleId();

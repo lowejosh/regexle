@@ -11,18 +11,20 @@ import manifestData from "./puzzles/manifest.json";
  * Dynamically imports a puzzle file based on the file path
  * Uses Vite's import.meta.glob for better static analysis
  */
-const puzzleModules = import.meta.glob('./puzzles/**/*.json', { eager: false });
+const puzzleModules = import.meta.glob("./puzzles/**/*.json", { eager: false });
 
-const importPuzzleFile = async (filePath: string): Promise<{ default: Puzzle }> => {
+const importPuzzleFile = async (
+  filePath: string
+): Promise<{ default: Puzzle }> => {
   const fullPath = `./puzzles/${filePath}`;
   const importFn = puzzleModules[fullPath];
-  
+
   if (!importFn) {
     console.error(`No import function found for: ${fullPath}`);
-    console.log('Available modules:', Object.keys(puzzleModules));
+    console.log("Available modules:", Object.keys(puzzleModules));
     throw new Error(`Puzzle file not found: ${filePath}`);
   }
-  
+
   return importFn() as Promise<{ default: Puzzle }>;
 };
 
@@ -189,4 +191,5 @@ export const getAllPuzzleEntries = () =>
   puzzleLoader.getPuzzleManifestEntries();
 export const getTotalPuzzleCount = () => puzzleLoader.getTotalPuzzleCount();
 export const getCategories = () => puzzleLoader.getCategories();
-export const getCurrentDailyPuzzleId = () => puzzleLoader.getCurrentDailyPuzzleId();
+export const getCurrentDailyPuzzleId = () =>
+  puzzleLoader.getCurrentDailyPuzzleId();
