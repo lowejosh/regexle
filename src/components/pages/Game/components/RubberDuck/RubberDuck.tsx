@@ -27,10 +27,8 @@ export function RubberDuck() {
   const MIN_VELOCITY_TO_STOP = 0.1;
   const THROW_MULTIPLIER = 0.07;
 
-  // This effect runs only once to set up a persistent animation loop.
   useEffect(() => {
     const runPhysics = () => {
-      // The loop is always running, but physics only apply under certain conditions.
       if (
         isActiveRef.current &&
         containerRef.current &&
@@ -40,14 +38,12 @@ export function RubberDuck() {
         const maxX = container.width - DUCK_SIZE;
         const maxY = container.height - DUCK_SIZE;
 
-        // Apply gravity & friction
         velocityY.current += GRAVITY;
         velocityX.current *= FRICTION;
 
         let newX = x.get() + velocityX.current;
         let newY = y.get() + velocityY.current;
 
-        // Bounce off walls
         if (newX <= 0 || newX >= maxX) {
           velocityX.current *= -BOUNCE_DAMPING;
           newX = newX <= 0 ? 0 : maxX;
@@ -57,7 +53,7 @@ export function RubberDuck() {
           velocityY.current *= -BOUNCE_DAMPING;
           newY = newY <= 0 ? 0 : maxY;
           if (newY >= maxY) {
-            velocityX.current *= 0.9; // Extra friction on ground
+            velocityX.current *= 0.9;
           }
         }
 
@@ -73,31 +69,26 @@ export function RubberDuck() {
           // Stop applying physics until it's thrown again
         }
       }
-      // Keep the loop going
       animationFrameId.current = requestAnimationFrame(runPhysics);
     };
 
-    // Start the single, persistent animation loop
     animationFrameId.current = requestAnimationFrame(runPhysics);
 
-    // Cleanup on unmount
     return () => {
       if (animationFrameId.current) {
         cancelAnimationFrame(animationFrameId.current);
       }
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // Empty dependency array ensures this runs only once.
+  }, [x, y]);
 
-  // This effect handles the initial drop when the duck becomes active.
   useEffect(() => {
     if (isRubberDuckActive) {
       if (containerRef.current) {
         const container = containerRef.current.getBoundingClientRect();
         const randomX = Math.random() * (container.width - DUCK_SIZE);
         x.set(randomX);
-        y.set(-DUCK_SIZE); // Start above the screen
-        velocityX.current = (Math.random() - 0.5) * 5; // Give it a little push
+        y.set(-DUCK_SIZE);
+        velocityX.current = (Math.random() - 0.5) * 5;
         velocityY.current = 0;
       }
     }
@@ -105,14 +96,12 @@ export function RubberDuck() {
 
   const handleDragStart = useCallback(() => {
     setIsDragging(true);
-    // Stop any residual velocity
     velocityX.current = 0;
     velocityY.current = 0;
   }, []);
 
   const handleDragEnd = useCallback((_event: Event, info: PanInfo) => {
     setIsDragging(false);
-    // Impart velocity from the drag gesture
     velocityX.current = info.velocity.x * THROW_MULTIPLIER;
     velocityY.current = info.velocity.y * THROW_MULTIPLIER;
   }, []);
@@ -150,24 +139,18 @@ export function RubberDuck() {
       >
         <div className="relative w-full h-full">
           <div className="absolute inset-0">
-            {/* Duck body - simple oval */}
             <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-14 h-12 bg-yellow-400 rounded-full border-2 border-yellow-500">
-              {/* Body shine */}
               <div className="absolute top-1 left-2 w-3 h-3 bg-yellow-200 rounded-full opacity-80" />
               <div className="absolute top-0.5 left-1.5 w-1.5 h-1.5 bg-white rounded-full opacity-60" />
             </div>
 
-            {/* Duck head - simple circle */}
             <div className="absolute top-1 left-6 w-11 h-11 bg-yellow-400 rounded-full border-2 border-yellow-500">
-              {/* Head shine */}
               <div className="absolute top-1 left-1.5 w-2.5 h-2.5 bg-yellow-200 rounded-full opacity-80" />
 
-              {/* Eye - simple black dot */}
               <div className="absolute top-3 right-2.5 w-1.5 h-1.5 bg-black rounded-full">
                 <div className="absolute top-0 left-0.5 w-0.5 h-0.5 bg-white rounded-full" />
               </div>
 
-              {/* Beak - bigger triangle */}
               <div className="absolute top-4 -right-1 w-0 h-0 border-t-4 border-b-4 border-l-8 border-transparent border-l-orange-500"></div>
             </div>
           </div>

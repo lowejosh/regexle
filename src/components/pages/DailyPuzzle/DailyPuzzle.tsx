@@ -18,18 +18,15 @@ export function DailyPuzzle() {
   };
 
   const handleNewDay = useCallback(async () => {
-    // Force refresh the daily puzzle to ensure we get the new one
     await forceRefreshDailyPuzzle();
     setPuzzleKey((prev) => prev + 1);
     lastDateRef.current = getCurrentDateString();
   }, [forceRefreshDailyPuzzle]);
 
-  // Initialize last date on mount
   useEffect(() => {
     lastDateRef.current = getCurrentDateString();
   }, []);
 
-  // Check for day change every 30 seconds as a backup
   useEffect(() => {
     const checkForNewDay = async () => {
       const currentDate = getCurrentDateString();
@@ -38,7 +35,7 @@ export function DailyPuzzle() {
       }
     };
 
-    const interval = setInterval(checkForNewDay, 30000); // Check every 30 seconds
+    const interval = setInterval(checkForNewDay, 30000);
     return () => clearInterval(interval);
   }, [handleNewDay]);
 

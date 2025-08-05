@@ -26,10 +26,9 @@ export function RegexTitle({ className = "" }: RegexTitleProps) {
   const [currentPattern, setCurrentPattern] = useState("");
   const [isMobile, setIsMobile] = useState(false);
 
-  // Check if mobile on mount and window resize
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 640); // sm breakpoint
+      setIsMobile(window.innerWidth < 640);
     };
 
     checkMobile();
@@ -39,7 +38,6 @@ export function RegexTitle({ className = "" }: RegexTitleProps) {
   }, []);
 
   useEffect(() => {
-    // Don't run glitch effects on mobile
     if (isMobile) return;
 
     const timeoutIds: NodeJS.Timeout[] = [];

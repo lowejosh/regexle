@@ -110,7 +110,6 @@ export function usePuzzleProgress() {
     };
   }, [puzzleEntries, isPuzzleSolved]);
 
-  // Difficulty-based progress using statistics store
   const difficultyProgress = useMemo(() => {
     const totalsByDifficulty = getTotalPuzzlesByDifficulty();
 

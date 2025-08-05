@@ -225,9 +225,6 @@ export class VisualEffectsService {
     }
   }
 
-  /**
-   * Cleanup method to stop all active effects
-   */
   static cleanup(): void {
     this.deactivateComicSansMode();
     this.deactivateVikingMode();
@@ -235,7 +232,6 @@ export class VisualEffectsService {
   }
 }
 
-// Cleanup on page unload
 if (typeof window !== "undefined") {
   window.addEventListener("beforeunload", () => {
     VisualEffectsService.cleanup();

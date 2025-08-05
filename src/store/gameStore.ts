@@ -116,7 +116,6 @@ export const useGameStore = create<GameStore>()(
       // Practice puzzle states
       practicePuzzleStates: {},
       loadPuzzle: (puzzle: Puzzle) => {
-        // Save current practice state if we're switching puzzles
         const currentState = get();
         if (
           currentState.currentPuzzle &&
@@ -125,12 +124,9 @@ export const useGameStore = create<GameStore>()(
           get().savePracticePuzzleState();
         }
 
-        // Check if we have saved state for this puzzle
         const savedState = currentState.practicePuzzleStates[puzzle.id];
 
-        // Set the new puzzle with either saved state or reset state
         if (savedState) {
-          // Load with saved state
           set({
             currentPuzzle: puzzle,
             currentMode: "practice",
@@ -143,7 +139,6 @@ export const useGameStore = create<GameStore>()(
             showRegexExplosion: false,
           });
         } else {
-          // Load with fresh state
           set({
             currentPuzzle: puzzle,
             currentMode: "practice",
@@ -151,7 +146,6 @@ export const useGameStore = create<GameStore>()(
           });
         }
 
-        // Reset spin wheel for new puzzle
         if (resetSpinWheelCallback) {
           resetSpinWheelCallback();
         }
@@ -182,9 +176,7 @@ export const useGameStore = create<GameStore>()(
             const dailyState = get().dailyPuzzleState;
             const isDailyCompleted = get().isDailyPuzzleCompleted();
 
-            // Check if we have saved state for today's puzzle (completed or in-progress)
             if (dailyState && dailyState.completedPuzzleId === puzzle.id) {
-              // Restore saved state (whether completed or in-progress)
               const revealedTestCases = isDailyCompleted
                 ? puzzle.testCases.length
                 : dailyState.completionRevealedTestCases || 1;
@@ -201,7 +193,6 @@ export const useGameStore = create<GameStore>()(
                 showRegexExplosion: false,
               });
             } else {
-              // Fresh daily puzzle
               set({
                 currentPuzzle: puzzle,
                 currentMode: "daily",
@@ -283,7 +274,6 @@ export const useGameStore = create<GameStore>()(
             state.currentMode
           );
 
-        // Save daily puzzle completion state
         if (state.currentMode === "daily") {
           set({
             dailyPuzzleState: {
@@ -367,7 +357,6 @@ export const useGameStore = create<GameStore>()(
       handleTestFailure: () => {
         const state = get();
 
-        // Check if user has reached 10 attempts without solving
         if (state.attempts === 10) {
           set({ showRegexExplosion: true });
         }
@@ -438,7 +427,6 @@ export const useGameStore = create<GameStore>()(
           },
         });
 
-        // Load the new daily puzzle
         try {
           const puzzle = await puzzleLoader.getDailyPuzzle();
           if (puzzle) {
@@ -457,7 +445,6 @@ export const useGameStore = create<GameStore>()(
         const state = get();
         if (!state.currentPuzzle || state.currentMode !== "daily") return;
 
-        // Save current progress (even if not completed)
         set({
           dailyPuzzleState: {
             completedDate: state.gameResult?.isCorrect

@@ -33,12 +33,10 @@ class PuzzleLoader {
   private puzzleCache = new Map<string, Puzzle>();
 
   async loadPuzzle(id: string): Promise<Puzzle | null> {
-    // Check cache first
     if (this.puzzleCache.has(id)) {
       return this.puzzleCache.get(id)!;
     }
 
-    // Find puzzle in manifest
     const manifestEntry = this.manifest.puzzles.find((p) => p.id === id);
     if (!manifestEntry) {
       console.error(`Puzzle with id ${id} not found in manifest`);
@@ -46,11 +44,9 @@ class PuzzleLoader {
     }
 
     try {
-      // Use dynamic import based on the file path from manifest
       const puzzleModule = await importPuzzleFile(manifestEntry.file);
       const puzzle: Puzzle = puzzleModule.default as Puzzle;
 
-      // Cache the loaded puzzle
       this.puzzleCache.set(id, puzzle);
 
       return puzzle;
@@ -135,7 +131,6 @@ class PuzzleLoader {
   getCurrentDailyPuzzleId(date?: Date): string {
     const targetDate = date || new Date();
 
-    // Create a seed based on the LOCAL date (YYYY-MM-DD format in local timezone)
     const year = targetDate.getFullYear();
     const month = (targetDate.getMonth() + 1).toString().padStart(2, "0");
     const day = targetDate.getDate().toString().padStart(2, "0");
@@ -145,13 +140,10 @@ class PuzzleLoader {
       .split("-")
       .reduce((acc, part) => acc + parseInt(part), 0);
 
-    // Shuffle puzzles deterministically based on the seed
     const shuffledPuzzles = this.shuffleArray(this.manifest.puzzles, seed);
 
-    // Calculate days since epoch using LOCAL time to determine which puzzle to show
-    const epochDate = new Date("2025-01-01"); // Starting date for the puzzle cycle
+    const epochDate = new Date("2025-01-01");
 
-    // Set both dates to midnight in local time for accurate day calculation
     const localTargetDate = new Date(
       targetDate.getFullYear(),
       targetDate.getMonth(),

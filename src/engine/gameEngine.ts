@@ -17,10 +17,8 @@ export class RegexGameEngine {
     let regex: RegExp;
 
     try {
-      // Create regex from user input
       regex = new RegExp(pattern);
     } catch {
-      // Invalid regex syntax
       return {
         isCorrect: false,
         passedTests: 0,

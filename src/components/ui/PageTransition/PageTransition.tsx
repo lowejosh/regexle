@@ -40,10 +40,8 @@ export function PageTransition({
   const location = useLocation();
 
   useEffect(() => {
-    // Reset visibility on route change
     setIsVisible(false);
 
-    // Small delay to ensure clean transition
     const timer = setTimeout(() => {
       setIsVisible(true);
     }, delay);

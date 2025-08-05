@@ -10,6 +10,4 @@ export { EncouragementToast } from "./EncouragementToast";
 export { RubberDuck } from "./RubberDuck";
 export { TarotReading } from "./TarotReading";
 export { RegexExplosion } from "./RegexExplosion";
-
-// Re-export services for convenience
 export * from "../utils";

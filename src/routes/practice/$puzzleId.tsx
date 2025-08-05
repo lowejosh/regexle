@@ -17,7 +17,6 @@ function PracticePuzzlePage() {
   const [error, setError] = useState<string | null>(null);
   const [puzzleKey, setPuzzleKey] = useState(0);
 
-  // Get all practice puzzles (excluding daily puzzle)
   const practiceEntries = useMemo(() => {
     const currentDailyPuzzleId = getCurrentDailyPuzzleId();
     const allEntries =
@@ -25,12 +24,10 @@ function PracticePuzzlePage() {
     return allEntries.filter((entry) => entry.id !== currentDailyPuzzleId);
   }, [getCurrentDailyPuzzleId]);
 
-  // Find current puzzle in the list
   const currentPuzzleIndex = useMemo(() => {
     return practiceEntries.findIndex((entry) => entry.id === puzzleId);
   }, [practiceEntries, puzzleId]);
 
-  // Get previous and next puzzle entries
   const previousPuzzleEntry = useMemo(() => {
     if (currentPuzzleIndex <= 0) return null;
     return practiceEntries[currentPuzzleIndex - 1];
@@ -86,7 +83,6 @@ function PracticePuzzlePage() {
         setIsLoading(true);
         setError(null);
 
-        // Check if this is the current daily puzzle (anti-cheat)
         const currentDailyPuzzleId = puzzleLoader.getCurrentDailyPuzzleId();
         if (puzzleId === currentDailyPuzzleId) {
           setError(
@@ -95,8 +91,6 @@ function PracticePuzzlePage() {
           setIsLoading(false);
           return;
         }
-
-        // Load the puzzle if it's not already loaded or if it's a different puzzle
         if (
           !currentPuzzle ||
           currentPuzzle.id !== puzzleId ||
@@ -105,7 +99,7 @@ function PracticePuzzlePage() {
           const puzzle = await puzzleLoader.loadPuzzle(puzzleId);
           if (puzzle) {
             loadPuzzle(puzzle);
-            setPuzzleKey((prev) => prev + 1); // Force re-render of Game component
+            setPuzzleKey((prev) => prev + 1);
           } else {
             setError(`Puzzle "${puzzleId}" not found.`);
           }
@@ -123,10 +117,7 @@ function PracticePuzzlePage() {
 
   if (isLoading) {
     return (
-      <PageLayout
-        title="Loading Puzzle..."
-        description="Loading your regex puzzle"
-      >
+      <PageLayout showHeader={false}>
         <div className="flex items-center justify-center min-h-[200px]">
           <div className="text-center">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
