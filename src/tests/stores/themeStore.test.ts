@@ -1,46 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
-
-// Create a mock theme store to avoid import-time execution issues
-const createMockThemeStore = () => {
-  let state = { isDarkMode: false };
-  
-  const store = {
-    getState: () => state,
-    setState: (newState: any) => { state = { ...state, ...newState }; },
-    
-    toggleTheme: () => {
-      state.isDarkMode = !state.isDarkMode;
-      // Simulate side effects
-      if (typeof document !== "undefined") {
-        if (state.isDarkMode) {
-          document.documentElement.classList.add("dark");
-        } else {
-          document.documentElement.classList.remove("dark");
-        }
-      }
-      if (typeof localStorage !== "undefined") {
-        localStorage.setItem("regexle-theme", JSON.stringify(state.isDarkMode));
-      }
-    },
-    
-    setTheme: (isDark: boolean) => {
-      state.isDarkMode = isDark;
-      // Simulate side effects
-      if (typeof document !== "undefined") {
-        if (isDark) {
-          document.documentElement.classList.add("dark");
-        } else {
-          document.documentElement.classList.remove("dark");
-        }
-      }
-      if (typeof localStorage !== "undefined") {
-        localStorage.setItem("regexle-theme", JSON.stringify(isDark));
-      }
-    },
-  };
-  
-  return store;
-};
+import { useThemeStore } from "../../store/themeStore";
 
 // Mock localStorage
 const localStorageMock = {
@@ -90,31 +49,21 @@ describe("themeStore", () => {
       writable: true,
     });
 
-    // Reset store state
-    useThemeStore.setState({ isDarkMode: false });
+    // Reset store state to dark mode (the new default)
+    useThemeStore.setState({ isDarkMode: true });
   });
 
   describe("initial state", () => {
     it("should have correct initial state", () => {
       const state = useThemeStore.getState();
-      expect(state.isDarkMode).toBe(false);
+      // Theme store now defaults to dark mode
+      expect(state.isDarkMode).toBe(true);
     });
   });
 
   describe("toggleTheme", () => {
-    it("should toggle theme from light to dark", () => {
-      const { toggleTheme } = useThemeStore.getState();
-      
-      toggleTheme();
-      
-      const state = useThemeStore.getState();
-      expect(state.isDarkMode).toBe(true);
-      expect(documentMock.documentElement.classList.add).toHaveBeenCalledWith("dark");
-      expect(localStorageMock.setItem).toHaveBeenCalledWith("regexle-theme", "true");
-    });
-
     it("should toggle theme from dark to light", () => {
-      useThemeStore.setState({ isDarkMode: true });
+      // Starting from dark mode (default)
       const { toggleTheme } = useThemeStore.getState();
       
       toggleTheme();
@@ -122,20 +71,32 @@ describe("themeStore", () => {
       const state = useThemeStore.getState();
       expect(state.isDarkMode).toBe(false);
       expect(documentMock.documentElement.classList.remove).toHaveBeenCalledWith("dark");
-      expect(localStorageMock.setItem).toHaveBeenCalledWith("regexle-theme", "false");
+      expect(localStorageMock.setItem).toHaveBeenCalledWith("regexle-theme", JSON.stringify(false));
+    });
+
+    it("should toggle theme from light to dark", () => {
+      useThemeStore.setState({ isDarkMode: false });
+      const { toggleTheme } = useThemeStore.getState();
+      
+      toggleTheme();
+      
+      const state = useThemeStore.getState();
+      expect(state.isDarkMode).toBe(true);
+      expect(documentMock.documentElement.classList.add).toHaveBeenCalledWith("dark");
+      expect(localStorageMock.setItem).toHaveBeenCalledWith("regexle-theme", JSON.stringify(true));
     });
 
     it("should toggle multiple times correctly", () => {
       const { toggleTheme } = useThemeStore.getState();
-      
-      toggleTheme(); // false -> true
-      expect(useThemeStore.getState().isDarkMode).toBe(true);
       
       toggleTheme(); // true -> false
       expect(useThemeStore.getState().isDarkMode).toBe(false);
       
       toggleTheme(); // false -> true
       expect(useThemeStore.getState().isDarkMode).toBe(true);
+      
+      toggleTheme(); // true -> false
+      expect(useThemeStore.getState().isDarkMode).toBe(false);
     });
   });
 
@@ -148,11 +109,11 @@ describe("themeStore", () => {
       const state = useThemeStore.getState();
       expect(state.isDarkMode).toBe(true);
       expect(documentMock.documentElement.classList.add).toHaveBeenCalledWith("dark");
-      expect(localStorageMock.setItem).toHaveBeenCalledWith("regexle-theme", "true");
+      expect(localStorageMock.setItem).toHaveBeenCalledWith("regexle-theme", JSON.stringify(true));
     });
 
     it("should set theme to light", () => {
-      useThemeStore.setState({ isDarkMode: true });
+      // Starting from dark mode (default)
       const { setTheme } = useThemeStore.getState();
       
       setTheme(false);
@@ -160,7 +121,7 @@ describe("themeStore", () => {
       const state = useThemeStore.getState();
       expect(state.isDarkMode).toBe(false);
       expect(documentMock.documentElement.classList.remove).toHaveBeenCalledWith("dark");
-      expect(localStorageMock.setItem).toHaveBeenCalledWith("regexle-theme", "false");
+      expect(localStorageMock.setItem).toHaveBeenCalledWith("regexle-theme", JSON.stringify(false));
     });
 
     it("should handle setting same theme multiple times", () => {

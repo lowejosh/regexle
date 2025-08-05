@@ -42,7 +42,12 @@ function updateDocumentTheme(isDark: boolean) {
 
 function persistTheme(isDark: boolean) {
   if (typeof localStorage !== "undefined") {
-    localStorage.setItem("regexle-theme", JSON.stringify(isDark));
+    try {
+      localStorage.setItem("regexle-theme", JSON.stringify(isDark));
+    } catch (error) {
+      // Silently handle localStorage errors (quota exceeded, etc.)
+      console.warn("Failed to persist theme to localStorage:", error);
+    }
   }
 }
 

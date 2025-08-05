@@ -2,6 +2,14 @@ import { describe, it, expect, beforeEach, vi } from "vitest";
 import { useStatisticsStore } from "../../store/statisticsStore";
 import type { PuzzleSolveRecord } from "../../types/game";
 
+// Mock localStorage
+const localStorageMock = {
+  getItem: vi.fn(),
+  setItem: vi.fn(),
+  removeItem: vi.fn(),
+  clear: vi.fn(),
+};
+
 // Mock the manifest data
 vi.mock("../../data/puzzles/manifest.json", () => ({
   default: {
@@ -16,6 +24,13 @@ vi.mock("../../data/puzzles/manifest.json", () => ({
 describe("statisticsStore", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    
+    // Setup global localStorage mock
+    Object.defineProperty(global, "localStorage", {
+      value: localStorageMock,
+      writable: true,
+    });
+    
     // Reset store to initial state
     useStatisticsStore.setState({
       solveHistory: [],
