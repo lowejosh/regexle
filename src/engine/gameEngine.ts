@@ -1,9 +1,6 @@
 import type { TestCase, GameResult } from "../types/game";
 
 export class RegexGameEngine {
-  /**
-   * Tests a regex pattern against all test cases
-   */
   static testPattern(pattern: string, testCases: TestCase[]): GameResult {
     if (!pattern.trim()) {
       return {
@@ -49,9 +46,6 @@ export class RegexGameEngine {
     };
   }
 
-  /**
-   * Validates if a regex pattern is syntactically correct
-   */
   static isValidRegex(pattern: string): boolean {
     try {
       new RegExp(pattern);

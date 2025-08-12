@@ -45,7 +45,6 @@ function persistTheme(isDark: boolean) {
     try {
       localStorage.setItem("regexle-theme", JSON.stringify(isDark));
     } catch (error) {
-      // Silently handle localStorage errors (quota exceeded, etc.)
       console.warn("Failed to persist theme to localStorage:", error);
     }
   }

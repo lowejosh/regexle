@@ -1,8 +1,3 @@
-/**
- * Formats a timestamp to a human-readable relative time string
- * @param timestamp - Unix timestamp in milliseconds
- * @returns Formatted time string (e.g., "2m ago", "3h ago", "5d ago")
- */
 export function formatRelativeTime(timestamp: number): string {
   const now = Date.now();
   const diff = now - timestamp;
@@ -17,7 +12,6 @@ export function formatRelativeTime(timestamp: number): string {
   if (days < 7) return `${days}d ago`;
   if (weeks < 4) return `${weeks}w ago`;
   
-  // For older entries, show formatted date
   return new Date(timestamp).toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
@@ -25,11 +19,6 @@ export function formatRelativeTime(timestamp: number): string {
   });
 }
 
-/**
- * Formats a timestamp to a compact date/time string
- * @param timestamp - Unix timestamp in milliseconds
- * @returns Formatted date/time string
- */
 export function formatCompactDateTime(timestamp: number): string {
   const date = new Date(timestamp);
   const today = new Date();

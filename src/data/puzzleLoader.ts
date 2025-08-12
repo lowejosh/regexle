@@ -4,13 +4,8 @@ import type {
   PuzzleManifestEntry,
 } from "../types/game";
 
-// Import the manifest
 import manifestData from "./puzzles/manifest.json";
 
-/**
- * Dynamically imports a puzzle file based on the file path
- * Uses Vite's import.meta.glob for better static analysis
- */
 const puzzleModules = import.meta.glob("./puzzles/**/*.json", { eager: false });
 
 const importPuzzleFile = async (
@@ -96,15 +91,11 @@ class PuzzleLoader {
       .length;
   }
 
-  /**
-   * Deterministic shuffle using a seed
-   */
   private shuffleArray<T>(array: T[], seed: number): T[] {
     const shuffled = [...array];
     let currentIndex = shuffled.length;
     let randomIndex: number;
 
-    // Seeded random number generator (simple linear congruential generator)
     const seededRandom = (seed: number) => {
       const x = Math.sin(seed) * 10000;
       return x - Math.floor(x);
@@ -125,9 +116,6 @@ class PuzzleLoader {
     return shuffled;
   }
 
-  /**
-   * Get the current daily puzzle ID without loading the full puzzle
-   */
   getCurrentDailyPuzzleId(date?: Date): string {
     const targetDate = date || new Date();
 
@@ -160,16 +148,12 @@ class PuzzleLoader {
         (1000 * 60 * 60 * 24)
     );
 
-    // Use modulo to cycle through puzzles if we run out
     const puzzleIndex = daysSinceEpoch % shuffledPuzzles.length;
     const selectedPuzzle = shuffledPuzzles[puzzleIndex];
 
     return selectedPuzzle.id;
   }
 
-  /**
-   * Get puzzle for a specific day (deterministic)
-   */
   async getDailyPuzzle(date?: Date): Promise<Puzzle | null> {
     const targetDate = date || new Date();
     const dailyPuzzleId = this.getCurrentDailyPuzzleId(targetDate);

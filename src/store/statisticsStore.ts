@@ -71,7 +71,6 @@ export const useStatisticsStore = create<StatisticsStore>()(
         const state = get();
         const isFirstTimeSolving = !state.solvedPuzzleIds.has(puzzleId);
 
-        // Only count statistics for first-time solves, except daily puzzles which always count for streaks
         if (!isFirstTimeSolving && mode !== "daily") {
           return;
         }
@@ -91,7 +90,6 @@ export const useStatisticsStore = create<StatisticsStore>()(
           const newSolvedIds = new Set(prevState.solvedPuzzleIds);
           newSolvedIds.add(puzzleId);
 
-          // Only count for total if it's a first-time solve
           const totalSolved = isFirstTimeSolving
             ? prevState.totalPuzzlesSolved + 1
             : prevState.totalPuzzlesSolved;
@@ -157,7 +155,7 @@ export const useStatisticsStore = create<StatisticsStore>()(
       getWeeklyStats: () => {
         const now = new Date();
         const thisWeekStart = new Date(now);
-        thisWeekStart.setDate(now.getDate() - now.getDay()); // Start of this week
+        thisWeekStart.setDate(now.getDate() - now.getDay());
         thisWeekStart.setHours(0, 0, 0, 0);
 
         const lastWeekStart = new Date(thisWeekStart);
@@ -299,7 +297,6 @@ export const useStatisticsStore = create<StatisticsStore>()(
           const str = localStorage.getItem(name);
           if (!str) return null;
           const parsed = JSON.parse(str);
-          // Convert solvedPuzzleIds array back to Set
           if (parsed.state && parsed.state.solvedPuzzleIds) {
             parsed.state.solvedPuzzleIds = new Set(
               parsed.state.solvedPuzzleIds
@@ -308,7 +305,6 @@ export const useStatisticsStore = create<StatisticsStore>()(
           return parsed;
         },
         setItem: (name, value) => {
-          // Convert Set to array for serialization
           const serializable = {
             ...value,
             state: {

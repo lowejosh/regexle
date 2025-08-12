@@ -23,7 +23,6 @@ export const setResetSpinWheelHandler = (callback: (() => void) | null) => {
   resetSpinWheelCallback = callback;
 };
 
-// Helper functions for daily puzzle state
 const getTodayDateString = (): string => {
   const today = new Date();
   const year = today.getFullYear();
@@ -48,13 +47,9 @@ const resetPuzzleState = () => {
 };
 
 interface GameStore extends GameState {
-  // Daily puzzle state
   dailyPuzzleState: DailyPuzzleState;
-
-  // Practice puzzle states
   practicePuzzleStates: PracticePuzzleStates;
 
-  // Existing methods
   loadPuzzle: (puzzle: Puzzle) => void;
   loadRandomPuzzle: (difficulty?: Puzzle["difficulty"]) => Promise<void>;
   loadDailyPuzzle: () => Promise<void>;
@@ -71,19 +66,16 @@ interface GameStore extends GameState {
   handleTestFailure: () => void;
   clearRegexExplosion: () => void;
 
-  // Daily puzzle specific methods
   isDailyPuzzleCompleted: () => boolean;
   getDailyPuzzleCompletion: () => DailyPuzzleState | null;
   clearDailyPuzzleIfNewDay: () => void;
   forceRefreshDailyPuzzle: () => Promise<void>;
   saveDailyPuzzleState: () => void;
 
-  // Practice puzzle state methods
   savePracticePuzzleState: () => void;
   loadPracticePuzzleState: (puzzleId: string) => void;
   clearPracticePuzzleState: (puzzleId: string) => void;
 
-  // Anti-cheat methods
   getCurrentDailyPuzzleId: () => string;
 }
 
@@ -101,7 +93,6 @@ export const useGameStore = create<GameStore>()(
       solutionRevealed: false,
       showRegexExplosion: false,
 
-      // Daily puzzle state
       dailyPuzzleState: {
         completedDate: null,
         completedPuzzleId: null,
@@ -113,7 +104,6 @@ export const useGameStore = create<GameStore>()(
         completionShowDescription: false,
       },
 
-      // Practice puzzle states
       practicePuzzleStates: {},
       loadPuzzle: (puzzle: Puzzle) => {
         const currentState = get();
@@ -168,7 +158,6 @@ export const useGameStore = create<GameStore>()(
 
       loadDailyPuzzle: async () => {
         try {
-          // Clear daily puzzle state if it's a new day
           get().clearDailyPuzzleIfNewDay();
 
           const puzzle = await puzzleLoader.getDailyPuzzle();
@@ -208,7 +197,6 @@ export const useGameStore = create<GameStore>()(
       updatePattern: (pattern: string) => {
         set({ userPattern: pattern });
 
-        // Auto-save state for both modes
         const state = get();
         if (state.currentMode === "practice") {
           get().savePracticePuzzleState();
@@ -250,7 +238,6 @@ export const useGameStore = create<GameStore>()(
           get().handleTestFailure();
         }
 
-        // Auto-save state after test for both modes
         if (state.currentMode === "practice") {
           get().savePracticePuzzleState();
         } else if (state.currentMode === "daily") {
@@ -263,7 +250,6 @@ export const useGameStore = create<GameStore>()(
 
         if (!state.currentPuzzle || !state.gameResult?.isCorrect) return;
 
-        // Record in statistics
         useStatisticsStore
           .getState()
           .recordSolve(
@@ -310,7 +296,6 @@ export const useGameStore = create<GameStore>()(
         const state = get();
         set({ showDescription: !state.showDescription });
 
-        // Auto-save state for both modes
         if (state.currentMode === "practice") {
           get().savePracticePuzzleState();
         } else if (state.currentMode === "daily") {
@@ -321,7 +306,6 @@ export const useGameStore = create<GameStore>()(
       setSolutionRevealed: (revealed: boolean) => {
         set({ solutionRevealed: revealed });
 
-        // Auto-save state for both modes
         const state = get();
         if (state.currentMode === "practice") {
           get().savePracticePuzzleState();
@@ -371,7 +355,6 @@ export const useGameStore = create<GameStore>()(
         set({ showRegexExplosion: false });
       },
 
-      // Daily puzzle specific methods
       isDailyPuzzleCompleted: () => {
         const state = get();
         const today = getTodayDateString();
@@ -413,7 +396,6 @@ export const useGameStore = create<GameStore>()(
       },
 
       forceRefreshDailyPuzzle: async () => {
-        // Force clear daily puzzle state regardless of date
         set({
           dailyPuzzleState: {
             completedDate: null,
@@ -461,7 +443,6 @@ export const useGameStore = create<GameStore>()(
         });
       },
 
-      // Practice puzzle state methods
       savePracticePuzzleState: () => {
         const state = get();
         if (!state.currentPuzzle || state.currentMode !== "practice") return;
@@ -511,14 +492,13 @@ export const useGameStore = create<GameStore>()(
         });
       },
 
-      // Anti-cheat methods
       getCurrentDailyPuzzleId: () => {
         return puzzleLoader.getCurrentDailyPuzzleId();
       },
     }),
     {
       name: "regexle-game-store",
-      version: 2, // Increment version to handle migration of new practice puzzle states
+      version: 2,
     }
   )
 );
