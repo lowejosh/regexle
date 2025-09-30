@@ -3,7 +3,6 @@ import { Badge } from "@/components/ui/Badge";
 import { Progress } from "@/components/ui/Progress";
 import { toTitleCase } from "@/lib/utils";
 import { cn } from "@/lib/utils";
-import { Trophy, Lock, Target } from "lucide-react";
 
 interface BrowseDifficultyProgressCardProps {
   difficulty: string;
@@ -18,7 +17,6 @@ export function BrowseDifficultyProgressCard({
 }: BrowseDifficultyProgressCardProps) {
   const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
   const isComplete = percentage === 100;
-  const hasStarted = percentage > 0;
 
   // Map difficulty to badge variant
   const badgeVariant = difficulty.toLowerCase() as
@@ -29,27 +27,14 @@ export function BrowseDifficultyProgressCard({
     | "nightmare";
 
   return (
-    <Card
-      className={cn(
-        "transition-all duration-200 hover:shadow-md",
-        isComplete &&
-          "ring-2 ring-green-500/30 bg-green-50/30 dark:bg-green-950/30"
-      )}
-    >
+    <Card className="transition-all duration-200 hover:shadow-md">
       <CardContent className="p-6">
         <div className="space-y-4">
-          {/* Header with badge and completion icon */}
+          {/* Header with badge */}
           <div className="flex items-center justify-between">
             <Badge variant={badgeVariant} className="text-sm">
               {toTitleCase(difficulty)}
             </Badge>
-            {isComplete ? (
-              <Trophy className="w-5 h-5 text-yellow-500" />
-            ) : hasStarted ? (
-              <Target className="w-5 h-5 text-primary" />
-            ) : (
-              <Lock className="w-5 h-5 text-muted-foreground" />
-            )}
           </div>
 
           {/* Progress stats */}

@@ -8,7 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/Select";
-import { Search, Filter, Target, Sparkles } from "lucide-react";
+import { Search, Filter } from "lucide-react";
 import { toTitleCase } from "@/lib/utils";
 import { BrowsePuzzleListSection } from "./BrowsePuzzleListSection";
 import type { PuzzleManifestEntry } from "@/types/game";
@@ -37,11 +37,9 @@ export function BrowseSearchAndPuzzleList({
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
           <CardTitle className="text-xl flex items-center gap-2">
-            <Target className="w-5 h-5" />
             Browse Puzzles
           </CardTitle>
           <Badge variant="secondary" className="gap-1">
-            <Sparkles className="w-3 h-3" />
             {filteredPuzzles.length} puzzles
           </Badge>
         </div>
@@ -80,9 +78,7 @@ export function BrowseSearchAndPuzzleList({
           </div>
         </div>
 
-        <BrowsePuzzleListSection
-          onPuzzleClick={onPuzzleClick}
-        />
+        <BrowsePuzzleListSection onPuzzleClick={onPuzzleClick} />
       </CardContent>
     </Card>
   );

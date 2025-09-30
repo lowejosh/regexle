@@ -1,9 +1,9 @@
 import { useNavigate } from "@tanstack/react-router";
-import { BrowseDifficultyProgressCard, BrowseOverallProgressCard, BrowseSearchAndPuzzleList } from "./components";
 import {
-  usePuzzleBrowsing,
-  usePuzzleProgress,
-} from "./BrowsePractice.hooks";
+  BrowseDifficultyProgressCard,
+  BrowseSearchAndPuzzleList,
+} from "./components";
+import { usePuzzleBrowsing, usePuzzleProgress } from "./BrowsePractice.hooks";
 import type { PuzzleManifestEntry } from "@/types/game";
 
 export function BrowsePractice() {
@@ -19,7 +19,7 @@ export function BrowsePractice() {
     DIFFICULTY_ORDER,
   } = usePuzzleBrowsing();
 
-  const { overallProgress, difficultyProgress } = usePuzzleProgress();
+  const { difficultyProgress } = usePuzzleProgress();
 
   const handlePuzzleClick = (puzzleEntry: PuzzleManifestEntry) => {
     navigate({
@@ -44,11 +44,6 @@ export function BrowsePractice() {
           );
         })}
       </div>
-
-      <BrowseOverallProgressCard
-        completed={overallProgress.completed}
-        total={overallProgress.total}
-      />
 
       <BrowseSearchAndPuzzleList
         filteredPuzzles={filteredPuzzles}

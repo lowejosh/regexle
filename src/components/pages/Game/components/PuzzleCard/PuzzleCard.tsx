@@ -155,7 +155,6 @@ export function PuzzleCard({ puzzle: propPuzzle }: PuzzleCardProps) {
           />
         )}
 
-        {/* Surrender button */}
         {allTestCasesRevealed &&
           !isPuzzleSolved &&
           !isDailyCompleted &&
@@ -166,7 +165,6 @@ export function PuzzleCard({ puzzle: propPuzzle }: PuzzleCardProps) {
                 onClick={handleGiveUp}
                 className="text-muted-foreground hover:text-red-500 border-border hover:border-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all duration-300 hover:shadow-md group"
               >
-                <span className="group-hover:animate-pulse">🏳️</span>
                 <span className="ml-2 font-medium">Surrender</span>
               </Button>
             </div>

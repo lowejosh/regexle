@@ -40,12 +40,7 @@ export function BrowsePuzzleListItem({
         <div className="flex-1 space-y-2 min-w-0">
           {/* Title and summary */}
           <div className="space-y-1">
-            <h4
-              className={cn(
-                "font-semibold text-sm sm:text-base group-hover:text-primary transition-colors",
-                isCompleted && "text-muted-foreground"
-              )}
-            >
+            <h4 className="font-semibold text-sm sm:text-base group-hover:text-primary transition-colors">
               {puzzle.title}
             </h4>
             {puzzle.summary && (
